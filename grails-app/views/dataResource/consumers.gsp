@@ -31,9 +31,9 @@
                     <p style="padding-top:10px;"><g:message code="dataresource.consumers.des01" args="[type, type]" />.<br/>
                     <g:message code="dataresource.consumers.des02" />.</p>
                 </div>
-                <div class="row-fluid">
-                    <div class="span6">
-                        <div id="not-selected" class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="not-selected" class="container-fluid">
                             <h1>${source == 'co' ? 'Collections' : 'Institutions'}:</h1>
                             <ul>
                                 <g:each in="${list}" var="c">
@@ -44,8 +44,8 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="span6 well">
-                        <div id="selected" class="container">
+                    <div class="col-md-6 well">
+                        <div id="selected" class="container-fluid">
                             <h1><g:message code="dataresource.consumers.selected.title01" />.</h1>
                             <g:if test="${!command.listConsumers().findAll{it[0..1] == source}}">
                                 <p><g:message code="dataresource.consumers.selected.title02" />.</p>
@@ -59,8 +59,8 @@
                             </ul>
                         </div>
                         <div class="buttons">
-                            <span class="button"><input type="submit" name="_action_updateConsumers" value="${message(code:"collection.button.update")}" class="save btn"></span>
-                            <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="cancel btn"></span>
+                            <span class="button"><input type="submit" name="_action_updateConsumers" value="${message(code:"collection.button.update")}" class="save btn btn-default"></span>
+                            <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="cancel btn btn-default"></span>
                         </div>
                     </div>
                 </div>

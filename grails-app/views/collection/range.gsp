@@ -27,100 +27,108 @@
                 <g:hiddenField name="id" value="${command?.id}" />
                 <g:hiddenField name="version" value="${command.version}" />
                 <div class="dialog">
-                    <table>
+                    <table class="col-md-12">
                         <tbody>
 
                         <!-- geographic range -->
                         <tr><td colspan="3"><h3><g:message code="collection.range.title" /></h3></td></tr>
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                       <tr class="prop form-group">
+                           <td valign="top" class="name col-md-2">
                               <label for="geographicDescription"><g:message code="collection.range.label01" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'geographicDescription', 'errors')}">
-                                <g:textField name="geographicDescription" class="input-xxlarge" value="${command?.geographicDescription}" />
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'geographicDescription', 'errors')} col-md-10">
+                                <g:textField name="geographicDescription" class="form-control input-text" value="${command?.geographicDescription}" />
                                 <cl:helpText code="collection.geographicDescription"/>
                             </td>
                             <cl:helpTD/>
                         </tr>
 
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                       <tr class="prop form-group">
+                           <td valign="top" class="name col-md-2">
                               <label for="states"><g:message code="collection.range.label02" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'states', 'errors')}">
-                                <g:textField name="states" value="${command?.states}" />
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'states', 'errors')} col-md-10">
+                                <g:textField name="states" value="${command?.states}" class="form-control input-text"  />
                                 <cl:helpText code="collection.states"/>
                             </td>
                             <cl:helpTD/>
                         </tr>
 
-                        <tr class="prop">
-                          <td colspan="2"><g:message code="collection.range.label03" />.</td>
+                       <tr class="prop form-group">
+                          <td colspan="2" > <div class="input-text"><g:message code="collection.range.label03" />.</div></td>
                         </tr>
 
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                       <tr class="prop form-group">
+                           <td valign="top" class="name col-md-2">
                               <label for="eastCoordinate"><g:message code="collection.range.label04" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'eastCoordinate', 'errors')}">
-                              <g:textField name="eastCoordinate" value="${cl.showDecimal(value: command.eastCoordinate)}" />
-                              <cl:helpText code="collection.eastCoordinate"/>
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'eastCoordinate', 'errors')} col-md-10">
+                                <div class="col-md-3">
+                                    <g:textField name="eastCoordinate" value="${cl.showDecimal(value: command.eastCoordinate)}" class="form-control input-text" />
+                                    <cl:helpText code="collection.eastCoordinate"/>
+                                </div>
                           </td>
                           <cl:helpTD/>
                         </tr>
 
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                       <tr class="prop form-group">
+                           <td valign="top" class="name col-md-2">
                               <label for="westCoordinate"><g:message code="collection.range.label05" /></label>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'westCoordinate', 'errors')}">
-                              <g:textField name="westCoordinate" value="${cl.showDecimal(value: command.westCoordinate)}" />
-                              <cl:helpText code="collection.westCoordinate"/>
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'westCoordinate', 'errors')} col-md-10">
+                                <div class="col-md-3">
+                                    <g:textField name="westCoordinate" value="${cl.showDecimal(value: command.westCoordinate)}" class="form-control input-text" />
+                                    <cl:helpText code="collection.westCoordinate"/>
+                                </div>
                           </td>
                           <cl:helpTD/>
                         </tr>
 
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                       <tr class="prop form-group">
+                           <td valign="top" class="name col-md-2">
                               <label for="northCoordinate"><g:message code="collection.range.label06" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'northCoordinate', 'errors')}">
-                                <g:textField name="northCoordinate" value="${cl.showDecimal(value: command.northCoordinate)}" />
-                                <cl:helpText code="collection.northCoordinate"/>
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'northCoordinate', 'errors')} col-md-10">
+                                <div class="col-md-3">
+                                    <g:textField name="northCoordinate" value="${cl.showDecimal(value: command.northCoordinate)}" class="form-control input-text" />
+                                    <cl:helpText code="collection.northCoordinate"/>
+                                </div>
                             </td>
                             <cl:helpTD/>
                         </tr>
 
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                       <tr class="prop form-group">
+                           <td valign="top" class="name col-md-2">
                               <label for="southCoordinate"><g:message code="collection.range.label07" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'southCoordinate', 'errors')}">
-                              <g:textField name="southCoordinate" value="${cl.showDecimal(value: command.southCoordinate)}" />
-                              <cl:helpText code="collection.southCoordinate"/>
-                          </td>
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'southCoordinate', 'errors')} col-md-10">
+                                <div class="col-md-3">
+                                    <g:textField name="southCoordinate" value="${cl.showDecimal(value: command.southCoordinate)}" class="form-control input-text" />
+                                    <cl:helpText code="collection.southCoordinate"/>
+                                </div>
+                            </td>
                           <cl:helpTD/>
                         </tr>
 
                         <!-- taxonomic range -->
                         <tr><td colspan="3"><h3><g:message code="collection.range.title02" /></h3></td></tr>
-                        <tr class="prop">
+                       <tr class="prop form-group">
                             <td valign="top" class="checkbox">
                               <label for="kingdomCoverage"><g:message code="collection.range.label08" /></label>
                             </td>
                             <td valign="top" class="checkbox">
-                                <cl:checkBoxList name="kingdomCoverage" from="${Collection.kingdoms}" value="${command?.kingdomCoverage}" />
+                                <cl:checkBoxList name="kingdomCoverage" from="${Collection.kingdoms}" value="${command?.kingdomCoverage}" class="form-control input-text" />
                                 <cl:helpText code="collection.kingdomCoverage"/>
                             </td>
                             <cl:helpTD/>
                         </tr>
 
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                       <tr class="prop form-group">
+                           <td valign="top" class="name col-md-2">
                               <label for="scientificNames"><g:message code="collection.range.label09" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'scientificNames', 'errors')}">
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'scientificNames', 'errors')} col-md-10">
                                 <!--richui:autoComplete name="scientificNames" controller="collection" action="scinames" title="sci name"/-->
-                              <g:textArea name="scientificNames" value="${command.listScientificNames().join(',')}"/>
+                              <g:textArea name="scientificNames" value="${command.listScientificNames().join(',')}" class="form-control input-text" />
                               <cl:helpText code="collection.scientificNames"/>
                           </td>
                           <cl:helpTD/>
@@ -128,34 +136,38 @@
 
                         <!-- stats -->
                         <tr><td colspan="3"><h3><g:message code="collection.range.title03" /></h3></td></tr>
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                       <tr class="prop form-group">
+                           <td valign="top" class="name col-md-2">
                               <label for="numRecords"><g:message code="collection.numRecords.label" default="Number of specimens" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'numRecords', 'errors')}">
-                                <g:textField name="numRecords" value="${cl.showNumber(value: command.numRecords)}" />
-                                <cl:helpText code="collection.numRecords"/>
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'numRecords', 'errors')} col-md-10">
+                                <div class="col-md-3">
+                                    <g:textField name="numRecords" value="${cl.showNumber(value: command.numRecords)}"  class="form-control input-text" />
+                                    <cl:helpText code="collection.numRecords"/>
+                                </div>
                               </td>
                               <cl:helpTD/>
                         </tr>
 
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                       <tr class="prop form-group">
+                           <td valign="top" class="name col-md-2">
                               <label for="numRecordsDigitised"><g:message code="collection.numRecordsDigitised.label" default="Number of records digitised" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'numRecordsDigitised', 'errors')}">
-                                <g:textField name="numRecordsDigitised" value="${cl.showNumber(value: command.numRecordsDigitised)}" />
-                                <cl:helpText code="collection.numRecordsDigitised"/>
-                              </td>
-                              <cl:helpTD/>
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'numRecordsDigitised', 'errors')} col-md-10">
+                                <div class="col-md-3">
+                                    <g:textField name="numRecordsDigitised" value="${cl.showNumber(value: command.numRecordsDigitised)}" class="form-control input-text" />
+                                    <cl:helpText code="collection.numRecordsDigitised"/>
+                                </div>
+                            </td>
+                            <cl:helpTD/>
                         </tr>
                         </tbody>
                     </table>
                 </div>
 
                 <div class="buttons">
-                    <span class="button"><input type="submit" name="_action_updateRange" value="${message(code:"collection.button.update")}" class="save btn"></span>
-                    <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="cancel btn"></span>
+                    <span class="button"><input type="submit" name="_action_updateRange" value="${message(code:"collection.button.update")}" class="save btn btn-default"></span>
+                    <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="cancel btn btn-default"></span>
                 </div>
             </g:form>
         </div>

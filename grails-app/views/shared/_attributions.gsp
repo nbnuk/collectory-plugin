@@ -7,5 +7,5 @@
     </g:each>
   </ul>
   <div style="clear:both;"></div>
-  <cl:editButton uid="${instance.uid}" action="editAttributions" target="${target}"/>
+  <cl:editButton uid="${instance.uid}" action="editAttributions" target="${target}" class="btn btn-default"/>
 </div>

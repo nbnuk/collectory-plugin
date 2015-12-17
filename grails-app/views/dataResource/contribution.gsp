@@ -11,7 +11,7 @@
 <div class="nav">
     <h1><g:message code="collection.title.editing" />: ${command.name}</h1>
 </div>
-<div id="baseForm" class="row-fluid">
+<div id="baseForm" class="row">
     <g:if test="${message}">
         <div class="message">${message}</div>
     </g:if>
@@ -24,82 +24,84 @@
         <g:hiddenField name="id" value="${command?.id}" />
         <g:hiddenField name="uid" value="${command?.uid}" />
         <g:hiddenField name="version" value="${command.version}" />
-    %{--<div class="span12">--}%
-        <table  style="margin-left:0; padding-left:0;">
+    %{--<div class="col-md-12">--}%
+        <table  style="margin-left:0; padding-left:0;" class="col-md-12">
             <tbody>
 
             <!-- status -->
-            <tr class="prop">
-                <td valign="top" class="name span4">
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-4">
                     <label for="status"><g:message code="dataResource.status.label" default="Status" /></label>
                 </td>
-                <td valign="top" class="value span8 ${hasErrors(bean: command, field: 'status', 'errors')}">
+                <td valign="top" class="value col-md-8 ${hasErrors(bean: command, field: 'status', 'errors')}">
                     <g:select name="status"
                               from="${DataResource.statusList}"
-                              value="${command.status}"/>
+                              value="${command.status}"
+                              class="form-control input-text"/>
                     <cl:helpText code="dataResource.status"/>
                 </td>
                 <cl:helpTD/>
             </tr>
 
             <!-- provenance -->
-            <tr class="prop">
-                <td valign="top" class="name">
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-4">
                     <label for="provenance"><g:message code="dataResource.provenance.label" default="Provenance" /></label>
                 </td>
-                <td valign="top" class="value ${hasErrors(bean: command, field: 'provenance', 'errors')}">
+                <td valign="top" class="value ${hasErrors(bean: command, field: 'provenance', 'errors')} col-md-8" >
                     <g:select name="provenance"
                               from="${DataResource.provenanceTypesList}"
                               value="${command.provenance}"
-                              noSelection="${['':'none']}"/>
+                              noSelection="${['':'none']}"
+                              class="form-control input-text"/>
                     <cl:helpText code="dataResource.provenance"/>
                 </td>
                 <cl:helpTD/>
             </tr>
 
             <!-- last checked -->
-            <tr class="prop">
-                <td valign="top" class="name">
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-4">
                     <label for="lastChecked"><g:message code="dataResource.lastChecked.label" default="Last checked" /></label>
                 </td>
                 <td valign="top" class="value">
-                    <g:textField name="lastChecked" value="${command.lastChecked}"/>
+                    <g:textField name="lastChecked" value="${command.lastChecked}" class="form-control input-text"/>
                     <cl:helpText code="dataResource.lastChecked"/>
                 </td>
                 <cl:helpTD/>
             </tr>
 
             <!-- data currency -->
-            <tr class="prop">
-                <td valign="top" class="name">
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-4">
                     <label for="dataCurrency"><g:message code="dataResource.dataCurrency.label" default="Data currency" /></label>
                 </td>
                 <td valign="top" class="value">
-                    <g:textField name="dataCurrency" value="${command.dataCurrency}"/>
+                    <g:textField name="dataCurrency" value="${command.dataCurrency}" class="form-control input-text"/>
                     <cl:helpText code="dataResource.dataCurrency"/>
                 </td>
                 <cl:helpTD/>
             </tr>
 
             <!-- harvest frequency -->
-            <tr class="prop">
-                <td valign="top" class="name">
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-4">
                     <label for="harvestFrequency"><g:message code="dataResource.harvestFrequency.label" default="Harvest frequency" /></label>
                 </td>
-                <td valign="top" class="value ${hasErrors(bean: command, field: 'harvestFrequency', 'errors')}">
-                    <g:textField name="harvestFrequency" value="${command.harvestFrequency}"/>
+                <td valign="top" class="value ${hasErrors(bean: command, field: 'harvestFrequency', 'errors')} col-md-8" >
+                    <g:textField name="harvestFrequency" value="${command.harvestFrequency}" class="form-control input-text"/>
                     <cl:helpText code="dataResource.harvestFrequency"/>
                 </td>
                 <cl:helpTD/>
             </tr>
 
             <!-- mob notes -->
-            <tr class="prop">
-                <td valign="top" class="name">
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-4">
                     <label for="mobilisationNotes"><g:message code="dataResource.mobilisationNotes.label" default="Mobilisation notes" /></label>
                 </td>
-                <td valign="top" class="value ${hasErrors(bean: command, field: 'harvestingNotes', 'errors')}">
-                    <g:textArea name="mobilisationNotes" class="input-xxlarge" rows="${cl.textAreaHeight(text:command.mobilisationNotes)}" value="${command?.mobilisationNotes}" />
+                <td valign="top" class="value ${hasErrors(bean: command, field: 'harvestingNotes', 'errors')} col-md-8" >
+                    <g:textArea name="mobilisationNotes" class="form-control input-text" rows="${cl.textAreaHeight(text:command.mobilisationNotes)}" value="${command?.mobilisationNotes}" />
                     <p><g:message code="dataresource.contribution.des01" />.</p>
                     <cl:helpText code="dataResource.mobilisationNotes"/>
                 </td>
@@ -107,24 +109,24 @@
             </tr>
 
             <!-- harvest notes -->
-            <tr class="prop">
-                <td valign="top" class="name">
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-4">
                     <label for="harvestingNotes"><g:message code="dataResource.harvestingNotes.label" default="Harvesting notes" /></label>
                 </td>
-                <td valign="top" class="value ${hasErrors(bean: command, field: 'harvestingNotes', 'errors')}">
-                    <g:textArea name="harvestingNotes" class="input-xxlarge" rows="${cl.textAreaHeight(text:command.harvestingNotes)}" value="${command?.harvestingNotes}" />
+                <td valign="top" class="value ${hasErrors(bean: command, field: 'harvestingNotes', 'errors')} col-md-8" >
+                    <g:textArea name="harvestingNotes" class="form-control input-text" rows="${cl.textAreaHeight(text:command.harvestingNotes)}" value="${command?.harvestingNotes}" />
                     <cl:helpText code="dataResource.harvestingNotes"/>
                 </td>
                 <cl:helpTD/>
             </tr>
 
             <!-- public archive -->
-            <tr class="prop">
-                <td valign="top" class="name">
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-4">
                     <label for="publicArchiveAvailable"><g:message code="dataResource.publicArchiveAvailable.label" default="Public archive available" /></label>
                 </td>
-                <td valign="top" class="value ${hasErrors(bean: command, field: 'publicArchiveAvailable', 'errors')}">
-                    <g:checkBox name="publicArchiveAvailable" value="${command?.publicArchiveAvailable}" />
+                <td valign="top" class="value ${hasErrors(bean: command, field: 'publicArchiveAvailable', 'errors')} col-md-8" >
+                    <g:checkBox name="publicArchiveAvailable" value="${command?.publicArchiveAvailable}" class="form-control input-text"/>
                     <cl:helpText code="dataResource.publicArchiveAvailable"/>
                 </td>
                 <cl:helpTD/>
@@ -141,20 +143,22 @@
                 <g:set var="dwc" value="${command.defaultDarwinCoreValues ? JSON.parse(command.defaultDarwinCoreValues) : [:]}"/>
                 <!-- add fields for each of the important terms -->
                 <g:each in="${DarwinCoreFields.getImportant()}" var="dwcf">
-                    <tr class="prop">
-                        <td valign="top" class="name">
+                    <tr class="prop form-group">
+                        <td valign="top" class="name col-md-4">
                             <label for="${dwcf.name}"><g:message code="dataResource.DwC.${dwcf.name}.label" default="${dwcf.name}" /></label>
                         </td>
                         <td valign="top" class="value">
-                            <g:if test="${dwcf.values}">
-                                <!-- pick list -->
-                                <g:select name="${dwcf.name}" class="input-xxlarge" from="${dwcf.values}" value="${dwc[dwcf.name]}"/>
-                            </g:if>
-                            <g:else>
-                                <!-- text field -->
-                                <g:textField name="${dwcf.name}" class="input-xxlarge" value="${dwc[dwcf.name]}"/>
-                            </g:else>
-                            <cl:helpText code="dataResource.${dwcf.name}"/>
+                            <div class="col-md-8">
+                                <g:if test="${dwcf.values}">
+                                    <!-- pick list -->
+                                    <g:select name="${dwcf.name}" class="form-control input-text" from="${dwcf.values}" value="${dwc[dwcf.name]}"/>
+                                </g:if>
+                                <g:else>
+                                    <!-- text field -->
+                                    <g:textField name="${dwcf.name}" class="form-control input-text" value="${dwc[dwcf.name]}"/>
+                                </g:else>
+                                <cl:helpText code="dataResource.${dwcf.name}"/>
+                            </div>
                         </td>
                         <!--cl:helpTD/-->
                     </tr>
@@ -162,12 +166,14 @@
                 <!-- add fields for any other terms that have values -->
                 <g:each var="dwcf" in="${dwc.entrySet()}">
                     <g:if test="${dwcf.key in DarwinCoreFields.getLessImportant().collect({it.name})}">
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-4">
                                 <label for="${dwcf.key}"><g:message code="dataResource.DwC.${dwcf.key}.label" default="${dwcf.key}" /></label>
                             </td>
                             <td valign="top" class="value">
-                                <g:textField name="${dwcf.key}" value="${dwcf.value}"/>
+                                <div class="col-md-8">
+                                    <g:textField name="${dwcf.key}" value="${dwcf.value}"/>
+                                </div>
                             </td>
                             <!--cl:helpTD/-->
                         </tr>
@@ -176,11 +182,11 @@
 
                 <!-- add a blank field so other DwC terms can be added -->
                 <tr id="add-another"><td colspan="3"><g:message code="dataresource.contribution.table0401" />.</td></tr>
-                <tr class="prop">
-                    <td valign="top" class="name">
+                <tr class="prop form-group">
+                    <td valign="top" class="name col-md-4">
                         <g:select name="otherKey" from="${DarwinCoreFields.getLessImportant().collect({it.name})}"/>
                     </td>
-                    <td valign="top" class="value">
+                    <td valign="top" class="value col-md-8">
                         <button id="more-terms" type="button" class="btn"><g:message code="dataresource.contribution.table.button" /></button>
                     </td>
                 </tr>
@@ -192,8 +198,8 @@
     %{--</div>--}%
 
         <div class="buttons">
-            <span class="button"><input type="submit" name="_action_updateContribution" value="${message(code:"collection.button.update")}" class="save btn"></span>
-            <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="cancel btn"></span>
+            <span class="button"><input type="submit" name="_action_updateContribution" value="${message(code:"collection.button.update")}" class="save btn btn-default"></span>
+            <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="cancel btn btn-default"></span>
         </div>
     </g:form>
 </div>
@@ -270,7 +276,7 @@
             });
     // handle all urls (including hidden ones)
     var urlInputs = $('input[name="url"]');
-    $('input[name="url"]').addClass('input-xxlarge');
+    $('input[name="url"]').addClass('form-control input-text');
     $.each(urlInputs, function(i, obj) {
         var urls = $(obj).val().split(',');
         if (urls.length > 1) {
@@ -285,7 +291,7 @@
                     $(obj).clone()
                             .val(url.trim())
                             .css('width','93%')
-                            .addClass('input-xxlarge')
+                            .addClass('form-control input-text')
                             .insertAfter($(obj).parent().children('input,span').last())
                             .after($deleteLink.clone(true));
                 }

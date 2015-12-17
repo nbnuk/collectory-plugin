@@ -17,7 +17,7 @@
             </g:link>
         </h1>
 
-        <div class="well pull-right span6">
+        <div class="well pull-right col-md-6">
             <g:message code="dataresource.upload.des" />.
         </div>
 
@@ -33,7 +33,7 @@
 
             <div class="fileupload fileupload-new" data-provides="fileupload">
               <div class="input-append">
-                <div class="uneditable-input span3">
+                <div class="uneditable-input col-md-3">
                   <i class="icon-file fileupload-exists"></i>
                   <span class="fileupload-preview"></span>
                 </div>

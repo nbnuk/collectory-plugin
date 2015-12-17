@@ -20,8 +20,8 @@
             <g:renderErrors bean="${command}" as="list" />
         </div>
     </g:hasErrors>
-    <div class="row-fluid">
-        <div class="span6">
+    <div class="row">
+        <div class="col-md-6">
 
             <g:set var="imageMetadata" value="${new groovy.json.JsonSlurper().parseText(command.imageMetadata?:'{}')}"/>
 
@@ -30,24 +30,24 @@
                 <g:hiddenField name="version" value="${command.version}" />
                 <fieldset>
                     <label>Creator</label>
-                    <input type="text" name="creator" class="input-xxlarge" placeholder="Type something…" value="${imageMetadata?.creator}">
+                    <input type="text" name="creator" class="form-control" placeholder="Type something…" value="${imageMetadata?.creator}">
 
                     <label>Rights</label>
-                    <textarea name="rights" rows="3" class="input-xxlarge" placeholder="Type something…">${imageMetadata?.rights}</textarea>
+                    <textarea name="rights" rows="3" class="form-control" placeholder="Type something…">${imageMetadata?.rights}</textarea>
 
                     <label>Rights holder</label>
-                    <textarea name="rightsHolder" rows="3" class="input-xxlarge" placeholder="Type something…">${imageMetadata?.rightsHolder}</textarea>
+                    <textarea name="rightsHolder" rows="3" class="form-control" placeholder="Type something…">${imageMetadata?.rightsHolder}</textarea>
 
                     <label>Licence</label>
                     <g:select name="license" from="${au.org.ala.collectory.Licence.findAll().collect{it.name } }" id="license"
-                              class="form-control input-xxlarge" value="${imageMetadata?.license}">
+                              class="form-control" value="${imageMetadata?.license}">
                     </g:select>
                     <br/>
-                    <button type="submit" class="btn">Save</button>
+                    <button type="submit" class="btn btn-default">Save</button>
                 </fieldset>
             </g:form>
         </div>
-        <div class="span6 well">
+        <div class="col-md-6 well">
             <p>
                 These values will be displayed on record pages where the images are displayed unless
                 values have been provided that are specific to the image.

@@ -788,7 +788,7 @@ class CollectoryTagLib {
      * Takes the values as java list or JSON string and sets up checkboxes.
      */
     def checkboxSelect = {attrs ->
-        out << "<table class='span8'><tr>"
+        out << "<table class='col-md-8'><tr>"
         //log.info "attrs.value=${attrs.value}"
         attrs.from.eachWithIndex { it, index ->
             def checked
@@ -1575,7 +1575,7 @@ class CollectoryTagLib {
         if (isAuthorisedToEdit(attrs.uid, request.getUserPrincipal()?.attributes?.email)) {
             def paramsMap
             // anchor class
-            paramsMap = [class:'edit btn']
+            paramsMap = [class:'edit btn btn-default']
             // action
             paramsMap << [action: (attrs.containsKey('action')) ? attrs.remove('action').toString() : 'edit']
             // optional controller

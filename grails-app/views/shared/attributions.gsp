@@ -86,8 +86,8 @@
       </table>
     </div>
     <div class="buttons">
-      <span class="button"><input type="submit" name="_action_updateAttributions" value="Update" class="save"></span>
-      <span class="button"><input type="submit" name="_action_cancel" value="Cancel" class="cancel"></span>
+      <span class="button"><input type="submit" name="_action_updateAttributions" value="Update" class="save btn btn-default"></span>
+      <span class="button"><input type="submit" name="_action_cancel" value="Cancel" class="cancel btn btn-default"></span>
     </div>
   </g:form>
 </div>

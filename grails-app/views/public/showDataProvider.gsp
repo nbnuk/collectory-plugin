@@ -45,8 +45,8 @@
             </ol>
         </div>
         <cl:pageOptionsPopup instance="${instance}"/>
-        <div class="row-fluid">
-            <div class="span8">
+        <div class="row">
+            <div class="col-md-8">
                 <cl:h1 value="${instance.name}"/>
                 <cl:valueOrOtherwise value="${instance.acronym}"><span
                         class="acronym">Acronym: ${fieldValue(bean: instance, field: "acronym")}</span></cl:valueOrOtherwise>
@@ -108,7 +108,7 @@
 
             </div><!--close section-->
             </div><!--close column-one-->
-            <div class="span4">
+            <div class="col-md-4">
 
         <!-- logo -->
             <div class="section">

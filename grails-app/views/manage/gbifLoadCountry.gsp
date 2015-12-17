@@ -9,39 +9,41 @@
 <h1><g:message code="manage.gbiflc.title01" /></h1>
 <div id="baseForm">
     <g:form action="loadAllGbifForCountry" controller="manage">
-            <div class="span6">
-                    <table>
-                        <tr class="prop">
+            <div class="col-md-6">
+                    <table class="col-md-12">
+                        <tr class="prop form-group">
                             <td valign="top" class="name"><label for="country"><g:message code="manage.gbiflc.label01" />:</label></td>
-                            <td valign="top" class="value">
-                                <g:select name="country" from="${pubMap.entrySet()}" optionKey="key" optionValue="value"/>
+                            <td valign="top" class="value col-md-6">
+                                <g:select name="country" from="${pubMap.entrySet()}" optionKey="key" optionValue="value" class="form-control input-text"/>
                             </td>
                         </tr>
-                        <tr class="prop">
+                        <tr class="prop form-group">
                             <td valign="top" class="name"><label for="gbifUsername"><g:message code="manage.gbiflc.label02" />:</label></td>
-                            <td valign="top" class="value"><g:field type="text" name="gbifUsername" required="true" value="" /></td>
+                            <td valign="top" class="value col-md-6"><g:field type="text" name="gbifUsername" required="true" value="" class="form-control input-text"/></td>
                         </tr>
-                        <tr class="prop">
+                        <tr class="prop form-group">
                             <td valign="top" class="name"><label for="gbifPassword"><g:message code="manage.gbiflc.label03" />:</label> </td>
-                            <td valign="top" class="value"><g:field type="password" name="gbifPassword" required="true" value="" /></td>
+                            <td valign="top" class="value col-md-6"><g:field type="password" name="gbifPassword" required="true" value="" class="form-control input-text"/></td>
                         </tr>
-                        <tr class="prop">
+                        <tr class="prop form-group">
                             <td valign="top" class="name"><label for="maxResources"><g:message code="manage.gbiflc.label04" />:</label></td>
-                            <td valign="top" class="value"><g:field type="number" name="maxResources"  value="1"/></td>
+                            <td valign="top" class="value col-md-6"><g:field type="number" name="maxResources"  value="1" class="form-control input-text"/></td>
                         </tr>
-                        <tr class="prop">
-                            <td colspan="2">
-                                <label class="checkbox">
-                                    <input type="checkbox" name="reloadExistingResources"> Reload existing resources
-                                </label>
-                            </td>
+                        <tr class="prop form-group ">
+
+                                <td valign="top" class="name col-md-4">
+
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="reloadExistingResources" > Reload existing resources
+                                    </label>
+                                </td>
                         </tr>
                     </table>
 
-                <span class="button"><input type="submit" name="performGBIFLoad" value="Load" class="save btn"></span>
+                <span class="button"><input type="submit" name="performGBIFLoad" value="Load" class="save btn btn-default"></span>
             </div>
 
-            <div class="well pull-right span5">
+            <div class="well pull-right col-md-5">
                 <p>
                     <g:message code="manage.gbiflc.des01" />.<br/>
                     <g:message code="manage.gbiflc.des02" />.

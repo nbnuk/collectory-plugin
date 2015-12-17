@@ -26,8 +26,8 @@
         </div><!--close section-->
       </div><!--close header-->
 
-      <div class="row-fluid"><!-- wrap map and list-->
-        <div class="span4">
+      <div class="row"><!-- wrap map and list-->
+        <div class="col-md-4">
           <div class="section">
             <p><g:message code="public.map3.des01" />.</p>
           </div>
@@ -62,7 +62,7 @@
           </div>
         </div><!--close column-one-->
 
-        <div class="span8" id="map-list-col">
+        <div class="col-md-8" id="map-list-col">
             <div class="tabbable">
                 <ul class="nav nav-tabs" id="home-tabs">
                     <li class="active"><a href="#map" data-toggle="tab"><g:message code="public.map3.maplistcol.map" /></a></li>
@@ -103,6 +103,8 @@
       </div><!--close map/list div-->
     </div><!--close content-->
     </div>
+
+
   </body>
   <r:script>
       var altMap = true;
@@ -113,6 +115,7 @@
           centreLon:   ${grailsApplication.config.collectionsMap.centreMapLon?:'134'},
           defaultZoom: ${grailsApplication.config.collectionsMap.defaultZoom?:'4'}
       }
+
       initMap(COLLECTIONS_MAP_OPTIONS);
   </r:script>
 </html>

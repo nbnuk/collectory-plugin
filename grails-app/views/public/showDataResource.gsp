@@ -39,8 +39,8 @@
         </ol>
     </div>
     <cl:pageOptionsPopup instance="${instance}"/>
-    <div class="row-fluid">
-        <div class="span8">
+    <div class="row">
+        <div class="col-md-8">
             <cl:h1 value="${instance.name}"/>
             <g:set var="dp" value="${instance.dataProvider}"/>
             <g:if test="${dp}">
@@ -67,7 +67,7 @@
             </div>
         </div>
 
-        <div class="span4">
+        <div class="col-md-4">
             <g:if test="${dp?.logoRef?.file}">
                 <g:link action="show" id="${dp.uid}">
                     <img class="institutionImage"
@@ -81,8 +81,8 @@
         </div>
     </div>
 </div><!--close header-->
-<div class="row-fluid">
-    <div class="span8">
+<div class="row">
+    <div class="col-md-8">
         <g:if test="${instance.pubDescription || instance.techDescription || instance.focus}">
             <h2><g:message code="public.des" /></h2>
         </g:if>
@@ -175,7 +175,7 @@
         </g:if>
         <cl:lastUpdated date="${instance.lastUpdated}"/>
     </div><!--close column-one-->
-    <div class="span4">
+    <div class="col-md-4">
         <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
             <div class="section">
                 <img alt="${fieldValue(bean: instance, field: "imageRef.file")}"

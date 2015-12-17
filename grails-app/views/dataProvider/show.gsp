@@ -78,8 +78,8 @@
 
                   </p>
                   <p>
-                    <button class="iptCheck iptBtn btn"><r:img class="spinner hide" uri="/images/spinner.gif"></r:img> Check endpoint</button>
-                    <button class="iptUpdate iptBtn btn"><r:img class="spinner hide" uri="/images/spinner.gif"></r:img>  Update data resources</button>
+                    <button class="iptCheck iptBtn btn btn-default"><r:img class="spinner hide" uri="/images/spinner.gif"></r:img> Check endpoint</button>
+                    <button class="iptUpdate iptBtn btn btn-default"><r:img class="spinner hide" uri="/images/spinner.gif"></r:img>  Update data resources</button>
                   </p>
               </div>
 
@@ -114,7 +114,7 @@
                   </g:each>
                 </ul>
                 <p>
-                    <g:link controller="dataResource"  class="btn" action="create" params='[dataProviderUid: "${instance.uid}"]'><g:message code="dataprovider.show.link01" /></g:link>
+                    <g:link controller="dataResource"  class="btn btn-default" action="create" params='[dataProviderUid: "${instance.uid}"]'><g:message code="dataprovider.show.link01" /></g:link>
                 </p>
               </div>
 

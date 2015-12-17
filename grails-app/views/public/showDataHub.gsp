@@ -41,8 +41,8 @@
               </ol>
           </div>
         <cl:pageOptionsPopup instance="${instance}"/>
-        <div class="row-fluid">
-          <div class="span8">
+        <div class="row">
+          <div class="col-md-8">
             <cl:h1 value="${instance.name}"/>
             <cl:valueOrOtherwise value="${instance.acronym}"><span class="acronym"><g:message code="public.sdh.header.span01" />: ${fieldValue(bean: instance, field: "acronym")}</span></cl:valueOrOtherwise>
             <g:if test="${instance.guid?.startsWith('urn:lsid:')}">
@@ -56,7 +56,7 @@
               </div>
             </g:if>
           </div>
-          <div class="span4">
+          <div class="col-md-4">
             <!-- logo -->
             <g:if test="${fieldValue(bean: instance, field: 'logoRef') && fieldValue(bean: instance, field: 'logoRef.file')}">
               <img class="institutionImage" src='${resource(absolute:"true", dir:"data/"+instance.urlForm()+"/",file:fieldValue(bean: instance, field: 'logoRef.file'))}' />
@@ -65,9 +65,9 @@
         </div>
       </div><!--close header-->
 
-      <div class="row-fluid">
+      <div class="row">
 
-      <div id="column-one" class="span8">
+      <div id="column-one" class="col-md-8">
       <div class="section">
         <g:if test="${instance.pubDescription}">
           <h2><g:message code="public.des" /></h2>
@@ -91,7 +91,7 @@
 
       </div><!--close section-->
     </div><!--close column-one-->
-      <div id="column-two" class="span4">
+      <div id="column-two" class="col-md-4">
       <div class="section sidebar">
         <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
           <div class="section">

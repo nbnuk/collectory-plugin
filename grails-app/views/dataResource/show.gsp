@@ -197,7 +197,7 @@
                 </g:if>
 
                 <cl:ifGranted role="${ProviderGroup.ROLE_ADMIN}">
-                  <div><span class="buttons"><g:link class="edit btn" action='edit' params="[page:'contribution']" id="${instance.uid}">${message(code: 'default.button.edit.label', default: 'Edit')}</g:link></span></div>
+                  <div><span class="buttons"><g:link class="edit btn btn-default" action='edit' params="[page:'contribution']" id="${instance.uid}">${message(code: 'default.button.edit.label', default: 'Edit')}</g:link></span></div>
                 </cl:ifGranted>
 
 
@@ -205,7 +205,7 @@
 
               <div class="well">
                   <h3><g:message code="dataresource.show.title03" /></h3>
-                  <g:link controller="dataResource" action="upload" class="btn" id="${instance.uid}"><i class="icon-upload"></i> <g:message code="dataresource.show.link.upload" /></g:link>
+                  <g:link controller="dataResource" action="upload" class="btn btn-default" id="${instance.uid}"><i class="icon-upload"></i> <g:message code="dataresource.show.link.upload" /></g:link>
               </div>
 
               <!-- rights -->

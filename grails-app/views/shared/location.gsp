@@ -32,158 +32,161 @@
     <g:hiddenField name="id" value="${command?.id}"/>
     <g:hiddenField name="version" value="${command.version}"/>
     <div class="dialog">
-      <table>
-        <tbody>
+      <div class="col-md-12">
+        <table class="col-md-6">
+          <tbody>
 
-        <!-- state -->
-        <tr class="prop">
-          <td valign="top" class="name">
-            <label for="state"><g:message code="providerGroup.state.label" default="State"/>
-              <br/><span class=hint>(where the ${entityNameLower}<br>resides)</span>
-            </label>
-          </td>
-          <td valign="top" colspan="3" class="value ${hasErrors(bean: command, field: 'state', 'errors')}">
-            <g:select id="state" name="state" from="${ProviderGroup.statesList}" value="${command?.state}" valueMessagePrefix="providerGroup.state" noSelection="['': '']"/>
-            <cl:helpText code="${entityNameLower}.state"/>
-          </td>
-          <cl:helpTD/>
-        </tr>
-
-        <!-- email -->
-        <tr class="prop">
-          <td valign="top" class="name">
-            <label for="email"><g:message code="providerGroup.email.label" default="Email"/></label>
-          </td>
-          <td valign="top" colspan="3" class="value ${hasErrors(bean: command, field: 'email', 'errors')}">
-            <g:textField name="email" maxLength="256" value="${command?.email}"/>
-            <cl:helpText code="collection.email"/>
-          </td>
-          <cl:helpTD/>
-        </tr>
-
-        <!-- phone -->
-        <tr class="prop">
-          <td valign="top" class="name">
-            <label for="phone"><g:message code="providerGroup.phone.label" default="Phone"/></label>
-          </td>
-          <td valign="top" colspan="3" class="value ${hasErrors(bean: command, field: 'phone', 'errors')}">
-            <g:textField name="phone" maxlength="45" value="${command?.phone}"/>
-            <cl:helpText code="collection.phone"/>
-          </td>
-          <cl:helpTD/>
-        </tr>
-
-        <!-- address -->
-          <tr class='prop'>
+          <!-- state -->
+          <tr class="prop form-group">
             <td valign="top" class="name">
-              <label for="address.street"><g:message code="providerGroup.address.street.label" default="Street"/></label>
+              <label for="state"><g:message code="providerGroup.state.label" default="State"/>
+                <br/><span class=hint>(where the ${entityNameLower}<br>resides)</span>
+              </label>
             </td>
-            <td valign="top" class="value ${hasErrors(bean: command, field: 'address.street', 'errors')}">
-              <g:textField id="street" name="address.street" maxlength="128" value="${command?.address?.street}"/>
+            <td valign="top" colspan="3" class="value ${hasErrors(bean: command, field: 'state', 'errors')}">
+              <g:select id="state" name="state" from="${ProviderGroup.statesList}" value="${command?.state}" valueMessagePrefix="providerGroup.state" noSelection="['': '']" class="form-control"/>
+              <cl:helpText code="${entityNameLower}.state"/>
             </td>
-          </tr>
-          <tr class='prop'>
-            <td valign="top" class="name">
-              <label for="address.city"><g:message code="providerGroup.address.city.label" default="City"/></label>
-            </td>
-            <td valign="top" class="value ${hasErrors(bean: command, field: 'address.city', 'errors')}">
-              <g:textField id="city" name="address.city" maxlength="128" value="${command?.address?.city}"/>
-            </td>
-          </tr>
-          <tr class='prop'>
-            <td valign="top" class="name">
-              <label for="address.state"><g:message code="providerGroup.address.state.label" default="State or territory"/></label>
-            </td>
-            <td valign="top" class="value ${hasErrors(bean: command, field: 'address.state', 'errors')}">
-              <g:textField id="state" name="address.state" maxlength="128" value="${command?.address?.state}"/>
-            </td>
-          </tr>
-          <tr class='prop'>
-            <td valign="top" class="name">
-              <label for="address.postcode"><g:message code="providerGroup.address.postcode.label" default="Postcode"/></label>
-            </td>
-            <td valign="top" class="value ${hasErrors(bean: command, field: 'address.street', 'errors')}">
-              <g:textField name="address.postcode" maxlength="128" value="${command?.address?.postcode}"/>
-            </td>
-          </tr>
-          <tr class='prop'>
-            <td valign="top" class="name">
-              <label for="address.country"><g:message code="providerGroup.address.country.label" default="Country"/></label>
-            </td>
-            <td valign="top" class="value ${hasErrors(bean: command, field: 'address.country', 'errors')}">
-              <g:textField id="country" name="address.country" maxlength="128" value="${command?.address?.country}"/>
-            </td>
-          </tr>
-          <tr class='prop'>
-            <td valign="top" class="name">
-              <label for="address.postBox"><g:message code="providerGroup.address.postBox.label" default="Postal address"/></label>
-            </td>
-            <td valign="top" class="value ${hasErrors(bean: command, field: 'address.postBox', 'errors')}">
-              <g:textField name="address.postBox" maxlength="128" value="${command?.address?.postBox}"/>
-            </td>
+            <cl:helpTD/>
           </tr>
 
-        <!-- latitude -->
-        <div id="mapCanvas" class="pull-right"></div>
-        <tr class="prop">
-          <td valign="top" class="name">
-            <label for="latitude"><g:message code="providerGroup.latitude.label" default="Latitude"/>
-              <br/><span class=hint>(decimal degrees)</span>
-            </label>
-          </td>
-          <td valign="top" class="value ${hasErrors(bean: command, field: 'latitude', 'errors')}">
-            <g:textField id="latitude" name="latitude" value="${cl.numberIfKnown(number:command.latitude)}"/>
-            <cl:helpText code="collection.latitude"/>
-          </td>
-          <cl:helpTD/>
-
-          <!-- map spans 4-5 rows -->
-          <td rowspan="5">
+          <!-- email -->
+          <tr class="prop form-group">
+            <td valign="top" class="name">
+              <label for="email"><g:message code="providerGroup.email.label" default="Email"/></label>
             </td>
-        </tr>
+            <td valign="top" colspan="3" class="value ${hasErrors(bean: command, field: 'email', 'errors')}">
+              <g:textField name="email" maxLength="256" value="${command?.email}" class="form-control input-text"/>
+              <cl:helpText code="collection.email"/>
+            </td>
+            <cl:helpTD/>
+          </tr>
 
-        <!-- longitude -->
-        <tr class="prop">
-          <td valign="top" class="name">
-            <label for="longitude">
-              <g:message code="providerGroup.longitude.label" default="Longitude"/>
-              <br/><span class=hint>(decimal degrees)</span>
-            </label>
-          </td>
-          <td valign="top" class="value ${hasErrors(bean: command, field: 'longitude', 'errors')}">
-            <g:textField id="longitude" name="longitude" value="${cl.numberIfKnown(number:command.longitude)}"/>
-            <cl:helpText code="collection.longitude"/>
-          </td>
-          <cl:helpTD/>
-        </tr>
+          <!-- phone -->
+          <tr class="prop form-group">
+            <td valign="top" class="name">
+              <label for="phone"><g:message code="providerGroup.phone.label" default="Phone"/></label>
+            </td>
+            <td valign="top" colspan="3" class="value ${hasErrors(bean: command, field: 'phone', 'errors')}">
+              <g:textField name="phone" maxlength="45" value="${command?.phone}" class="form-control input-text"/>
+              <cl:helpText code="collection.phone"/>
+            </td>
+            <cl:helpTD/>
+          </tr>
 
-        <!-- lookup lat/lng -->
-        <tr>
-          <td></td><td colspan="2">
-            <input type="button" class="classicButton btn" onclick="return codeAddress();" value="Lookup"/> <g:message code="shared.location.lookup" />.<div style="width:100%;"></div>
-          </td>
-        </tr>
-
-        <g:if test="${command.ENTITY_TYPE == 'Collection'}">
-          <g:if test="${(command.latitude == -1 || command.longitude == -1) && command.inheritedLatLng()}">
-            <tr>
-              <td></td><td colspan="2">
-                <input type="button" class="classicButton" onclick="return useInherited();" value="Use inherited"/> <g:message code="shared.location.button.useinherited" />.<div style="width:100%;"></div>
+          <!-- address -->
+            <tr class='prop'>
+              <td valign="top" class="name">
+                <label for="address.street"><g:message code="providerGroup.address.street.label" default="Street"/></label>
+              </td>
+              <td valign="top" class="value ${hasErrors(bean: command, field: 'address.street', 'errors')}">
+                <g:textField id="street" name="address.street" maxlength="128" value="${command?.address?.street}" class="form-control input-text"/>
               </td>
             </tr>
-          </g:if>
-        </g:if>
-        <tr>
-          <td></td><td colspan="2"><g:message code="shared.location.main.des01" /> ${entityNameLower}.<br/>
-                <g:message code="shared.location.main.des02" />.</td>
-        </tr>
+            <tr class='prop'>
+              <td valign="top" class="name">
+                <label for="address.city"><g:message code="providerGroup.address.city.label" default="City"/></label>
+              </td>
+              <td valign="top" class="value ${hasErrors(bean: command, field: 'address.city', 'errors')}">
+                <g:textField id="city" name="address.city" maxlength="128" value="${command?.address?.city}" class="form-control input-text"/>
+              </td>
+            </tr>
+            <tr class='prop'>
+              <td valign="top" class="name">
+                <label for="address.state"><g:message code="providerGroup.address.state.label" default="State or territory"/></label>
+              </td>
+              <td valign="top" class="value ${hasErrors(bean: command, field: 'address.state', 'errors')}">
+                <g:textField id="state" name="address.state" maxlength="128" value="${command?.address?.state}" class="form-control input-text"/>
+              </td>
+            </tr>
+            <tr class='prop'>
+              <td valign="top" class="name">
+                <label for="address.postcode"><g:message code="providerGroup.address.postcode.label" default="Postcode"/></label>
+              </td>
+              <td valign="top" class="value ${hasErrors(bean: command, field: 'address.street', 'errors')}">
+                <g:textField name="address.postcode" maxlength="128" value="${command?.address?.postcode}" class="form-control input-text"/>
+              </td>
+            </tr>
+            <tr class='prop'>
+              <td valign="top" class="name">
+                <label for="address.country"><g:message code="providerGroup.address.country.label" default="Country"/></label>
+              </td>
+              <td valign="top" class="value ${hasErrors(bean: command, field: 'address.country', 'errors')}">
+                <g:textField id="country" name="address.country" maxlength="128" value="${command?.address?.country}" class="form-control input-text"/>
+              </td>
+            </tr>
+            <tr class='prop'>
+              <td valign="top" class="name">
+                <label for="address.postBox"><g:message code="providerGroup.address.postBox.label" default="Postal address"/></label>
+              </td>
+              <td valign="top" class="value ${hasErrors(bean: command, field: 'address.postBox', 'errors')}">
+                <g:textField name="address.postBox" maxlength="128" value="${command?.address?.postBox}" class="form-control input-text"/>
+              </td>
+            </tr>
 
-        </tbody>
-      </table>
+
+          <tr class="prop form-group">
+            <td valign="top" class="name">
+              <label for="latitude"><g:message code="providerGroup.latitude.label" default="Latitude"/>
+                <br/><span class=hint>(decimal degrees)</span>
+              </label>
+            </td>
+            <td valign="top" class="value ${hasErrors(bean: command, field: 'latitude', 'errors')}">
+              <g:textField id="latitude" name="latitude" value="${cl.numberIfKnown(number:command.latitude)}" class="form-control input-text"/>
+              <cl:helpText code="collection.latitude"/>
+            </td>
+            <cl:helpTD/>
+
+            <!-- map spans 4-5 rows -->
+            <td rowspan="5">
+              </td>
+          </tr>
+
+          <!-- longitude -->
+          <tr class="prop form-group">
+            <td valign="top" class="name">
+              <label for="longitude">
+                <g:message code="providerGroup.longitude.label" default="Longitude"/>
+                <br/><span class=hint>(decimal degrees)</span>
+              </label>
+            </td>
+            <td valign="top" class="value ${hasErrors(bean: command, field: 'longitude', 'errors')}">
+              <g:textField id="longitude" name="longitude" value="${cl.numberIfKnown(number:command.longitude)}" class="form-control input-text"/>
+              <cl:helpText code="collection.longitude"/>
+            </td>
+            <cl:helpTD/>
+          </tr>
+
+          <!-- lookup lat/lng -->
+          <tr>
+            <td></td><td colspan="2">
+              <input type="button" class="classicButton btn btn-default" onclick="return codeAddress();" value="Lookup"/> <g:message code="shared.location.lookup" />.<div style="width:100%;"></div>
+            </td>
+          </tr>
+
+          <g:if test="${command.ENTITY_TYPE == 'Collection'}">
+            <g:if test="${(command.latitude == -1 || command.longitude == -1) && command.inheritedLatLng()}">
+              <tr>
+                <td></td><td colspan="2">
+                  <input type="button" class="classicButton" onclick="return useInherited();" value="Use inherited"/> <g:message code="shared.location.button.useinherited" />.<div style="width:100%;"></div>
+                </td>
+              </tr>
+            </g:if>
+          </g:if>
+          <tr>
+            <td></td><td colspan="2"><g:message code="shared.location.main.des01" /> ${entityNameLower}.<br/>
+                  <g:message code="shared.location.main.des02" />.</td>
+          </tr>
+
+          </tbody>
+        </table>
+        <!-- latitude -->
+        <div id="mapCanvas" class="pull-right col-md-6"></div>
+      </div>
     </div>
     <div class="buttons">
-      <span class="button"><input type="submit" name="_action_updateLocation" value="${message(code:"shared.location.button.update")}" class="save btn"></span>
-      <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"shared.location.button.cancel")}" class="cancel btn"></span>
+      <span class="button"><input type="submit" name="_action_updateLocation" value="${message(code:"shared.location.button.update")}" class="save btn btn-default"></span>
+      <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"shared.location.button.cancel")}" class="cancel btn btn-default"></span>
     </div>
   </g:form>
 </div>

@@ -26,26 +26,26 @@
                         <tbody>
 
                         <!-- taxonomy hints -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-3">
                               <label for="taxonomyHints"><g:message code="taxonomyHints.label" default="Taxonomy hints" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'taxonomyHints', 'errors')}">
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'taxonomyHints', 'errors')} col-md-9">
                               <p><g:message code="shared.eth.des01" /> ${command.urlForm()}.</p>
                               <table class="shy"><colgroup><col width="50%"/><col width="50%"/></colgroup>
                                 <tr><td><g:message code="shared.eth.th01" /></td><td><g:message code="shared.eth.th02" /></td></tr>
                                 <g:set var="hints" value="${command.listTaxonomyHints()}"/>
                                 <g:each var="hint" in="${hints}" status="i">
                                   <tr>
-                                    <td valign="top"><g:textField name="rank_${i}" value="${hint.rank.encodeAsHTML()}" /></td>
-                                    <td valign="top"><g:textField name="name_${i}" value="${hint.name.encodeAsHTML()}" /></td>
+                                    <td valign="top"><g:textField name="rank_${i}" value="${hint.rank.encodeAsHTML()}" class="form-control input-text"/></td>
+                                    <td valign="top"><g:textField name="name_${i}" value="${hint.name.encodeAsHTML()}" class="form-control input-text"/></td>
                                   </tr>
                                 </g:each>
                                 <g:set var="j" value="${hints.size()}"/>
                                 <g:each var="i" in="${[j, j+1, j+2]}">
                                   <tr>
-                                    <td valign="top"><g:textField name="rank_${i}" value="" /></td>
-                                    <td valign="top"><g:textField name="name_${i}" value="" /></td>
+                                    <td valign="top"><g:textField name="rank_${i}" value="" class="form-control input-text"/></td>
+                                    <td valign="top"><g:textField name="name_${i}" value="" class="form-control input-text"/></td>
                                   </tr>
                                 </g:each>
                               </table>
@@ -59,8 +59,8 @@
                 </div>
 
                 <div class="buttons">
-                    <span class="button"><input type="submit" name="_action_updateTaxonomyHints" value="${message(code:"shared.eth.button.update")}" class="save"></span>
-                    <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"shared.eth.button.cancel")}" class="cancel"></span>
+                    <span class="button"><input type="submit" name="_action_updateTaxonomyHints" value="${message(code:"shared.eth.button.update")}" class="save btn btn-default"></span>
+                    <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"shared.eth.button.cancel")}" class="cancel btn btn-default"></span>
                 </div>
             </g:form>
         </div>

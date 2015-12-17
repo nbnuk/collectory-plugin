@@ -29,13 +29,13 @@
                         <tbody>
 
                         <!-- image -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <!--label for="imageRef"><g:message code="providerGroup.${target}.label" default="Image" /></label-->
                               <g:if test="${target == 'logoRef'}"><g:message code="shared.images.des01" /></g:if>
                               <g:else><g:message code="shared.images.des02" /><br/>image</g:else>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: target, 'errors')}">
+                            <td valign="top" class="value ${hasErrors(bean: command, field: target, 'errors')} col-md-10">
                               <g:if test="${target == 'logoRef'}">
                                 <g:render template="/shared/attributableLogo" model="[command: command, directory: entityNameLower, action: 'editCollection']"/>
                               </g:if>
@@ -50,9 +50,9 @@
                 </div>
 
                 <div class="buttons">
-                    <span class="button"><input type="submit" name="_action_updateImages" value="${message(code:"shared.images.button.update")}" class="save btn"></span>
-                    <span class="button"><input type="submit" name="_action_removeImage" value="${message(code:"shared.images.button.remove")}" class="cancel btn"></span>
-                    <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"shared.images.button.cancel")}" class="cancel btn"></span>
+                    <span class="button"><input type="submit" name="_action_updateImages" value="${message(code:"shared.images.button.update")}" class="save btn btn-default"></span>
+                    <span class="button"><input type="submit" name="_action_removeImage" value="${message(code:"shared.images.button.remove")}" class="cancel btn btn-default"></span>
+                    <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"shared.images.button.cancel")}" class="cancel btn btn-default"></span>
                 </div>
             </g:uploadForm>
         </div>

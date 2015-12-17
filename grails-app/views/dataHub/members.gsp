@@ -22,40 +22,40 @@
         <g:hiddenField name="id" value="${command?.id}" />
         <g:hiddenField name="version" value="${command.version}" />
         <div class="dialog">
-            <table>
+            <table class="col-md-12">
                 <tbody>
 
                 <!-- institutions -->
-                <tr class="prop">
-                    <td valign="top" class="name">
+                <tr class="prop form-group">
+                    <td valign="top" class="name col-md-2">
                         <label for="memberInstitutions"><g:message code="dataHub.memberInstitutions.label" default="Institutions" /></label>
                     </td>
-                    <td valign="top" class="value ${hasErrors(bean: command, field: 'memberInstitutions', 'errors')}">
-                        <g:textArea name="memberInstitutions" class="input-xxlarge"  rows="${cl.textAreaHeight(text:command.memberInstitutions)}" value="${command.memberInstitutions}" />
+                    <td valign="top" class="value ${hasErrors(bean: command, field: 'memberInstitutions', 'errors')} col-md-10">
+                        <g:textArea name="memberInstitutions" class="form-control"  rows="${cl.textAreaHeight(text:command.memberInstitutions)}" value="${command.memberInstitutions}" />
                         <cl:helpText code="providerGroup.memberInstitutions"/>
                     </td>
                     <cl:helpTD/>
                 </tr>
 
                 <!-- collections -->
-                <tr class="prop">
-                    <td valign="top" class="name">
+                <tr class="prop form-group">
+                    <td valign="top" class="name col-md-2">
                         <label for="memberCollections"><g:message code="dataHub.memberCollections.label" default="Collections" /></label>
                     </td>
-                    <td valign="top" class="value ${hasErrors(bean: command, field: 'memberCollections', 'errors')}">
-                        <g:textArea name="memberCollections" class="input-xxlarge" rows="${cl.textAreaHeight(text:command.memberCollections)}" value="${command.memberCollections}" />
+                    <td valign="top" class="value ${hasErrors(bean: command, field: 'memberCollections', 'errors')} col-md-10">
+                        <g:textArea name="memberCollections" class="form-control" rows="${cl.textAreaHeight(text:command.memberCollections)}" value="${command.memberCollections}" />
                         <cl:helpText code="providerGroup.memberCollections"/>
                     </td>
                     <cl:helpTD/>
                 </tr>
 
                 <!-- data resources -->
-                <tr class="prop">
-                    <td valign="top" class="name">
+                <tr class="prop form-group">
+                    <td valign="top" class="name col-md-2">
                         <label for="memberDataResources"><g:message code="dataHub.memberDataResources.label" default="Data resources" /></label>
                     </td>
-                    <td valign="top" class="value ${hasErrors(bean: command, field: 'institutionMembers', 'errors')}">
-                        <g:textArea name="memberDataResources" class="input-xxlarge" rows="${cl.textAreaHeight(text:command.memberDataResources)}" value="${command.memberDataResources}" />
+                    <td valign="top" class="value ${hasErrors(bean: command, field: 'institutionMembers', 'errors')} col-md-10">
+                        <g:textArea name="memberDataResources" class="form-control" rows="${cl.textAreaHeight(text:command.memberDataResources)}" value="${command.memberDataResources}" />
                         <cl:helpText code="providerGroup.memberDataResources"/>
                     </td>
                     <cl:helpTD/>
@@ -66,8 +66,8 @@
         </div>
 
         <div class="buttons">
-            <span class="button"><input type="submit" name="_action_updateDescription" value="${message(code:"collection.button.update")}" class="save btn"></span>
-            <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="cancel btn"></span>
+            <span class="button"><input type="submit" name="_action_updateDescription" value="${message(code:"collection.button.update")}" class="save btn btn-default"></span>
+            <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"collection.button.cancel")}" class="cancel btn btn-default"></span>
         </div>
     </g:form>
 </div>

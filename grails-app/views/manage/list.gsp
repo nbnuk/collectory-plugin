@@ -8,9 +8,8 @@
     
     <body>
       <div class="content">
-
         <div class="pull-right">
-            <g:link class="mainLink btn" controller="public" action="map"><g:message code="manage.list.link01" /></g:link>
+            <g:link class="mainLink btn btn-default" controller="public" action="map"><g:message code="manage.list.link01" /></g:link>
         </div>
 
         <h1><g:message code="manage.list.title01" /></h1>
@@ -19,18 +18,18 @@
             <div class="message">${flash.message}</div>
         </g:if>
 
-        <div class="row-fluid">
-            <div class="span3">
-                <ul id="adminNavMenu" class="nav nav-list nav-stacked nav-tabs">
-                    <li><a href="javascript:showSection('adminTools');"><i class="icon-chevron-right">&nbsp;</i> <g:message code="manage.list.li01" /></a></li>
-                    <li><a href="javascript:showSection('yourMetadata');"><i class="icon-chevron-right">&nbsp;</i> <g:message code="manage.list.li02" /></a></li>
-                    <li><a href="javascript:showSection('addCollection');"><i class="icon-chevron-right">&nbsp;</i> <g:message code="manage.list.li03" /></a></li>
+        <div class="row">
+            <div class="col-md-3">
+                <ul id="adminNavMenu" class="nav nav-pills nav-stacked nav-tabs">
+                    <li><a href="javascript:showSection('adminTools');"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>&nbsp; <g:message code="manage.list.li01" /></a></li>
+                    <li><a href="javascript:showSection('yourMetadata');"><span class="glyphicon glyphicon-menu-right" aria-hidden="true">&nbsp;</span> <g:message code="manage.list.li02" /></a></li>
+                    <li><a href="javascript:showSection('addCollection');"><span class="glyphicon glyphicon-menu-right" aria-hidden="true">&nbsp;</span><g:message code="manage.list.li03" /></a></li>
                 </ul>
             </div>
 
-            <div class="span9">
+            <div class="col-md-9">
 
-                <div id="yourMetadata" class="infoSection hide">
+                <div id="yourMetadata" class="infoSection hidden">
                     <g:if test="${show == 'user'}">
                         <div>
                             <h2><g:message code="manage.list.title02" /></h2>
@@ -139,7 +138,7 @@
                     </div>
                 </div>
 
-                <div id="addCollection" class="hide infoSection">
+                <div id="addCollection" class="infoSection hidden">
                     <cl:ifGranted role="ROLE_COLLECTION_EDITOR">
 
                         <h2><g:message code="manage.list.addcollection.title01" /></h2>
@@ -181,9 +180,15 @@
 
                         <p class="mainText"><g:message code="manage.list.addtools.des03" /></p>
                         <g:form controller="collection" action="searchList" method="get">
-                            <div class="input-append">
-                                <g:textField class="mainText" name="term" placeholder="Search for collection"/>
-                                <g:submitButton class="btn" name="search" value="Search"/>
+                            <div  class="form-group controls">
+                                <div  class="col-md-12 mainForm">
+                                    <div class="input-group col-md-4">
+                                        <g:textField class="mainText form-control" name="term" placeholder="Search for collection"/>
+                                        <span class="input-group-btn">
+                                            <g:submitButton class="btn btn-default " name="search" value="Search"/>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </g:form>
                     </div>
@@ -260,8 +265,9 @@
         <script type="text/javascript">
 
             function showSection(sectionToShow){
-                $('.infoSection').hide();
-                $('#'+sectionToShow).show();
+                $('.infoSection').addClass('hidden');
+                $('#'+sectionToShow).removeClass('hidden');
+
             }
 
             function edit(uid) {

@@ -40,10 +40,9 @@
                 <li><cl:pageOptionsLink>${fieldValue(bean:instance,field:'name')}</cl:pageOptionsLink></li>
             </ol>
           </div>
-
           <cl:pageOptionsPopup instance="${instance}"/>
-          <div class="row-fluid">
-            <div class="span8">
+          <div class="row">
+            <div class="col-md-8">
               <cl:h1 value="${instance.name}"/>
               <g:set var="inst" value="${instance.getInstitution()}"/>
               <g:if test="${inst}">
@@ -61,7 +60,7 @@
                   </div>
               </div>
             </div>
-            <div class="span4">
+            <div class="col-md-4">
               <!-- institution logo -->
               <g:if test="${inst?.logoRef?.file}">
                 <g:link action="showInstitution" id="${inst.id}">
@@ -82,8 +81,8 @@
         </div>
 
         <div class="tab-content">
-            <div id="overviewTab" class="tab-pane active row-fluid">
-               <div id="overview-content" class="span8">
+            <div id="overviewTab" class="tab-pane active row">
+               <div id="overview-content" class="col-md-8">
                   <h2><g:message code="public.des" /></h2>
                   <cl:formattedText body="${instance.pubDescription}"/>
                   <cl:formattedText>${fieldValue(bean: instance, field: "techDescription")}</cl:formattedText>
@@ -151,7 +150,7 @@
 
                   <cl:lastUpdated date="${instance.lastUpdated}"/>
                </div>
-               <div id="overview-sidebar" class="span4">
+               <div id="overview-sidebar" class="col-md-4">
                   <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                     <div class="section">
                       <img style="max-width:100%;max-height:350px;" alt="${fieldValue(bean: instance, field: "imageRef.file")}"
@@ -255,8 +254,8 @@
             </div>
             <div id="recordsTab" class="tab-pane">
               <h2><g:message code="public.show.rt.title" /></h2>
-              <div class="row-fluid">
-                  <div class="span8">
+              <div class="row">
+                  <div class="col-md-8">
                     <g:if test="${instance.numRecords != -1}">
                       <p><cl:collectionName prefix="The " name="${instance.name}"/> has an estimated ${fieldValue(bean: instance, field: "numRecords")} ${nouns}.
                         <g:if test="${instance.numRecordsDigitised != -1}">
@@ -285,7 +284,7 @@
                           <div id="iehack"></div>
                     </g:if>
                   </div>
-                  <div class="span4">
+                  <div class="col-md-4">
                     <div id="progress" class="well">
                         <div class="progress">
                           <div id="progressBar" class="bar bar-success" style="width: 0%;"></div>

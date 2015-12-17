@@ -37,8 +37,8 @@
           </ul>
       </div>
 
-      <div class="row-fluid"><!-- wrap map and list-->
-        <div id="span6" class="fudge">
+      <div class="row"><!-- wrap map and list-->
+        <div id="col-md-6" class="fudge">
           <div class="section">
             <p style="padding:15px 10px 0 10px"><g:message code="public.map.label01" />:</p>
             <ul id="map-collections">
@@ -60,7 +60,7 @@
             </div>
           </div><!--close section-->
         </div><!--close column-one-->
-        <div id="map" class="span6">
+        <div id="map" class="col-md-6">
           <div class="map-column">
             <div class="section">
               <p style="width:588px;padding-bottom:8px;padding-left:30px;"><g:message code="public.map.map.des01" />.</p>
@@ -71,7 +71,7 @@
             </div><!--close section-->
           </div><!--close column-two-->
         </div><!--close map-->
-        <div id="list" class="span6">
+        <div id="list" class="col-md-6">
           <div class="list-column">
             <div class="nameList section" id="names">
               <p><g:message code="public.map.list.des01" />.</p>

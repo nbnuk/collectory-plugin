@@ -19,15 +19,29 @@
             <div class="dialog">
               <p><g:message code="reports.changes.des01" />.</p>
               <div class="filters">
-                  <g:form action="changes">
+                  <g:form action="changes" class="form-horizontal">
                     <fieldset>
                         <legend class="box-label"><g:message code="reports.changes.legend01" /></legend>
                         <g:hiddenField name="offset" value="${offset}"/>
-                        <label for="who"><g:message code="reports.changes.who" />: <g:textField name="who" value="${who}"/></label>
-                        <label for="what"><g:message code="reports.changes.what" />: <g:textField name="what" value="${what}"/></label>
-                        <g:submitButton class="submit btn " name="filter" value="Search"/>
-                        <g:submitButton class="submit btn" name="reset" value="Reset"/>
-                        <g:submitButton name="next "  class="btn" value="Next 100»"/>
+                        <div class="form-group ">
+                            <label for="who" class="col-sm-1 ">
+                                <g:message code="reports.changes.who" />:
+                            </label>
+                            <div class="col-sm-3">
+                                <g:textField name="who" value="${who}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="what" class="col-sm-1 ">
+                                <g:message code="reports.changes.what" />:
+                            </label>
+                            <div class="col-sm-3">
+                                <g:textField name="what" value="${what}" class="form-control"/>
+                            </div>
+                        </div>
+                        <g:submitButton class="submit btn btn-default" name="filter" value="Search"/>
+                        <g:submitButton class="submit btn btn-default" name="reset" value="Reset"/>
+                        <g:submitButton name="next "  class="btn btn-default" value="Next 100»"/>
                     </fieldset>
                   </g:form>
               </div>

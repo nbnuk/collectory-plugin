@@ -5,7 +5,7 @@
 	<meta name="layout" content="${grailsApplication.config.skin.layout}" />
 
     </head>
-    
+
     <body>
       <div class="floating-content">
     
@@ -52,7 +52,6 @@
               <g:textField class="mainText" name="term"/><g:submitButton style="margin-left:20px;" name="search" value="Search"/>
             </g:form>
           </div>
-
           <div class="homeCell">
             <g:link class="mainLink" controller="collection" action="create"><g:message code="admin.index.link06" /></g:link>
             <p class="mainText"><g:message code="admin.index.des06" />.</p>

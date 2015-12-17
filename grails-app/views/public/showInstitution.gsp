@@ -40,8 +40,8 @@
             </ol>
         </div>
         <cl:pageOptionsPopup instance="${instance}"/>
-        <div class="row-fluid">
-            <div class="span8">
+        <div class="row">
+            <div class="col-md-8">
                 <cl:h1 value="${instance.name}"/>
                 <g:set var="parents" value="${instance.listParents()}"/>
                 <g:each var="p" in="${parents}">
@@ -64,7 +64,7 @@
                 </g:if>
             </div>
 
-            <div class="span4">
+            <div class="col-md-4">
                 <g:if test="${fieldValue(bean: instance, field: 'logoRef') && fieldValue(bean: instance, field: 'logoRef.file')}">
                     <img class="institutionImage"
                          src='${resource(absolute: "true", dir: "data/institution/", file: fieldValue(bean: instance, field: 'logoRef.file'))}'/>
@@ -72,8 +72,8 @@
             </div>
         </div>
     </div><!--close header-->
-    <div class="row-fluid">
-            <div class="span8">
+    <div class="row">
+            <div class="col-md-8">
                 <g:if test="${instance.pubDescription}">
                     <h2><g:message code="public.des" /></h2>
                     <cl:formattedText>${fieldValue(bean: instance, field: "pubDescription")}</cl:formattedText>
@@ -116,7 +116,7 @@
                 <cl:lastUpdated date="${instance.lastUpdated}"/>
 
             </div><!--close section-->
-            <div class="span4">
+            <div class="col-md-4">
                 <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                     <div class="section">
                         <img alt="${fieldValue(bean: instance, field: "imageRef.file")}"

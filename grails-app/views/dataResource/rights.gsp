@@ -28,114 +28,117 @@
                         <tbody>
 
                         <!-- citation -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="citation"><g:message code="dataResource.citation.label" default="Citation" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'citation', 'errors')}">
-                                <g:textArea name="citation" cols="40" rows="${cl.textAreaHeight(text:command.citation)}" value="${command.citation}" />
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'citation', 'errors')} col-md-10">
+                                <g:textArea name="citation" cols="40" rows="${cl.textAreaHeight(text:command.citation)}" value="${command.citation}" class="form-control" />
                                 <cl:helpText code="dataResource.citation"/>
                               </td>
                               <cl:helpTD/>
                         </tr>
 
                         <!-- rights -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="rights"><g:message code="dataResource.rights.label" default="Rights" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'rights', 'errors')}">
-                                <g:textArea name="rights" cols="40" rows="${cl.textAreaHeight(text:command.rights)}" value="${command?.rights}" />
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'rights', 'errors')} col-md-10">
+                                <g:textArea name="rights" cols="40" rows="${cl.textAreaHeight(text:command.rights)}" value="${command?.rights}" class="form-control" />
                                 <cl:helpText code="dataResource.rights"/>
                             </td>
                           <cl:helpTD/>
                         </tr>
 
                         <!-- license -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="licenseType"><g:message code="dataResource.licenseType.label" default="License type" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'licenseType', 'errors')}">
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'licenseType', 'errors')} col-md-10">
                                 <g:select name="licenseType"
                                         from="${DataResource.ccDisplayList}"
                                         optionKey="type"
                                         optionValue="display"
-                                        value="${command.licenseType}"/>
+                                        value="${command.licenseType}"
+                                        class="form-control"/>
                                 <cl:helpText code="dataResource.licenseType"/>
                             </td>
                           <cl:helpTD/>
                         </tr>
 
                         <!-- license version -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="licenseVersion"><g:message code="dataResource.licenseVersion.label" default="License version" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'licenseVersion', 'errors')}">
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'licenseVersion', 'errors')} col-md-10">
                                 <g:select name="licenseVersion"
                                         from="${['','2.5','3.0']}"
-                                        value="${command.licenseVersion}"/>
+                                        value="${command.licenseVersion}"
+                                          class="form-control"/>
                                 <cl:helpText code="dataResource.licenseVersion"/>
                             </td>
                           <cl:helpTD/>
                         </tr>
 
                         <!-- permissions document -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="permissionsDocument"><g:message code="dataResource.permissionsDocument.label" default="Permissions document" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'permissionsDocument', 'errors')}">
-                                <g:textField name="permissionsDocument" value="${command?.permissionsDocument}" />
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'permissionsDocument', 'errors')} col-md-10">
+                                <g:textField name="permissionsDocument" value="${command?.permissionsDocument}" class="form-control" />
                                 <cl:helpText code="dataResource.permissionsDocument"/>
                             </td>
                           <cl:helpTD/>
                         </tr>
 
                         <!-- permissions document type -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="permissionsDocumentType"><g:message code="dataResource.permissionsDocumentType.label" default="Permissions document type" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'permissionsDocumentType', 'errors')}">
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'permissionsDocumentType', 'errors')} col-md-10">
                                 <g:select name="permissionsDocumentType"
                                         from="${DataResource.permissionsDocumentTypes}"
-                                        value="${command.permissionsDocumentType}"/>
+                                        value="${command.permissionsDocumentType}"
+                                          class="form-control"/>
                                 <cl:helpText code="dataResource.permissionsDocumentType"/>
                             </td>
                           <cl:helpTD/>
                         </tr>
 
                         <!-- permissions document type flags -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="riskAssessment"><g:message code="dataResource.riskAssessment.label" default="Risk assessment completed" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'riskAssessment', 'errors')}">
-                                <g:checkBox name="riskAssessment" value="${command?.riskAssessment}" />
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'riskAssessment', 'errors')} col-md-10">
+                                <g:checkBox name="riskAssessment" value="${command?.riskAssessment}" class="form-control"/>
                                 <cl:helpText code="dataResource.riskAssessment"/>
                             </td>
                           <cl:helpTD/>
                         </tr>
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="filed"><g:message code="dataResource.filed.label" default="Agreement filed" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'filed', 'errors')}">
-                                <g:checkBox name="filed" value="${command?.filed}" />
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'filed', 'errors')} col-md-10">
+                                <g:checkBox name="filed" value="${command?.filed}" class="form-control"/>
                                 <cl:helpText code="dataResource.filed"/>
                             </td>
                           <cl:helpTD/>
                         </tr>
 
                         <!-- download limit -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="downloadLimit"><g:message code="dataResource.downloadLimit.label" default="Download limit" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'downloadLimit', 'errors')}">
-                                <g:textField name="downloadLimit" value="${fieldValue(bean:command,field:'downloadLimit')}" />
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'downloadLimit', 'errors')} col-md-10">
+                                <g:textField name="downloadLimit" value="${fieldValue(bean:command,field:'downloadLimit')}" class="form-control"/>
                                 <cl:helpText code="dataResource.downloadLimit"/>
                             </td>
                           <cl:helpTD/>
@@ -146,8 +149,8 @@
                 </div>
 
                 <div class="buttons">
-                    <span class="button"><input type="submit" name="_action_updateRights" value="${message(code:"collection.button.update")}" class="save btn"></span>
-                    <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"dataresource.gbifupload.btn.cancel")}" class="cancel btn"></span>
+                    <span class="button"><input type="submit" name="_action_updateRights" value="${message(code:"collection.button.update")}" class="save btn btn-default"></span>
+                    <span class="button"><input type="submit" name="_action_cancel" value="${message(code:"dataresource.gbifupload.btn.cancel")}" class="cancel btn btn-default"></span>
                 </div>
             </g:form>
         </div>

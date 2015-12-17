@@ -2,15 +2,15 @@
     <g:hiddenField name="returnTo" value="${returnTo}" />
     <g:hiddenField name="id" value="${providerMapInstance?.id}" />
     <div class="dialog">
-        <table>
+        <table >
             <tbody>
 
-            <tr class="prop">
-                <td valign="top" class="name">
-                    <label for="institution"><g:message code="providerMap.institution.label" default="Institution" /></label>
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-1">
+                    <label for="institutionSelect"><g:message code="providerMap.institution.label" default="Institution" /></label>
                 </td>
-                <td valign="top" class="value ${hasErrors(bean: providerMapInstance, field: 'providerGroup', 'errors')}">
-                    <g:select id="institutionSelect" name="institution.id" class="input-xxlarge"
+                <td valign="top" class="value ${hasErrors(bean: providerMapInstance, field: 'providerGroup', 'errors')} col-md-6">
+                    <g:select id="institutionSelect" name="institution.id" class="form-control input-text"
                               from="${au.org.ala.collectory.Institution.list([sort: 'name'])}"
                               optionKey="id"
                               value="${providerMapInstance?.institution?.id}"
@@ -19,12 +19,12 @@
                 </td>
             </tr>
 
-            <tr class="prop">
-                <td valign="top" class="name">
-                    <label for="collection"><g:message code="providerMap.collection.label" default="Collection" /></label>
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-1">
+                    <label for="collectionSelect"><g:message code="providerMap.collection.label" default="Collection" /></label>
                 </td>
-                <td valign="top" class="value ${hasErrors(bean: providerMapInstance, field: 'providerGroup', 'errors')}">
-                    <g:select id="collectionSelect" name="collection.id" class="input-xxlarge"
+                <td valign="top" class="value ${hasErrors(bean: providerMapInstance, field: 'providerGroup', 'errors')} col-md-6">
+                    <g:select id="collectionSelect" name="collection.id" class="form-control input-text"
                               from="${au.org.ala.collectory.Collection.list([sort: 'name'])}"
                               optionKey="id"
                               value="${providerMapInstance?.collection?.id}"
@@ -33,54 +33,62 @@
                 </td>
             </tr>
 
-            <tr class="prop">
-                <td valign="top" class="name">
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-1">
                     <label for="institutionCodes"><g:message code="providerMap.institutionCodes.label" default="Institution codes" /></label>
                 </td>
-                <td valign="top" class="value ${hasErrors(bean: providerMapInstance, field: 'institutionCodes', 'errors')}">
+                <td valign="top" class="value ${hasErrors(bean: providerMapInstance, field: 'institutionCodes', 'errors')} col-md-6">
                     <g:select name="institutionCodes"
                               from="${au.org.ala.collectory.ProviderCode.list([sort:'code'])}"
                               multiple="yes" optionKey="id" size="5"
                               value="${providerMapInstance?.institutionCodes*.id}"
+                              class="form-control input-text"
                     />
                 </td>
             </tr>
 
-            <tr class="prop">
-                <td valign="top" class="name">
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-1">
                     <label for="collectionCodes"><g:message code="providerMap.collectionCodes.label" default="Collection codes" /></label>
                 </td>
-                <td valign="top" class="value ${hasErrors(bean: providerMapInstance, field: 'collectionCodes', 'errors')}">
+                <td valign="top" class="value ${hasErrors(bean: providerMapInstance, field: 'collectionCodes', 'errors')} col-md-6">
                     <g:select name="collectionCodes"
                               from="${au.org.ala.collectory.ProviderCode.list([sort:'code'])}"
                               multiple="yes" optionKey="id" size="5"
-                              value="${providerMapInstance?.collectionCodes*.id}" />
+                              value="${providerMapInstance?.collectionCodes*.id}"
+                              class="form-control input-text"
+                    />
                 </td>
             </tr>
 
-            <tr class="prop">
-                <td valign="top" class="name">
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-1">
                     <label for="warning"><g:message code="providerMap.warning.label" default="Warning" /></label>
                 </td>
-                <td valign="top" class="value ${hasErrors(bean: providerMapInstance, field: 'warning', 'errors')}">
-                    <g:textField name="warning" value="${providerMapInstance?.warning}" />
+                <td valign="top" class="value ${hasErrors(bean: providerMapInstance, field: 'warning', 'errors')} col-md-6">
+                    <g:textField name="warning" value="${providerMapInstance?.warning}" class=" form-control input-text" />
                 </td>
             </tr>
 
-            <tr class="prop">
-                <td valign="top" class="name" colspan="2">
+            <tr class="prop form-group">
+                <td valign="top" class="name col-md-1" >
                     <label for="exact" class="checkbox">
                         <g:message code="providerMap.exact.label" default="Exact matches only" />
-                        <g:checkBox name="exact" value="${providerMapInstance?.exact}" />
                     </label>
+                    <td valign="top" class="value  col-md-6">
+                        <g:checkBox name="exact" value="${providerMapInstance?.exact}" />
+                    </td>
                 </td>
             </tr>
 
-            <tr class="prop">
-                <td valign="top"  class="name" colspan="2">
-                    <label for="matchAnyCollectionCode" class="checkbox"><g:message code="providerMap.matchAnyCollectionCode.label" default="Match Any Collection Code" />
-                    <g:checkBox name="matchAnyCollectionCode" value="${providerMapInstance?.matchAnyCollectionCode}" />
+            <tr class="prop form-group">
+                <td valign="top"  class="name col-md-1" >
+                    <label for="matchAnyCollectionCode" class="checkbox">
+                        <g:message code="providerMap.matchAnyCollectionCode.label" default="Match Any Collection Code" />
                     </label>
+                    <td valign="top" class="value  col-md-6">
+                        <g:checkBox name="matchAnyCollectionCode" value="${providerMapInstance?.matchAnyCollectionCode}" />
+                    </td>
                 </td>
             </tr>
             </tbody>
@@ -89,12 +97,12 @@
     <br/>
     <div class="buttons">
         <g:if test="${!providerMapInstance.dateCreated}">
-            <span class="button"><g:submitButton name="create" class="save btn" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+            <span class="button"><g:submitButton name="create" class="save btn btn-default" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
         </g:if>
         <g:else>
         <div class="buttons">
-            <span class="button"><g:actionSubmit class="save btn" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-            <span class="button"><g:actionSubmit class="delete btn" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+            <span class="button"><g:actionSubmit class="save btn btn-default" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
+            <span class="button"><g:actionSubmit class="delete btn btn-default" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
         </div>
         </g:else>
 

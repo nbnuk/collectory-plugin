@@ -28,53 +28,55 @@
             <g:form method="post" name="baseForm" action="base">
                 <g:hiddenField name="id" value="${command?.id}" />
                 <g:hiddenField name="version" value="${command.version}" />
-                <div class="span12">
+                <div class="col-md-12">
                     <table>
                         <tbody>
-                          <tr class="prop">
-                              <td valign="top" class="name span2">
+                          <tr class="prop form-group">
+                              <td valign="top" class="name col-md-2">
                                 <label for="guid"><g:message code="collection.guid.label" default="Guid" /></label>
                               </td>
-                              <td valign="top" class="value ${hasErrors(bean: command, field: 'guid', 'errors')}">
-                                <g:textField name="guid" maxlength="100" value="${command?.guid}" class="input-xxlarge"/>
+                              <td valign="top" class="value ${hasErrors(bean: command, field: 'guid', 'errors')} col-md-10">
+                                <g:textField name="guid" maxlength="100" value="${command?.guid}" class="form-control"/>
                                 <cl:helpText code="${entityNameLower}.guid"/>
                               </td>
                               <cl:helpTD/>
                           </tr>
 
-                          <tr class="prop">
-                              <td valign="top" class="name">
+                          <tr class="prop form-group">
+                              <td valign="top" class="name col-md-2">
                                 <label for="name"><g:message code="collection.name.label" default="Name" />
                                   <br/><span class=hint>* required field</span>
                                 </label>
                               </td>
-                              <td id="previous" valign="top" class="value ${hasErrors(bean: command, field: 'name', 'errors')}">
-                                <g:textField name="name" class="input-xxlarge" value="${command?.name}"/>
+                              <td id="previous" valign="top" class="value ${hasErrors(bean: command, field: 'name', 'errors')} col-md-10">
+                                <g:textField name="name" class="form-control" value="${command?.name}"/>
                                 <cl:helpText code="${entityNameLower}.name"/>
                               </td>
                             <cl:helpTD/>
                           </tr>
 
-                          <tr class="prop">
-                              <td valign="top" class="name">
+                          <tr class="prop form-group">
+                              <td valign="top" class="name col-md-2">
                                 <label for="acronym"><g:message code="collection.acronym.label" default="Acronym" /></label>
                               </td>
-                              <td valign="top" class="value ${hasErrors(bean: command, field: 'acronym', 'errors')}">
-                                  <g:textField name="acronym" maxlength="45" value="${command?.acronym}" class="input-xlarge"/>
-                                  <cl:helpText code="providerGroup.acronym"/>
+                              <td valign="top" class="value ${hasErrors(bean: command, field: 'acronym', 'errors')} col-md-10">
+                                  <div class="col-md-3 remove-padding">
+                                    <g:textField name="acronym" maxlength="45" value="${command?.acronym}" class="form-control"/>
+                                    <cl:helpText code="providerGroup.acronym"/>
+                                  </div>
                               </td>
                             <cl:helpTD/>
                           </tr>
 
                         <g:if test="${command.ENTITY_TYPE == 'DataResource'}">
-                            <tr class="prop">
-                                <td valign="top" class="name">
+                            <tr class="prop form-group">
+                                <td valign="top" class="name col-md-2">
                                   <label for="resourceType"><g:message code="collection.resourceType.label" default="Resource type" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: command, field: 'resourceType', 'errors')}">
+                                <td valign="top" class="value ${hasErrors(bean: command, field: 'resourceType', 'errors')} col-md-10">
                                     <g:select name="resourceType"
                                             from="${DataResource.resourceTypeList}"
-                                            value="${command.resourceType}" class="input-xlarge"/>
+                                            value="${command.resourceType}" class="form-control"/>
                                     <cl:helpText code="providerGroup.resourceType"/>
                                     <cl:helpTD/>
                                 </td>
@@ -83,16 +85,16 @@
 
                         <g:if test="${command.ENTITY_TYPE == 'Collection'}">
                           <!-- institution -->
-                          <tr class="prop">
-                            <td valign="top" class="name">
+                          <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="institution.id"><g:message code="collection.institution.label" default="Institution"/></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'institution', 'errors')}">
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'institution', 'errors')} col-md-10">
                               <g:select name="institution.id"
                                     from="${Institution.list([sort:'name'])}"
                                     optionKey="id"
                                     noSelection="${['null':'Select an institution']}"
-                                    value="${command.institution?.id}" class="input-xlarge"/>
+                                    value="${command.institution?.id}" class="form-control"/>
                               <cl:helpText code="collection.institution"/>
                               <cl:helpTD/>
                             </td>
@@ -101,32 +103,33 @@
 
                         <g:if test="${command.ENTITY_TYPE == 'DataResource'}">
                           <!-- data provider -->
-                          <tr class="prop">
-                            <td valign="top" class="name">
+                          <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="dataProvider.id"><g:message code="dataResource.dataProvider.label" default="Data provider"/></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'dataProvider', 'errors')}">
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'dataProvider', 'errors')} col-md-10">
                               <g:select name="dataProvider.id"
                                       from="${DataProvider.list([sort:'name'])}"
                                       optionKey="id"
                                       noSelection="${['null':'Select a data provider']}"
-                                      value="${command.dataProvider?.id}" class="input-xlarge"/>
+                                      value="${command.dataProvider?.id}" class="form-control"/>
                               <cl:helpText code="dataResource.dataProvider"/>
                               <cl:helpTD/>
                             </td>
                           </tr>
 
                           <!-- institution -->
-                          <tr class="prop">
-                            <td valign="top" class="name">
+                          <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="institution.id"><g:message code="institution.dataProvider.label" default="Institution"/></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'institution', 'errors')}">
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'institution', 'errors')} col-md-10">
                               <g:select name="institution.id"
                                       from="${Institution.list([sort:'name'])}"
                                       optionKey="id"
                                       noSelection="${['null':'Select an institution']}"
-                                      value="${command.institution?.id}"/>
+                                      value="${command.institution?.id}"
+                                      class="form-control"/>
                               <cl:helpText code="dataResource.institution"/>
                               <cl:helpTD/>
                             </td>
@@ -135,49 +138,51 @@
 
                         <!-- ALA partner -->
                         <cl:ifGranted role="${ProviderGroup.ROLE_ADMIN}">
-                          <tr class="prop">
-                              <td valign="top" class="name">
+                          <tr class="prop form-group">
+                              <td valign="top" class="name col-md-2">
                                 <label for="isALAPartner">
                                     <g:message code="providerGroup.isALAPartner.label" default="=Is Atlas Partner" />
                                 </label>
                               </td>
-                              <td valign="top" class="value ${hasErrors(bean: command, field: 'isALAPartner', 'errors')}">
-                                  <g:checkBox name="isALAPartner" value="${command?.isALAPartner}" />
+                              <td valign="top" class="value ${hasErrors(bean: command, field: 'isALAPartner', 'errors')} col-md-10">
+                                  <g:checkBox name="isALAPartner" value="${command?.isALAPartner}" class="checkbox" />
                               </td>
                           </tr>
                         </cl:ifGranted>
 
                         <!-- network membership -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="networkMembership"><g:message code="providerGroup.networkMembership.label" default="Belongs to" /></label>
                             </td>
-                            <td valign="top" class="checkbox ${hasErrors(bean: command, field: 'networkMembership', 'errors')}">
-                                <cl:checkboxSelect name="networkMembership" from="${ProviderGroup.networkTypes}" value="${command?.networkMembership}" multiple="yes" valueMessagePrefix="providerGroup.networkMembership" noSelection="['': '']" />
-                                <cl:helpText code="providerGroup.networkMembership"/>
-                                <cl:helpTD/>
-                            </td>
+
+                                <td valign="top" class="checkbox ${hasErrors(bean: command, field: 'networkMembership', 'errors')} col-md-10 ">
+                                    <div class="col-md-1"></div>
+                                    <cl:checkboxSelect class="checkbox" name="networkMembership" from="${ProviderGroup.networkTypes}" value="${command?.networkMembership}" multiple="yes" valueMessagePrefix="providerGroup.networkMembership" noSelection="['': '']" />
+                                    <cl:helpText code="providerGroup.networkMembership"/>
+                                    <cl:helpTD/>
+                                </td>
                         </tr>
 
                         <!-- web site url -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="websiteUrl"><g:message code="providerGroup.websiteUrl.label" default="Website Url" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'websiteUrl', 'errors')}">
-                                <g:textField name="websiteUrl" class="input-xxlarge" value="${command?.websiteUrl}" />
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'websiteUrl', 'errors')} col-md-10">
+                                <g:textField name="websiteUrl" class="form-control" value="${command?.websiteUrl}" />
                                 <cl:helpText code="providerGroup.websiteUrl"/>
                                 <cl:helpTD/>
                             </td>
                         </tr>
 
                         <!-- notes -->
-                        <tr class="prop">
-                            <td valign="top" class="name">
+                        <tr class="prop form-group">
+                            <td valign="top" class="name col-md-2">
                               <label for="notes"><g:message code="providerGroup.notes.label" default="Notes" /></label>
                             </td>
-                            <td valign="top" class="value ${hasErrors(bean: command, field: 'notes', 'errors')}">
-                                <g:textArea name="notes" cols="40" class="input-xxlarge" rows="${cl.textAreaHeight(text:command.notes)}" value="${command?.notes}" />
+                            <td valign="top" class="value ${hasErrors(bean: command, field: 'notes', 'errors')} col-md-10">
+                                <g:textArea name="notes" cols="40" class="form-control" rows="${cl.textAreaHeight(text:command.notes)}" value="${command?.notes}" />
                                 <cl:helpText code="collection.notes"/>
                               </td>
                               <cl:helpTD/>
@@ -188,8 +193,8 @@
                 </div>
 
                 <div class="buttons">
-                    <span class="button"><input type="submit" name="_action_updateBase" value="Update" class="save btn"></span>
-                    <span class="button"><input type="submit" name="_action_cancel" value="Cancel" class="cancel btn"></span>
+                    <span class="button"><input type="submit" name="_action_updateBase" value="Update" class="save btn btn-default"></span>
+                    <span class="button"><input type="submit" name="_action_cancel" value="Cancel" class="cancel btn btn-default"></span>
                 </div>
             </g:form>
         </div>

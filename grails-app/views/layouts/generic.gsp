@@ -90,27 +90,29 @@
 </head>
 <body class="${pageProperty(name:'body.class')?:'nav-collections'}" id="${pageProperty(name:'body.id')}" onload="${pageProperty(name:'body.onload')}">
 
-    <div class="navbar navbar-inverse navbar-static-top">
-        <div class="navbar-inner ">
+    <div class="navbar  navbar-inverse  navbar-static-top navbar-default">
+        <div class="container">
             <div class="container">
-                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <button type="button" class="btn navbar-btn btn-default navbar-toggle " data-toggle="collapse" data-target=".nav-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="brand" href="#">${orgNameLong}</a>
-                <div class="nav-collapse collapse">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">${orgNameLong}</a>
+                </div>
+                <div class="navbar-collapse collapse">
                     <p class="navbar-text pull-right">
                         %{--Logged in as <a href="#" class="navbar-link">Fred Bare</a>--}%
                     </p>
-                    <ul class="nav">
+                    <ul class="nav navbar-nav">
                         <li class="active"><a href="#">Home</a></li>
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
-        </div><!--/.navbar-inner -->
+        </div>
     </div><!--/.navbar -->
 
     <div class="container" id="main-content">
@@ -119,7 +121,7 @@
 
     <div id="footer">
         <div class="container-fluid">
-            <div class="row-fluid">
+            <div class="row">
                 <a href="http://creativecommons.org/licenses/by/3.0/au/" title="External link to Creative Commons"><img src="http://i.creativecommons.org/l/by/3.0/88x31.png" width="88" height="31" alt=""></a>
                 This site is licensed under a <a href="http://creativecommons.org/licenses/by/3.0/au/" title="External link to Creative Commons" class="external">Creative Commons Attribution 3.0 Australia License</a>.
             Provider content may be covered by other <a href="#terms-of-use" title="Terms of Use">Terms of Use</a>.

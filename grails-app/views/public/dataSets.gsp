@@ -44,8 +44,8 @@
           </div>
       </noscript>
 
-      <div class="collectory-content row-fluid">
-          <div id="sidebarBoxXXX" class="span3 facets well well-small">
+      <div class="collectory-content row">
+          <div id="sidebarBoxXXX" class="col-md-3 facets well well-small">
             <div class="sidebar-header">
               <h3><g:message code="public.datasets.sidebar.header" /></h3>
             </div>
@@ -57,9 +57,9 @@
             </div>
           </div>
 
-          <div id="data-set-list" class="span9">
+          <div id="data-set-list" class="col-md-9">
             <div class="well">
-                <div class="row-fluid">
+                <div class="row">
                       <div class="pull-left">
                           <span id="resultsReturned"><g:message code="public.datasets.resultsreturned.message01" /> <strong></strong>&nbsp;<g:message code="public.datasets.resultsreturned.message02" />.</span>
                           <div class="input-append">
@@ -77,16 +77,16 @@
                 </div>
                 <hr/>
                 <div id="searchControls">
-                  <div id="sortWidgets" class="row-fluid">
-                      <div class="span4">
+                  <div id="sortWidgets" class="row">
+                      <div class="col-md-4">
                           <label for="per-page"><g:message code="public.datasets.sortwidgets.rpp" /></label>
                           <g:select id="per-page" name="per-page" from="${[10,20,50,100,500]}" value="${pageSize ?: 20}"/>
                       </div>
-                      <div class="span4">
+                      <div class="col-md-4">
                           <label for="sort"><g:message code="public.datasets.sortwidgets.sb" /></label>
                           <g:select id="sort" name="sort" from="${['name','type','license']}"/>
                       </div>
-                      <div class="span4">
+                      <div class="col-md-4">
                           <label for="dir"><g:message code="public.datasets.sortwidgets.so" /></label>
                           <g:select id="dir" name="dir" from="${['ascending','descending']}"/>
                       </div>

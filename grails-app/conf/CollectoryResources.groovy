@@ -73,9 +73,10 @@ modules = {
         resource url:[dir:'css', file:'bootstrap-fileupload.min.css', plugin:'collectory-plugin']
     }
     collectory {
-        dependsOn 'jquery_ui_custom,smoothness,jquery_i18n,jquery_json,jquery_tools,jquery_jsonp,fancybox,openlayers,map'
+        dependsOn 'jquery_ui_custom,smoothness,jquery_i18n,jquery_json,jquery_tools,jquery_jsonp,fancybox,openlayers,map, bootstrap'
         resource url:[dir:'js', file:'collectory.js', plugin:'collectory-plugin']
         resource url:[dir:'css', file:'temp-style.css', plugin:'collectory-plugin']
+//        resource url:[dir:'css', file:'main.css', plugin:'collectory-plugin']
     }
     charts {
         resource url:[dir:'js', file:'charts2.js', plugin:'collectory-plugin']
@@ -85,5 +86,10 @@ modules = {
         // Needed to support legacy js components that do not work with latest versions of jQuery
         dependsOn 'jquery'
         resource url:[ dir: 'js',file:'jquery-migrate-1.2.1.min.js', plugin:'collectory-plugin']
+    }
+    bootstrap {
+        dependsOn 'jquery'
+        resource url: [dir: 'bootstrap3/js', file: 'bootstrap.js', plugin:'collectory-plugin'], disposition: 'head', exclude: '*'
+        resource url: [dir: 'bootstrap3/css', file: 'bootstrap.min.css', plugin:'collectory-plugin'], attrs: [media: 'screen, projection, print']
     }
 }
