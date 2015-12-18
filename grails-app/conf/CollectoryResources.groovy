@@ -91,5 +91,6 @@ modules = {
         dependsOn 'jquery'
         resource url: [dir: 'bootstrap3/js', file: 'bootstrap.js', plugin:'collectory-plugin'], disposition: 'head', exclude: '*'
         resource url: [dir: 'bootstrap3/css', file: 'bootstrap.min.css', plugin:'collectory-plugin'], attrs: [media: 'screen, projection, print']
+        resource url: [dir: 'bootstrap3/css', file: 'bootstrap-theme.css', plugin:'collectory-plugin'], attrs: [media: 'screen, projection, print']
     }
 }

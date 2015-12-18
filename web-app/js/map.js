@@ -62,10 +62,10 @@ function initMap(mapOptions) {
     // serverUrl is the base url for the site eg http://collections.ala.org.au in production
     // cannot use relative url as the context path varies with environment
     baseUrl = mapOptions.serverUrl;
-    featuresUrl = mapOptions.serverUrl + "/public/mapFeatures";
+    featuresUrl = mapOptions.serverUrl + "/collectory/public/mapFeatures";
 
-    var featureGraphicUrl = mapOptions.serverUrl + "/images/map/orange-dot.png";
-    var clusterGraphicUrl = mapOptions.serverUrl + "/images/map/orange-dot-multiple.png";
+    var featureGraphicUrl = mapOptions.serverUrl + "/collectory/images/map/orange-dot.png";
+    var clusterGraphicUrl = mapOptions.serverUrl + "/collectory/images/map/orange-dot-multiple.png";
 
     // create the map
     map = new OpenLayers.Map('map_canvas', {
@@ -167,6 +167,7 @@ function initMap(mapOptions) {
 *   load features via ajax call
 \************************************************************/
 function reloadData() {
+    console.log('plop2');
     if (altMap) {
         $.get(featuresUrl, {filters: 'all'}, dataRequestHandler);
     } else {
@@ -180,7 +181,7 @@ function reloadData() {
 function dataRequestHandler(data) {
     // clear existing
     vectors.destroyFeatures();
-
+    console.log('plop3');
     // parse returned json
     var features = new OpenLayers.Format.GeoJSON(proj_options).read(data);
 
@@ -937,7 +938,10 @@ function toggleButton(button) {
 
     // reloadData
     var filters = button.id;
+    console.log(filters);
     if (filters == 'fauna') {filters = 'fauna,entomology'}
+    console.log(featuresUrl);
+    console.log(dataRequestHandler);
     $.get(featuresUrl, {filters: filters}, dataRequestHandler);
     
 }

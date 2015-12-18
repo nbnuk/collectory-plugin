@@ -89,7 +89,6 @@
     <g:layoutHead />
 </head>
 <body class="${pageProperty(name:'body.class')?:'nav-collections'}" id="${pageProperty(name:'body.id')}" onload="${pageProperty(name:'body.onload')}">
-
     <div class="navbar  navbar-inverse  navbar-static-top navbar-default">
         <div class="container">
             <div class="container">

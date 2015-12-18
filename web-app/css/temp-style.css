@@ -64,7 +64,7 @@ div > div#map-container {
 .filter-buttons a {
     /*margin:0 15px 10px 0;*/
     padding: 4px 10px 3px 10px;
-    height: 60px;
+    height: 69px;
     display:block;
     overflow:hidden;
     border:1px solid #ccc;
@@ -282,3 +282,20 @@ ul.facets {
 #adminNavMenu { margin-top:10px; }
 
 .entityLogo { margin-bottom: 10px; }
+
+
+/****************************************\
+* Modification made for bootstrap upgrade
+\****************************************/
+
+.mainForm{
+    margin-bottom: 20px;
+}
+
+.input-text{
+    margin-bottom: 10px;
+}
+
+.remove-padding{
+    padding: 0;
+}
