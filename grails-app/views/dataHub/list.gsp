@@ -19,7 +19,7 @@
             <div class="message">${flash.message}</div>
             </g:if>
 
-            <div class="list">
+            <div class="list table-responsive">
                 <table class="table table-striped table-bordered">
                   <colgroup><col width="45%"/><col width="7%"/><col width="10%"/><col width="3%"/><col width="35%"/></colgroup>
                     <thead>

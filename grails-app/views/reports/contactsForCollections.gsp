@@ -16,7 +16,7 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div class="dialog">
+            <div class="dialog table-responsive">
               <table class="table table-striped table-bordered">
                 <colgroup><col width="45%"/><col width="5%"/><col width="23%"/><col width="27%"/></colgroup>
                 <g:each var="cfc" in="${contacts}">

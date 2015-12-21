@@ -31,23 +31,25 @@
                     <g:link controller="reports" action="collections" params="[simple:'true']"><g:message code="reports.collections.des05" />.</g:link></p>
                 </g:else>
 
-              <table class="table table-striped table-bordered">
-                <g:if test="${simple != 'true'}">
-                    <colgroup><col width="60%"/><col width="20%"/><col width="10%"/><col width="10%"/></colgroup>
-                </g:if>
-
-                <g:each var='c' in="${collections}" status="i">
-                  <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                    <td>${c.name}</td>
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered">
                     <g:if test="${simple != 'true'}">
-                        <td>${c.acronym}</td>
-                        <td><g:link controller="public" action="show" id="${c.uid}"><g:message code="reports.collections.view" /></g:link></td>
-                        <td><g:link controller="collection" action="show" id="${c.uid}"><g:message code="reports.collections.edit" /></g:link></td>
+                        <colgroup><col width="60%"/><col width="20%"/><col width="10%"/><col width="10%"/></colgroup>
                     </g:if>
-                  </tr>
-                </g:each>
 
-              </table>
+                    <g:each var='c' in="${collections}" status="i">
+                      <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+                        <td>${c.name}</td>
+                        <g:if test="${simple != 'true'}">
+                            <td>${c.acronym}</td>
+                            <td><g:link controller="public" action="show" id="${c.uid}"><g:message code="reports.collections.view" /></g:link></td>
+                            <td><g:link controller="collection" action="show" id="${c.uid}"><g:message code="reports.collections.edit" /></g:link></td>
+                        </g:if>
+                      </tr>
+                    </g:each>
+
+                  </table>
+                </div>
             </div>
         </div>
     </body>

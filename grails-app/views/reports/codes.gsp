@@ -18,15 +18,17 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="dialog">
-              <table class="table table-striped table-bordered">
-                <colgroup><col width="40%"/><col width="10%"/><col width="50%"/></colgroup>
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered">
+                    <colgroup><col width="40%"/><col width="10%"/><col width="50%"/></colgroup>
 
-                <tr class="reportGroupTitle"><td><g:message code="reports.codes.td01" /></td><td colspan="2">${Collection.count()} <g:message code="reports.codes.td02" />.</td></tr>
-                <g:each var='c' in="${codeSummaries}">
-                  <tr><td><g:link controller="public" action="show" id="${c.uid}" fragment="statistics">${c.name}</g:link></td><td>${c.derivedInstCodes.join(',')}</td><td>${c.derivedCollCodes.join(',')}</td></tr>
-                </g:each>
+                    <tr class="reportGroupTitle"><td><g:message code="reports.codes.td01" /></td><td colspan="2">${Collection.count()} <g:message code="reports.codes.td02" />.</td></tr>
+                    <g:each var='c' in="${codeSummaries}">
+                      <tr><td><g:link controller="public" action="show" id="${c.uid}" fragment="statistics">${c.name}</g:link></td><td>${c.derivedInstCodes.join(',')}</td><td>${c.derivedCollCodes.join(',')}</td></tr>
+                    </g:each>
 
-              </table>
+                  </table>
+                </div>
             </div>
         </div>
     </body>

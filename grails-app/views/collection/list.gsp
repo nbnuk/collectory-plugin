@@ -20,9 +20,9 @@
             </div></h1>
             <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
             <g:if test="${message}"><div class="message">${message}</div></g:if>
-            <div class="list">
+            <div class="list table-responsive">
                 <table class="table table-striped table-bordered">
-                  <colgroup><col width="45%"/><col width="10%"/><col width="35%"/><col width="10%"/></colgroup>
+                  %{--<colgroup><col width="45%"/><col width="10%"/><col width="35%"/><col width="10%"/></colgroup>--}%
                     <thead>
                         <tr>
                             <g:sortableColumn property="name" title="${message(code: 'collection.name.label', default: 'Name')}" params="${params}"/>

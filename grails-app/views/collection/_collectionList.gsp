@@ -1,5 +1,5 @@
 <%@ page import="au.org.ala.collectory.ProviderGroup" %>
-<div class="list">
+<div class="list table-responsive">
 
     <g:if test="${collectionInstanceList}">
     <table class="table table-striped table-bordered">

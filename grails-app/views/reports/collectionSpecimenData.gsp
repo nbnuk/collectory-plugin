@@ -18,22 +18,24 @@
             </g:if>
             <div class="dialog">
               <h4>${statistics.size()} <g:message code="reports.csd.title02" />.</h4>
-              <table class="table table-striped table-bordered">
-                <colgroup><col width="40%"/><col width="20%"/><col width="20%"/><col width="20%"/></colgroup>
-                <thead>
-                  <th><g:message code="reports.csd.th.collection" /></th><th><g:message code="reports.csd.th.records" /></th><th><g:message code="reports.csd.th.digitised" /></th><th><g:message code="reports.csd.th.inatlas" /></th>
-                </thead>
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered">
+                    <colgroup><col width="40%"/><col width="20%"/><col width="20%"/><col width="20%"/></colgroup>
+                    <thead>
+                      <th><g:message code="reports.csd.th.collection" /></th><th><g:message code="reports.csd.th.records" /></th><th><g:message code="reports.csd.th.digitised" /></th><th><g:message code="reports.csd.th.inatlas" /></th>
+                    </thead>
 
-                <g:each var='m' in="${statistics}">
-                  <tr>
-                    <td><g:link controller="public" action="show" id="${m.uid}">${m.name}</g:link></td>
-                    <td>${m.numRecords > 0 ? m.numRecords : '-'}</td>
-                    <td>${m.numRecordsDigitised > 0 ? m.numRecordsDigitised : '-'}</td>
-                    <td>${m.numBiocacheRecords > 0 ? m.numBiocacheRecords : '-'}</td>
-                  </tr>
-                </g:each>
+                    <g:each var='m' in="${statistics}">
+                      <tr>
+                        <td><g:link controller="public" action="show" id="${m.uid}">${m.name}</g:link></td>
+                        <td>${m.numRecords > 0 ? m.numRecords : '-'}</td>
+                        <td>${m.numRecordsDigitised > 0 ? m.numRecordsDigitised : '-'}</td>
+                        <td>${m.numBiocacheRecords > 0 ? m.numBiocacheRecords : '-'}</td>
+                      </tr>
+                    </g:each>
 
-              </table>
+                  </table>
+                </div>
             </div>
         </div>
     </body>

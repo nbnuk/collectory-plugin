@@ -46,42 +46,44 @@
                   </g:form>
               </div>
               <br/>
-              <table class="table table-striped table-bordered">
-                <colgroup><col width="23%"/><col width="25%"/><col width="12%"/><col width="40%"/></colgroup>
-                <tr class="reportHeaderRow"><td><g:message code="reports.changes.when" /></td><td><g:message code="reports.changes.who" /></td><td><g:message code="reports.changes.did" /></td><td><g:message code="reports.changes.what" /></td></tr>
-                <g:each var='ch' in="${changes}">
-                  <tr>
-                    <td><g:link controller="auditLogEvent" action="show" id="${ch.id}">${ch.lastUpdated}</g:link></td>
-                    <td><g:link controller="auditLogEvent" action="show" id="${ch.id}"><cl:boldNameInEmail name="${ch.actor}"/></g:link></td>
-                    <td><g:link controller="auditLogEvent" action="show" id="${ch.id}"><cl:changeEventName event="${ch.eventName}"/></g:link></td>
-                    <td>
-                      <g:link controller="auditLogEvent" action="show" id="${ch.id}">
-                        <g:if test="${ch.eventName == 'UPDATE'}"><b>${ch.propertyName}</b> in</g:if>
-                        <cl:shortClassName className="${ch.className}"/><b>
-                      </g:link>
-                      <g:if test="${ch.uri}">
-                        <!-- handle uids -->
-                        <g:if test="${ch.eventName=='DELETE' && !ch.className.endsWith('ContactFor')}">
-                          ${ch.uri}
-                        </g:if>
-                        <g:else>
-                          <g:link controller="${cl.controllerFromUid(uid:ch.uri)}" action="show" id="${ch.uri}">${ch.uri}</g:link>
-                        </g:else>
-                      </g:if>
-                      <g:else>
-                        <!-- handle db ids -->
-                        <g:if test="${ch.eventName=='DELETE'}">
-                          ${ch.persistedObjectId}
-                        </g:if>
-                        <g:else>
-                          <g:link controller="${cl.controllerFromClassName(className:ch.className)}" action="show" id="${ch.persistedObjectId}">${ch.persistedObjectId}</g:link>
-                        </g:else>
-                      </g:else>
-                      </b>
-                    </td>
-                  </tr>
-                </g:each>
-              </table>
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered">
+                    <colgroup><col width="23%"/><col width="25%"/><col width="12%"/><col width="40%"/></colgroup>
+                    <tr class="reportHeaderRow"><td><g:message code="reports.changes.when" /></td><td><g:message code="reports.changes.who" /></td><td><g:message code="reports.changes.did" /></td><td><g:message code="reports.changes.what" /></td></tr>
+                    <g:each var='ch' in="${changes}">
+                      <tr>
+                        <td><g:link controller="auditLogEvent" action="show" id="${ch.id}">${ch.lastUpdated}</g:link></td>
+                        <td><g:link controller="auditLogEvent" action="show" id="${ch.id}"><cl:boldNameInEmail name="${ch.actor}"/></g:link></td>
+                        <td><g:link controller="auditLogEvent" action="show" id="${ch.id}"><cl:changeEventName event="${ch.eventName}"/></g:link></td>
+                        <td>
+                          <g:link controller="auditLogEvent" action="show" id="${ch.id}">
+                            <g:if test="${ch.eventName == 'UPDATE'}"><b>${ch.propertyName}</b> in</g:if>
+                            <cl:shortClassName className="${ch.className}"/><b>
+                          </g:link>
+                          <g:if test="${ch.uri}">
+                            <!-- handle uids -->
+                            <g:if test="${ch.eventName=='DELETE' && !ch.className.endsWith('ContactFor')}">
+                              ${ch.uri}
+                            </g:if>
+                            <g:else>
+                              <g:link controller="${cl.controllerFromUid(uid:ch.uri)}" action="show" id="${ch.uri}">${ch.uri}</g:link>
+                            </g:else>
+                          </g:if>
+                          <g:else>
+                            <!-- handle db ids -->
+                            <g:if test="${ch.eventName=='DELETE'}">
+                              ${ch.persistedObjectId}
+                            </g:if>
+                            <g:else>
+                              <g:link controller="${cl.controllerFromClassName(className:ch.className)}" action="show" id="${ch.persistedObjectId}">${ch.persistedObjectId}</g:link>
+                            </g:else>
+                          </g:else>
+                          </b>
+                        </td>
+                      </tr>
+                    </g:each>
+                  </table>
+                </div>
             </div>
         </div>
     </body>

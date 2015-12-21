@@ -18,7 +18,7 @@
         <div class="message">${flash.message}</div>
     </g:if>
 
-    <div class="drs">
+    <div class="drs table-responsive">
         <table class="table table-striped table-bordered">
             <colgroup><col width="53%"/><col width="7%"/><col width="40%"/></colgroup>
             <tr class="reportGroupTitle"><td><g:message code="reports.resources.tr0101" /> (${DataResource.count()})</td><td><g:message code="reports.providers" /></td><td><g:message code="reports.resources.tr0103" /></td></tr>

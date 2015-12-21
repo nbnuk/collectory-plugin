@@ -17,38 +17,42 @@
             <p><g:message code="reports.dc.des01" />.</p>
             <h2><g:message code="reports.dc.title02" /></h2>
             <p><g:message code="reports.dc.des02" />:</p>
-            <table class="separate-rows">
-                <col width="35%"><col width="65%">
-                <g:each in="${dupEmails}" var="de">
-                    <tr>
-                        <td>${de.email}</td>
-                        <td>
-                            <g:each in="${de.contacts}" var="c">
-                                ${c.firstName} ${c.lastName} - (id=${c.id})
-                                    <g:link controller="contact" action="show" id="${c.id}">View</g:link>
-                                <br/>
-                            </g:each>
-                        </td>
-                    </tr>
-                </g:each>
-            </table>
+            <div class="table-responsive">
+                <table class="separate-rows">
+                    <col width="35%"><col width="65%">
+                    <g:each in="${dupEmails}" var="de">
+                        <tr>
+                            <td>${de.email}</td>
+                            <td>
+                                <g:each in="${de.contacts}" var="c">
+                                    ${c.firstName} ${c.lastName} - (id=${c.id})
+                                        <g:link controller="contact" action="show" id="${c.id}">View</g:link>
+                                    <br/>
+                                </g:each>
+                            </td>
+                        </tr>
+                    </g:each>
+                </table>
+            </div>
             <h2><g:message code="reports.dc.title03" /></h2>
             <p><g:message code="reports.dc.des03" />:</p>
-            <table class="separate-rows">
-                <col width="35%"><col width="65%">
-                <g:each in="${dupNames}" var="dn">
-                    <tr>
-                        <td>${dn.firstName} ${dn.lastName}</td>
-                        <td>
-                            <g:each in="${dn.contacts}" var="c">
-                                ${c.email} - (id=${c.id})
-                                    <g:link controller="contact" action="show" id="${c.id}">View</g:link>
-                                <br/>
-                            </g:each>
-                        </td>
-                    </tr>
-                </g:each>
-            </table>
+            <div class="table-responsive">
+                <table class="separate-rows">
+                    <col width="35%"><col width="65%">
+                    <g:each in="${dupNames}" var="dn">
+                        <tr>
+                            <td>${dn.firstName} ${dn.lastName}</td>
+                            <td>
+                                <g:each in="${dn.contacts}" var="c">
+                                    ${c.email} - (id=${c.id})
+                                        <g:link controller="contact" action="show" id="${c.id}">View</g:link>
+                                    <br/>
+                                </g:each>
+                            </td>
+                        </tr>
+                    </g:each>
+                </table>
+            </div>
         </div>
     </body>
 </html>

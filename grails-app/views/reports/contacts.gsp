@@ -18,7 +18,7 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="dialog">
-              <div id="full">
+              <div id="full" class="table-responsive">
                 <table class="table table-striped table-bordered">
                   <colgroup><col width="80%"/><col width="10%"/><col width="10%"/></colgroup>
                   <tr><td><g:message code="reports.contacts.full.tr01" />.</td>
@@ -35,7 +35,7 @@
                   </g:each>
                 </table>
               </div>
-              <div id="names-only" style="display:none;">
+              <div id="names-only" style="display:none;" class="table-responsive">
                 <table>
                   <colgroup><col width="80%"/><col width="10%"/><col width="10%"/></colgroup>
                   <tr><td><g:message code="reports.contacts.namesonly.table0101" /></td>

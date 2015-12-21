@@ -1,5 +1,5 @@
 <%@ page import="au.org.ala.collectory.ProviderGroup" %>
-<div class="list">
+<div class="list table-responsive">
     <table class="table table-striped table-bordered">
       <colgroup>
         <g:if test="${showALAPartner == 'true'}">

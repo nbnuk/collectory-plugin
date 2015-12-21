@@ -22,7 +22,7 @@
     <div class="dialog">
       <p><g:message code="shared.sc.des01" />.</p>
       <g:each in="${changes}" var="ch">
-        <div>
+        <div class="table-responsive">
           <g:if test="${ch.eventName == 'UPDATE'}">
             <p class="relatedFollows"><g:message code="shared.sc.des02" args="[ch.lastUpdated, ch.actor, ch.propertyName]" /></p>
             <table class="textChanges table table-striped table-bordered">
@@ -36,14 +36,17 @@
           <g:elseif test="${ch.eventName == 'INSERT' && cl.shortClassName(className:ch.className) == 'ContactFor'}">
             <g:set var="cf" value="${ContactFor.get(ch.persistedObjectId)}"/>
             <p class="relatedFollows"><g:message code="shared.sc.des03" args="[ch.lastUpdated, ch.actor]" /></p>
-            <table class="textChanges table table-striped table-bordered">
-              <tr>
-                <td><g:message code="shared.sc.table02.cell0101" />:${ch.persistedObjectId}</td><td>${cf ? cf.contact?.buildName() : 'name missing - may have been deleted'}</td>
-              </tr>
-            </table>
+            <div class="table-responsive">
+              <table class="textChanges table table-striped table-bordered">
+                <tr>
+                  <td><g:message code="shared.sc.table02.cell0101" />:${ch.persistedObjectId}</td><td>${cf ? cf.contact?.buildName() : 'name missing - may have been deleted'}</td>
+                </tr>
+              </table>
+            </div>
           </g:elseif>
           <g:elseif test="${ch.eventName == 'DELETE' && cl.shortClassName(className:ch.className) == 'ContactFor'}">
             <p class="relatedFollows"><g:message code="shared.sc.des04" args="[ch.lastUpdated, ch.actor]" /></p>
+            <div class="table-responsive">
             <table class="textChanges table table-striped table-bordered">
               <tr>
                 <td><g:message code="shared.sc.table03.cell0101" />:${ch.persistedObjectId}</td><td><g:message code="shared.sc.table03.cell0102" /></td>
@@ -52,11 +55,13 @@
           </g:elseif>
           <g:elseif test="${ch.eventName == 'INSERT' && ch.uri == instance.uid}">
             <p class="relatedFollows"><g:message code="shared.sc.des05" args="[ch.lastUpdated, ch.actor]" /> ${entityNameLower}.</p>
+            <div class="table-responsive">
             <table class="textChanges table table-striped table-bordered">
               <tr>
                 <td colspan="2">${instance.name}</td>
               </tr>
             </table>
+            </div>
           </g:elseif>
         </div>
       </g:each>
@@ -64,7 +69,7 @@
     <div class="buttons">
       <g:form>
         <g:hiddenField name="id" value="${instance.id}"/>
-        <span class="button"><g:link class="returnAction btn" controller="${instance.urlForm()}" action='show' id="${instance.uid}">Return to ${instance.name}</g:link></span>
+        <span class="button"><g:link class="returnAction btn btn-default" controller="${instance.urlForm()}" action='show' id="${instance.uid}">Return to ${instance.name}</g:link></span>
       </g:form>
     </div>
 </div>

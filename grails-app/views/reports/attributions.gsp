@@ -18,7 +18,7 @@
             </g:if>
             <p><a href="#institutions"><g:message code="reports.attributions.link01" /></a></p>
 
-            <div class="dialog" id="collections">
+            <div class="dialog table-responsive" id="collections">
                 <table>
                     <tr class="reportGroupTitle"><td><g:message code="reports.attributions.collections.td01" /></td><td>${Collection.count()} <g:message code="reports.attributions.collections.td02" />.</td></tr>
                     <g:each var='c' in="${collAttributions}">
@@ -38,7 +38,7 @@
                 </table>
             </div>
 
-            <div class="dialog" id="institutions">
+            <div class="dialog table-responsive" id="institutions">
                 <table>
                     <tr class="reportGroupTitle"><td><g:message code="reports.attributions.institutions.td01" /></td><td>${Institution.count()} <g:message code="reports.attributions.institutions.td02" />.</td></tr>
                     <g:each var='c' in="${instAttributions}">
