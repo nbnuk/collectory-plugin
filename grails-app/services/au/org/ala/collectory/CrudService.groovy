@@ -12,10 +12,13 @@ import org.codehaus.groovy.grails.web.json.JSONObject
 class CrudService {
 
     static transactional = true
+
+    def grailsApplication
     def idGeneratorService
 
-    static baseStringProperties = ['guid','name','acronym','phone','email','state','pubDescription','techDescription','notes',
-                'isALAPartner','focus','attributions','websiteUrl','networkMembership','altitude',
+    static baseStringProperties = ['guid','name','acronym','phone','email','state','pubShortDescription',
+                                   'pubDescription','techDescription','notes', 'isALAPartner','focus','attributions',
+                                   'websiteUrl','networkMembership','altitude',
                 'street','postBox','postcode','city','state','country','file','caption','attribution','copyright']
     static baseNumberProperties = ['latitude','longitude']
     static baseObjectProperties = ['address', 'imageRef','logoRef']
@@ -86,6 +89,7 @@ class CrudService {
             }
             phone = p.phone
             email = p.email
+            pubShortDescription = p.pubShortDescription
             pubDescription = p.pubDescription
             techDescription = p.techDescription
             focus = p.focus
@@ -124,6 +128,9 @@ class CrudService {
                 if (p.listConsumers()) {
                     linkedRecordConsumers = p.listConsumers().formatEntitiesFromUids()
                 }
+                if (p.externalIdentifiers) {
+                    externalIdentifiers = p.externalIdentifiers.formatExternalIdentifiers()
+                }
                 if (p.hiddenJSON) {
                     hiddenJSON = p.hiddenJSON.formatJSON()
                 }
@@ -156,6 +163,7 @@ class CrudService {
     private void updateDataProviderProperties(DataProvider dp, obj) {
         convertJSONToString(obj, dataProviderJSONArrays)
         dp.properties[dataProviderStringProperties] = obj
+        updateExternalIdentifiers(dp, obj)
     }
 
     /* data hub */
@@ -182,6 +190,7 @@ class CrudService {
             }
             phone = p.phone
             email = p.email
+            pubShortDescription = p.pubShortDescription
             pubDescription = p.pubDescription
             techDescription = p.techDescription
             focus = p.focus
@@ -214,6 +223,9 @@ class CrudService {
                 dateCreated = p.dateCreated
                 lastUpdated = p.lastUpdated
                 userLastModified = p.userLastModified
+                if (p.externalIdentifiers) {
+                    externalIdentifiers = p.externalIdentifiers.formatExternalIdentifiers()
+                }
             }
             // hub specific
             members = p.listMembers()
@@ -247,6 +259,7 @@ class CrudService {
     def updateDataHubProperties(dh, obj){
         dh.properties[dataHubStringProperties] = obj
         dh.properties[dataHubNumberProperties] = obj
+        updateExternalIdentifiers(dh, obj)
     }
 
     /* data resource */
@@ -273,6 +286,7 @@ class CrudService {
             }
             phone = p.phone
             email = p.email
+            pubShortDescription = p.pubShortDescription
             pubDescription = p.pubDescription
             techDescription = p.techDescription
             focus = p.focus
@@ -346,8 +360,11 @@ class CrudService {
                 dataCurrency = p.dataCurrency
                 harvestingNotes = p.harvestingNotes
                 publicArchiveAvailable = p.publicArchiveAvailable
-                publicArchiveUrl = ConfigurationHolder.config.resource.publicArchive.url.template.replaceAll('@UID@',p.uid)
+                publicArchiveUrl = grailsApplication.config.resource.publicArchive.url.template.replaceAll('@UID@',p.uid)
                 downloadLimit = p.downloadLimit
+                if (p.externalIdentifiers) {
+                    externalIdentifiers = p.externalIdentifiers.formatExternalIdentifiers()
+                }
             }
         }
         return result
@@ -374,7 +391,7 @@ class CrudService {
         dr.userLastModified = obj.user ?: 'Data services'
         if (!dr.hasErrors()) {
              dr.save(flush: true)
-        }
+         }
         return dr
     }
 
@@ -405,6 +422,7 @@ class CrudService {
                 dr.institution = ins
             }
         }
+        updateExternalIdentifiers(dr, obj)
     }
 
     /* temp data resource */
@@ -490,6 +508,7 @@ class CrudService {
             }
             phone = p.phone
             email = p.email
+            pubShortDescription = p.pubShortDescription
             pubDescription = p.pubDescription
             techDescription = p.techDescription
             focus = p.focus
@@ -532,6 +551,9 @@ class CrudService {
                 if (p.listProviders()) {
                     linkedRecordProviders = p.listProviders().formatEntitiesFromUids()
                 }
+                if (p.externalIdentifiers) {
+                    externalIdentifiers = p.externalIdentifiers.formatExternalIdentifiers()
+                }
             }
         }
         return result
@@ -560,6 +582,7 @@ class CrudService {
 
     private void updateInstitutionProperties(Institution inst, obj) {
         inst.properties[institutionStringProperties] = obj
+        updateExternalIdentifiers(inst, obj)
     }
 
     /* collection */
@@ -595,6 +618,7 @@ class CrudService {
             }
             phone = p.phone
             email = p.email
+            pubShortDescription = p.pubShortDescription
             pubDescription = p.pubDescription
             techDescription = p.techDescription
             focus = p.focus
@@ -664,6 +688,9 @@ class CrudService {
                 }
                 if (p.listProviders()) {
                     linkedRecordProviders = p.listProviders().formatEntitiesFromUids()
+                }
+                if (p.externalIdentifiers) {
+                    externalIdentifiers = p.externalIdentifiers.formatExternalIdentifiers()
                 }
             }
         }
@@ -761,6 +788,7 @@ class CrudService {
             }
             co.providerMap = pm
         }
+        updateExternalIdentifiers(co, obj)
     }
 
     private void updateBaseProperties(pg, obj) {
@@ -781,6 +809,45 @@ class CrudService {
             }
         }
     }
+
+    /**
+     * Update the list of external identifiers, if supplied.
+     * <p>
+     * Identifiers are merged, based on source and identifier.
+     * Note that this needs to be done <em>after</em> the resource has got a uid.
+     *
+     * @param pg The provider group object
+     * @param obj The new object
+     */
+    private void updateExternalIdentifiers(pg, obj) {
+        if (obj["externalIdentifiers"]) {
+            def update = obj.externalIdentifiers.collect { ext ->
+                def source = ext["source"]
+                def identifier = ext["identifier"]
+                source && identifier ? new ExternalIdentifier(entityUid: pg.uid, source: source, identifier: identifier, uri: ext["uri"]) : null
+            }
+            def existing = pg.externalIdentifiers
+            update.each { ext ->
+                if (ext) {
+                    def old = existing.find { it.same(ext) }
+                    if (old) {
+                        old.uri = ext.uri
+                        existing.remove(old)
+                        old.save(flush: true)
+                        log.debug "Updating old identifier ${old.source} ${old.identifier} ${old.uri}"
+                    } else {
+                        ext.save(flush: true)
+                        log.debug "Adding new identifier ${ext.source} ${ext.identifier} ${ext.uri}"
+                    }
+                }
+            }
+            existing.each { old ->
+                old.delete(flush: true)
+                log.debug "Deleting old identifier ${old.source} ${old.identifier} ${old.uri}"
+            }
+        }
+    }
+
 //
 //    /**
 //     * We don't want to create objects in the target if there is no data for them.
@@ -940,6 +1007,10 @@ class OutputFormat {
             }
         }
         return result
+    }
+
+    static def formatExternalIdentifiers(externalIdentifiers) {
+        return externalIdentifiers.collect { [source: it.source, identifier: it.identifier, uri: it.uri ] }
     }
 
 }

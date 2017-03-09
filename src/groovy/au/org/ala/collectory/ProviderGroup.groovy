@@ -49,7 +49,8 @@ abstract class ProviderGroup implements Serializable {
     String uid                  // ALA assigned identifier for matching across sub-systems
     String name
     String acronym              //
-    //String groupType            // what sort of entity this is - eg institution, collection, project
+    //String groupType          // what sort of entity this is - eg institution, collection, project
+    String pubShortDescription  // public short description
     String pubDescription       // public description
     String techDescription      // technical description
     String focus                //
@@ -87,6 +88,7 @@ abstract class ProviderGroup implements Serializable {
     static mapping = {
         tablePerHierarchy false
         uid index:'uid_idx'
+        pubShortDescription type: "text"
         pubDescription type: "text"
         techDescription type: "text"
         focus type: "text"
@@ -100,6 +102,7 @@ abstract class ProviderGroup implements Serializable {
         uid(blank:false, maxSize:20)
         name(blank:false, maxSize:1024)
         acronym(nullable:true, maxSize:45)
+        pubShortDescription(nullable:true, maxSize:100)
         pubDescription(nullable:true)
         techDescription(nullable:true)
         focus(nullable:true)
@@ -274,6 +277,46 @@ abstract class ProviderGroup implements Serializable {
      */
     void deleteFromContacts(Contact contact) {
         ContactFor.findByEntityUidAndContact(uid, contact)?.delete()
+    }
+
+    /**
+     * Add an external identifier to this object
+     *
+     * @param identifier The identifier
+     * @param source The identifier source (eg. 'GBIF')
+     * @param link A link to the oreiginal source
+     * @return
+     */
+    ExternalIdentifier addExternalIdentifier(String identifier, String source, String link) {
+        ExternalIdentifier ext = new ExternalIdentifier(entityUid: uid, identifier: identifier, source: source, uri: link)
+
+        ext.save(flush: true)
+        if (ext.hasErrors()) {
+            ext.errors.each { println it.toString() }
+        }
+        return ext
+    }
+
+    /**
+     * Get the external identifiers associated with this entity
+     *
+     * @return The external identifiers
+     */
+    List<ExternalIdentifier> getExternalIdentifiers() {
+        if (dbId()) {
+            return ExternalIdentifier.findAllByEntityUid(uid)
+        } else {
+            return []
+        }
+    }
+
+    /**
+     * Remove an external identifier
+     *
+     * @param identifier
+     */
+    void deleteExternalIdentifier(ExternalIdentifier identifier) {
+        ExternalIdentifier.findByEntityUidAndIdentifierAndSource(uid, identifier.identifier, identifier.source)?.delete()
     }
 
     /**
