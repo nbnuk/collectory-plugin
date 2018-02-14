@@ -10,6 +10,7 @@
         <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=${grailsApplication.config.google?.apikey}"
                 type="text/javascript"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     </head>
     <body onload="initializeLocationMap('${instance.canBeMapped()}',${instance.latitude},${instance.longitude});">
     <style>
@@ -100,6 +101,9 @@
                             <g:link class="btn btn-default btn-sm" controller="dataResource" action="markAsVerified" id="${instance.id}">Mark as <strong>verified</strong></g:link>
                     </g:else>
                 </p>
+                <section class="public-metadata">
+                    <h5 id="totalVerifiedRecordCount"></h5>
+                </section>
 
                 <cl:editButton uid="${instance.uid}" page="/shared/base" notAuthorisedMessage="You are not authorised to edit this resource."/>
               </div>
@@ -418,5 +422,20 @@
                 </ul>
             </div>
         </div>
+
+    <r:script type="text/javascript">
+    function onLoadCallback() {
+      // records
+      if (${instance.resourceType == 'records'}) {
+        <g:if test="${grailsApplication.config.verifiedRecordsToCount}">
+            // verification status: count verified records
+            var fqVerified = "${grailsApplication.config.verifiedRecordsToCount}";
+            var queryUrlVerifiedRecs = "${grailsApplication.config.biocacheServicesUrl}" + "/occurrences/search.json?pageSize=0&q=data_resource_uid:${instance.uid}" + "&fq=" + fqVerified;
+            showVerifiedRecordCount(queryUrlVerifiedRecs, "${g.message(code: 'public.show.rt.des08')}");
+        </g:if>
+    }
+  }
+  google.setOnLoadCallback(onLoadCallback);
+    </r:script>
     </body>
 </html>

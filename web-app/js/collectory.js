@@ -257,3 +257,32 @@ function capitalise(item) {
     }
     return item.substring(0, 1).toUpperCase() + item.substring(1, item.length);
 }
+
+function showVerifiedRecordCount (wsQuery, labelTxt) {
+    // verification status: count verified records
+    console.log(wsQuery);
+    $.ajax({
+        url: wsQuery,
+        dataType: 'jsonp',
+        timeout: 30000,
+        complete: function(jqXHR, textStatus) {
+            if (textStatus == 'timeout') {
+                noData();
+                alert('Sorry - the request was taking too long so it has been cancelled.');
+            }
+            if (textStatus == 'error') {
+                noData();
+                alert('Sorry - the records breakdowns are not available due to an error.');
+            }
+        },
+        success: function(data) {
+            // check for errors
+            if (data.length == 0 || data.totalRecords == undefined) {
+                noData();
+            } else {
+                setNumbers(data.totalRecords);
+                $('#totalVerifiedRecordCount').html("<b>" + data.totalRecords.toLocaleString() + "</b>" + " " + labelTxt);
+            }
+        }
+    });
+}
