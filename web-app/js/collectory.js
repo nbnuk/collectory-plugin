@@ -258,8 +258,9 @@ function capitalise(item) {
     return item.substring(0, 1).toUpperCase() + item.substring(1, item.length);
 }
 
-function showVerifiedRecordCount (wsQuery, labelTxt) {
+function showVerifiedRecordCount (wsQuery, facetVerified, labelTxt) {
     // verification status: count verified records
+    wsQuery = wsQuery + "&facets=" + facetVerified.split(":")[0];
     console.log(wsQuery);
     $.ajax({
         url: wsQuery,
@@ -281,7 +282,24 @@ function showVerifiedRecordCount (wsQuery, labelTxt) {
                 noData();
             } else {
                 setNumbers(data.totalRecords);
-                $('#totalVerifiedRecordCount').html("<b>" + data.totalRecords.toLocaleString() + "</b>" + " " + labelTxt);
+                var verifiedRecs = 0;
+                if(data.facetResults.length>0 && data.facetResults[0].fieldResult !== undefined){
+                    $.each(data.facetResults[0].fieldResult, function(idx, facet) {
+                        if (facet.fq.replace(/["]/g,'') == facetVerified) {
+                            verifiedRecs = facet.count;
+                        }
+                    });
+                }
+                setNumbers(verifiedRecs);
+
+                if (data.totalRecords > 0) {
+                    //show as percentage
+                    $('#totalVerifiedRecordCount').html("<b>" + (verifiedRecs/data.totalRecords).toLocaleString(undefined,{style: 'percent', maximumFractionDigits:0}) + "</b>" + " " + labelTxt);
+                } else {
+                    //show raw number
+                    $('#totalVerifiedRecordCount').html("<b>" + verifiedRecs.toLocaleString() + "</b>" + " " + labelTxt);
+                }
+
             }
         }
     });

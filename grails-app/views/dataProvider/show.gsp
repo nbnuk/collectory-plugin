@@ -217,9 +217,9 @@
       // records
         <g:if test="${grailsApplication.config.verifiedRecordsToCount}">
             // verification status: count verified records
-            var fqVerified = "${grailsApplication.config.verifiedRecordsToCount}";
-                var queryUrlVerifiedRecs = "${grailsApplication.config.biocacheServicesUrl}" + "/occurrences/search.json?pageSize=0&q=data_provider_uid:${instance.uid}" + "&fq=" + fqVerified;
-                showVerifiedRecordCount(queryUrlVerifiedRecs, "${g.message(code: 'public.show.rt.des08')}");
+            var facetVerified = "${grailsApplication.config.verifiedRecordsToCount}";
+            var queryUrlVerifiedRecs = "${grailsApplication.config.biocacheServicesUrl}" + "/occurrences/search.json?pageSize=0&q=data_provider_uid:${instance.uid}";
+            showVerifiedRecordCount(queryUrlVerifiedRecs, facetVerified, "${g.message(code: 'public.show.rt.des08')}");
         </g:if>
     }
     google.setOnLoadCallback(onLoadCallback);
