@@ -119,6 +119,9 @@
                     <g:render template="dataAccess" model="[instance:instance]"/>
                 </div>
 
+            <section class="public-metadata">
+                <h5 id="totalVerifiedRecordCount"></h5>
+            </section>
 
             <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                     <section class="public-metadata">
@@ -248,6 +251,37 @@
                 }
             }
         });
+
+    <g:if test="${grailsApplication.config.verifiedRecordsToCount}">
+        // verification status: count verified records
+        var fqVerified = "${grailsApplication.config.verifiedRecordsToCount}";
+        var queryUrlVerifiedRecs = CHARTS_CONFIG.biocacheServicesUrl + "/occurrences/search.json?pageSize=0&q=data_provider_uid:${instance.uid}" + "&fq=" + fqVerified;
+        console.log(queryUrlVerifiedRecs);
+        $.ajax({
+            url: queryUrlVerifiedRecs,
+            dataType: 'jsonp',
+            timeout: 30000,
+            complete: function(jqXHR, textStatus) {
+                if (textStatus == 'timeout') {
+                    noData();
+                    alert('Sorry - the request was taking too long so it has been cancelled.');
+                }
+                if (textStatus == 'error') {
+                    noData();
+                    alert('Sorry - the records breakdowns are not available due to an error.');
+                }
+            },
+            success: function(data) {
+                // check for errors
+                if (data.length == 0 || data.totalRecords == undefined) {
+                    noData();
+                } else {
+                    setNumbers(data.totalRecords);
+                    $('#totalVerifiedRecordCount').html("<b>" + data.totalRecords.toLocaleString() + "</b>" + " ${g.message(code: 'public.show.rt.des08')}");
+                }
+            }
+        });
+    </g:if>
 
         // stats
         if(loadLoggerStats) {
