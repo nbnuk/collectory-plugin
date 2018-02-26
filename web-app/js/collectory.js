@@ -285,8 +285,15 @@ function showVerifiedRecordCount (wsQuery, facetVerified, labelTxt) {
                 var verifiedRecs = 0;
                 if(data.facetResults.length>0 && data.facetResults[0].fieldResult !== undefined){
                     $.each(data.facetResults[0].fieldResult, function(idx, facet) {
-                        if (facet.fq.replace(/["]/g,'') == facetVerified) {
-                            verifiedRecs = facet.count;
+                        var facetName = facet.fq.replace(/["]/g, '');
+                        if (facetVerified.indexOf("*") >= 0) { //match multiple facets with * wildcard
+                            if (new RegExp("^" + facetVerified.split("*").join(".*") + "$").test(facetName)) {
+                                verifiedRecs += facet.count;
+                            }
+                        } else { //single facet
+                            if (facetName == facetVerified) {
+                                verifiedRecs = facet.count;
+                            }
                         }
                     });
                 }
