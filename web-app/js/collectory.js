@@ -261,7 +261,7 @@ function capitalise(item) {
 function showVerifiedRecordCount (wsQuery, facetVerified, labelTxt) {
     // verification status: count verified records
     wsQuery = wsQuery + "&facets=" + facetVerified.split(":")[0];
-    console.log(wsQuery);
+    //console.log(wsQuery);
     $.ajax({
         url: wsQuery,
         dataType: 'jsonp',
@@ -284,17 +284,15 @@ function showVerifiedRecordCount (wsQuery, facetVerified, labelTxt) {
                 setNumbers(data.totalRecords);
                 var verifiedRecs = 0;
                 if(data.facetResults.length>0 && data.facetResults[0].fieldResult !== undefined){
-                    $.each(data.facetResults[0].fieldResult, function(idx, facet) {
-                        var facetName = facet.fq.replace(/["]/g, '');
-                        if (facetVerified.indexOf("*") >= 0) { //match multiple facets with * wildcard
-                            if (new RegExp("^" + facetVerified.split("*").join(".*") + "$").test(facetName)) {
+                    var verifiedVals  = facetVerified.split(":")[1];
+                    $.each(verifiedVals.split("|"), function(idx2, vval) {
+                        var vvalWithFacet = facetVerified.split(":")[0] + ':' + vval;
+                        $.each(data.facetResults[0].fieldResult, function(idx, facet) {
+                            var facetName = facet.fq.replace(/["]/g, '');
+                            if (facetName == vvalWithFacet) {
                                 verifiedRecs += facet.count;
                             }
-                        } else { //single facet
-                            if (facetName == facetVerified) {
-                                verifiedRecs = facet.count;
-                            }
-                        }
+                        });
                     });
                 }
                 setNumbers(verifiedRecs);
