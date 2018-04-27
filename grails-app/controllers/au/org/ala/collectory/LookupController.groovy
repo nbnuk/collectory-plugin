@@ -296,6 +296,7 @@ class LookupController {
         }
         def link = grailsApplication.config.citation.link.template
         link =  link.replaceAll("@link@",makeLink(pg.uid))
+        link = link.replaceAll("@email@", pg.email ? " email " + pg.email + ", or" : "")
         switch (format) {
             case "tab separated": return "${name}\t${citation}\t${rights}\t${link}\t${dataGen}\t${infoWithheld}\t${downloadLimit}\t${pg.uid}\t${doi}"
             case "map": return ['name': name, 'citation': citation, 'rights': rights, 'link': link,
