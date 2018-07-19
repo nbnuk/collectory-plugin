@@ -27,4 +27,4 @@ remove this line */
 
 // Added by the Audit-Logging plugin:
 auditLog.auditDomainClassName = 'au.org.ala.audit.AuditLogEvent'
-
+repository.location.images = '/data/collectory/data'

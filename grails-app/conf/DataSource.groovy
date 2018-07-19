@@ -8,7 +8,7 @@ dataSource {
 hibernate {
     cache.use_second_level_cache=true
     cache.use_query_cache=true
-    cache.provider_class='net.sf.ehcache.hibernate.EhCacheProvider'
+    cache.provider_class='net.sf.ehcache.hibernate.EhCacheRegionFactory' //try to resolve error when attempt to log in SingletonEhCacheRegionFactory
 }
 
 environments {
@@ -18,7 +18,7 @@ environments {
             dbCreate = "update" // one of 'create', 'create-drop','update'
             url = "jdbc:mysql://localhost:3306/collectory?autoReconnect=true&connectTimeout=0"
             username = "root"
-            password = ""
+            password = "root"
         }
     }
     test {
