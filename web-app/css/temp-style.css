@@ -113,6 +113,11 @@ div > div#map-container {
     background-size: 100%;
 }
 
+.filter-buttons .fungi a {
+    background: transparent url(../images/ala/fungi_button_bgwd.png) no-repeat;
+    background-size: 100%;
+}
+
 .filter-buttons h2 a:hover, .filter-buttons h2 a:active, .filter-buttons h2 a:hover span, .filter-buttons h2 a:active span {
     color:#016071;
     text-decoration: none;
