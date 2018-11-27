@@ -9,6 +9,7 @@ class DataProviderController extends ProviderGroupController {
 
     def gbifRegistryService
     def authService
+    def sensitiveDataService
 
     DataProviderController() {
         entityName = "DataProvider"
@@ -60,8 +61,8 @@ class DataProviderController extends ProviderGroupController {
         else {
             log.debug "Ala partner = " + instance.isALAPartner
             ActivityLog.log username(), isAdmin(), instance.uid, Action.VIEW
-
-            [instance: instance, contacts: instance.getContacts(), changes: getChanges(instance.uid)]
+            
+            [instance: instance, contacts: instance.getContacts(), changes: getChanges(instance.uid), hideSensitiveManagement: (grailsApplication.config.sensitive?.hideManagementPanel?:'true').toBoolean()]
         }
     }
 
@@ -74,11 +75,12 @@ class DataProviderController extends ProviderGroupController {
         def instance = get(params.id)
         def contact = Contact.findByUserId(params.userId)
         def approvedAccess = ApprovedAccess.findByContactAndDataProvider(contact, instance)
-        def approvedAccessUids = new JsonSlurper().parseText(approvedAccess.dataResourceUids?:"[]")
-        if(approvedAccessUids == "[]"){
-            approvedAccessUids = []
-        }
-        [instance:instance, contact: contact, approvedAccessUids: approvedAccessUids, allApproved: approvedAccessUids.size() == 0]
+
+        def sensitiveSpecies = sensitiveDataService.getSensitiveSpeciesForDataProvider(instance.uid)
+
+        def approvedAccessDataResourceTaxa = approvedAccess.dataResourceTaxa?:"[]"
+
+        [instance:instance, contact: contact, sensitiveSpecies: sensitiveSpecies, approvedAccessDataResourceTaxa: approvedAccessDataResourceTaxa]
     }
 
     boolean isCollectionOrArray(object) {
@@ -90,20 +92,14 @@ class DataProviderController extends ProviderGroupController {
         def contact = Contact.findByUserId(params.userId)
         def approvedAccess = ApprovedAccess.findByContactAndDataProvider(contact, instance)
 
-        if(params.allResources){
-            approvedAccess.dataResourceUids = JsonOutput.toJson("[]")
-        } else {
-            def list = params.approvedUIDs
-            if(!isCollectionOrArray(list) ){
-                list = [params.approvedUIDs]
-            }
-            approvedAccess.dataResourceUids = JsonOutput.toJson(list)
-        }
-        //if the access is for all resources....
+        def dr_taxa_list = params.dataResourceTaxa
+
+        approvedAccess.dataResourceTaxa = dr_taxa_list
+
         approvedAccess.userLastModified = username()
         approvedAccess.save(flush:true)
 
-        redirect(action:"manageAccess", id:params.id)
+        redirect(action:"manageAccess", id:params.id, params:[justSavedUser:params.userId])
     }
 
     def addUserToApprovedList = {
@@ -175,7 +171,7 @@ class DataProviderController extends ProviderGroupController {
 
         //proxy request to user details
         response.setContentType("application/json")
-        def url = "https://dev.nbnatlas.org/userdetails/userDetails/findUser?q=" + params.q
+        def url = (grailsApplication.config.userdetails?.url?:"http://set-this-url/") + "userDetails/findUser" + "?q=" + params.q
         log.info("Querying ${url}")
         def js = new JsonSlurper().parse(new URL(url))
 
@@ -189,6 +185,10 @@ class DataProviderController extends ProviderGroupController {
             } else {
                 it.hasAccess = false
             }
+        }
+        if (grailsApplication.config.sensitive?.wildcardUserSearch?:'true' == 'false') {
+            //only return exact match on email
+            js.results.retainAll { it.email == params.q }
         }
 
         render JsonOutput.toJson(js)
@@ -403,6 +403,35 @@ class DataProviderController extends ProviderGroupController {
             return null
         }
         return DataProvider.get(dbId)
+    }
+
+    /**
+     * Return JSON representation of sensitive species held in data provider's datasets
+     *
+     * @param uid - uid of data provider
+     */
+    def sensitiveSpeciesForDataProvider = {
+        if (params.uid) {
+            def sensitiveSpecies = sensitiveDataService.getSensitiveSpeciesForDataProvider(params.uid)
+            render sensitiveSpecies as JSON
+        } else {
+            render(status:400, text: "sensitiveSpeciesForDataProvider: must specify a uid")
+        }
+    }
+
+    /**
+     * Return JSON summary of records for a given species held in data provider's datasets
+     *
+     * @param uid - uid of data provider
+     * @param lsid - lsid of species
+     */
+    def speciesRecordsForDataProvider = {
+        if (params.uid && params.lsid) {
+            def speciesRecords = sensitiveDataService.getSpeciesRecordsForDataProvider(params.lsid, params.uid)
+            render speciesRecords as JSON
+        } else {
+            render(status:400, text: "speciesRecordsForDataProvider: must specify uid and lsid")
+        }
     }
 
 }

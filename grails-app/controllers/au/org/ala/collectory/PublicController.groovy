@@ -454,7 +454,18 @@ class PublicController {
             redirect(controller: "public", action: "map")
         } else {
             ActivityLog.log collectoryAuthService?.username(), collectoryAuthService?.userInRole(ProviderGroup.ROLE_ADMIN), instance.uid, Action.VIEW
-            [instance: instance]
+            //[instance: instance, viewerIsAdmin: (collectoryAuthService?.userInRole(ProviderGroup.ROLE_ADMIN) || collectoryAuthService?.userInRole(ProviderGroup.ROLE_COLLECTION_ADMIN) || collectoryAuthService?.userInRole(ProviderGroup.ROLE_COLLECTION_EDITOR))]
+            //[instance: instance, viewerIsAdmin: collectoryAuthService?.isEditor()]
+
+            log.info("user id = " + collectoryAuthService?.authService.getUserId())
+            def isAuthEditor = collectoryAuthService?.isUserAuthorisedEditorForEntity(collectoryAuthService?.authService.getUserId(), instance)
+            [instance: instance, viewerIsAdmin: true
+                    /* isAuthEditor['authorised'] ||
+                    collectoryAuthService?.userInRole(ProviderGroup.ROLE_ADMIN) ||
+                    collectoryAuthService?.userInRole(ProviderGroup.ROLE_COLLECTION_EDITOR) ||
+                    grailsApplication.config.security.cas.bypass.toBoolean() */
+            ]
+            // **** collectoryAuthService.userInRole doesn't work since request userprincipal is null. But this doesn't work either (user id = null)
         }
     }
 

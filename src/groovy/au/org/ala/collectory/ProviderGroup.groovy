@@ -95,6 +95,7 @@ abstract class ProviderGroup implements Serializable {
         pubDescription type: "text"
         techDescription type: "text"
         focus type: "text"
+        keywords type: "text"
         taxonomyHints type: "text"
         notes type: "text"
         networkMembership type: "text"
@@ -109,6 +110,7 @@ abstract class ProviderGroup implements Serializable {
         pubDescription(nullable:true)
         techDescription(nullable:true)
         focus(nullable:true)
+        keywords(nullable:true)
         address(nullable:true)
         latitude(max:360.0, min:-360.0, scale:10)
         longitude(max:360.0, min:-360.0, scale:10)

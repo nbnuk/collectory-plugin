@@ -47,6 +47,11 @@
                             <g:textArea name="techDescription" class="form-control"  rows="${cl.textAreaHeight(text:command.techDescription)}" value="${command?.techDescription}" />
                         </div>
 
+                        <div class="form-group">
+                            <label for="keywords"><g:message code="providerGroup.keywords.label" default="Keywords" /><cl:helpText code="providerGroup.keywords"/></label>
+                            <g:textArea name="keywords" class="form-control"  rows="${cl.textAreaHeight(text:command.keywords)}" value="${command?.keywords}" />
+                        </div>
+
                         <!-- purpose -->
                         <div class="form-group">
                             <label for="purpose"><g:message code="providerGroup.purpose.label" default="Purpose" /><cl:helpText code="providerGroup.purpose"/></label>

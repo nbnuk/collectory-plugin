@@ -14,7 +14,9 @@ class SensitiveAccessController {
         def contact = Contact.findByUserId(params.userId)
         def approvals = [
                 dataProviders:[],
-                dataResources:[]
+                //dataResources:[],
+                //taxonIds:[],
+                dataResourceTaxa:[:]
         ]
         if(contact){
             ApprovedAccess.findAllByContact(contact).each {
@@ -26,14 +28,25 @@ class SensitiveAccessController {
                     approvedAccessUids = []
                 }
 
-                if(approvedAccessUids){
+                /* if(approvedAccessUids){
                     // a list has been specified, use this
                     approvals.dataResources.addAll(approvedAccessUids)
                 } else {
                     //no list, add all resources for this provider
+                    //TODO: remove this, I think: no default access should be given
                     it.dataProvider.getResources().each {
                         approvals.dataResources << it.uid
                     }
+                } */
+
+                def approvedAccessUidsWithTaxa = new JsonSlurper().parseText(it.dataResourceTaxa?:"[]")
+                if(approvedAccessUidsWithTaxa == "[]"){
+                    approvedAccessUidsWithTaxa = []
+                }
+
+                if(approvedAccessUidsWithTaxa){
+                    // a list has been specified, use this
+                    approvals.dataResourceTaxa << approvedAccessUidsWithTaxa
                 }
             }
         }

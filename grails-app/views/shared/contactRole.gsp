@@ -30,19 +30,19 @@
                         <label for="role" class="col-sm-2 control-label">
                             <g:message code="shared.cr.table0201" />
                         </label>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" style="z-index:1">
                             <g:textField name="role" value="${cf?.role}" class="form-control" />
                         </div>
                     </div>
-                    <div class="checkbox">
-                        <label>
-                            <g:checkBox  name="administrator" value="${cf?.administrator}"/>
-                            <g:message code="shared.cr.table0301" /><br/>
-                            <g:message code="shared.cr.table0302" /> ${entityNameLower}
-                        </label>
-                    </div>
 
                     <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <g:checkBox  name="administrator" value="${cf?.administrator}"/>
+                                <g:message code="shared.cr.table0301" /><br/>
+                                <g:message code="shared.cr.table0302" /> ${entityNameLower}
+                            </label>
+                        </div>
                         <div class="checkbox">
                             <label>
                                 <g:checkBox name="primaryContact" value="${cf?.primaryContact}"/>

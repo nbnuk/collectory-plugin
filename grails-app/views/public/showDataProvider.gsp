@@ -44,6 +44,9 @@
         <cl:pageOptionsPopup instance="${instance}"/>
         <div class="row">
             <div class="col-md-8">
+                <g:if test="${viewerIsAdmin}">
+                    <span style="float:right"><g:link class="btn btn-default" controller="dataProvider" action='show' id="${instance.id}">Admin page</g:link></span>
+                </g:if>
                 <cl:h1 value="${instance.name}"/>
                 <cl:valueOrOtherwise value="${instance.acronym}"><span
                         class="acronym">Acronym: ${fieldValue(bean: instance, field: "acronym")}</span></cl:valueOrOtherwise>
@@ -125,6 +128,10 @@
                 <div id="dataAccessWrapper" style="display:none;">
                     <g:render template="dataAccess" model="[instance:instance]"/>
                 </div>
+
+            <section class="public-metadata">
+                <h5 id="totalVerifiedRecordCount"></h5>
+            </section>
 
 
             <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
@@ -214,12 +221,68 @@
 
 
 
-<r:script type="text/javascript">
-  // stats
-  if(loadLoggerStats){
-      loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}","${instance.name}", "1002");
-  }
-</r:script>
+<script type="text/javascript">
+    /************************************************************\
+     *
+     \************************************************************/
+    function onLoadCallback() {
+
+        var CHARTS_CONFIG = {
+            biocacheServicesUrl: "${grailsApplication.config.biocacheServicesUrl}",
+            biocacheWebappUrl: "${grailsApplication.config.biocacheUiURL}",
+            collectionsUrl: "${grailsApplication.config.grails.serverURL}"
+        };
+
+        // records
+        var queryUrl = CHARTS_CONFIG.biocacheServicesUrl + "/occurrences/search.json?pageSize=0&q=data_provider_uid:${instance.uid}";
+        $.ajax({
+            url: queryUrl,
+            dataType: 'jsonp',
+            timeout: 30000,
+            complete: function (jqXHR, textStatus) {
+                if (textStatus == 'timeout') {
+                    noData();
+                    alert('Sorry - the request was taking too long so it has been cancelled.');
+                }
+                if (textStatus == 'error') {
+                    noData();
+                    alert('Sorry - the records breakdowns are not available due to an error.');
+                }
+            },
+            success: function (data) {
+                // check for errors
+                if (data.length == 0 || data.totalRecords == undefined || data.totalRecords == 0) {
+                    noData();
+                } else {
+                    setNumbers(data.totalRecords);
+                    if (data.totalRecords > 0) {
+                        $('#dataAccessWrapper').css({display: 'block'});
+                        $('#totalRecordCountLink').html(data.totalRecords.toLocaleString() + " ${g.message(code: 'public.show.rt.des03')}");
+                    }
+                }
+            }
+        });
+
+        <g:if test="${grailsApplication.config.verifiedRecordsToCount}">
+        // verification status: count verified records
+        var facetVerified = "${grailsApplication.config.verifiedRecordsToCount}";
+        var queryUrlVerifiedRecs = CHARTS_CONFIG.biocacheServicesUrl + "/occurrences/search.json?pageSize=0&q=data_provider_uid:${instance.uid}";
+        showVerifiedRecordCount(queryUrlVerifiedRecs, facetVerified, "${g.message(code: 'public.show.rt.des08')}");
+        </g:if>
+
+        // stats
+        if (loadLoggerStats) {
+            loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}", "${instance.name}", "1002");
+        }
+    }
+
+    /************************************************************\
+     *
+     \************************************************************/
+
+    google.load("visualization", "1", {packages: ["corechart"]});
+    google.setOnLoadCallback(onLoadCallback);
+</script>
 
 <g:render template="taxonTree" model="[facet:'data_provider_uid', instance: instance]" />
 <g:render template="charts" model="[facet:'data_provider_uid', instance: instance]" />

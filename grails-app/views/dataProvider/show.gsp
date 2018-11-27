@@ -11,6 +11,7 @@
         <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=${grailsApplication.config.google?.apikey}"
                 type="text/javascript"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     </head>
     <body onload="initializeLocationMap('${instance.canBeMapped()}',${instance.latitude},${instance.longitude});">
     <style>
@@ -80,9 +81,14 @@
                 <!-- last edit -->
                 <p><span class="category"><g:message code="datahub.show.lastchange" />:</span> ${fieldValue(bean: instance, field: "userLastModified")} on ${fieldValue(bean: instance, field: "lastUpdated")}</p>
 
+                <section class="public-metadata">
+                    <h5 id="totalVerifiedRecordCount"></h5>
+                </section>
+
                 <cl:editButton uid="${instance.uid}" page="/shared/base"/>
               </div>
 
+                <g:if test="${!hideSensitiveManagement}">
             <div class="show-section well">
                 <h2>Sensitive data access</h2>
                 <p>Manage who has access to the sensitive data for the datasets for this provider.</p>
@@ -96,6 +102,7 @@
                     <i class="glyphicon glyphicon-cloud-download"></i> Download user list as CSV
                 </g:link>
             </div>
+                </g:if>
 
              <cl:isAdmin>
               <div class="show-section well">
@@ -260,6 +267,17 @@
 
         $('.iptCheck').click(checkIptInstance);
         $('.iptUpdate').click(updateResourcesFromIpt);
+
+        function onLoadCallback() {
+      // records
+        <g:if test="${grailsApplication.config.verifiedRecordsToCount}">
+            // verification status: count verified records
+            var facetVerified = "${grailsApplication.config.verifiedRecordsToCount}";
+            var queryUrlVerifiedRecs = "${grailsApplication.config.biocacheServicesUrl}" + "/occurrences/search.json?pageSize=0&q=data_provider_uid:${instance.uid}";
+            showVerifiedRecordCount(queryUrlVerifiedRecs, facetVerified, "${g.message(code: 'public.show.rt.des08')}");
+        </g:if>
+        }
+        google.setOnLoadCallback(onLoadCallback);
 
     </r:script>
 

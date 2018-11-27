@@ -209,6 +209,7 @@ abstract class ProviderGroupController {
             redirect(action: "show", id: pg.uid)
         } else {
             flash.message = message(code: "provider.group.controller.06", default: "Failed to create new") + " ${entityName}"
+            log.error("Failed to create new item")
             redirect(controller: 'admin', action: 'index')
         }
     }

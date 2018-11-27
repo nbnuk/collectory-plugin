@@ -5,10 +5,10 @@
         <meta name="layout" content="${grailsApplication.config.skin.layout}" />
         <g:set var="entityName" value="${instance.ENTITY_TYPE}" />
         <g:set var="entityNameLower" value="${cl.controller(type: instance.ENTITY_TYPE)}"/>
+        <g:set var="searchExactEmailOnly" value = "${grailsApplication.config.sensitive?.wildcardUserSearch?:'true'}"/>
         <title>${instance.name} | <g:message code="default.show.label" args="[entityName]" /></title>
     </head>
 <body>
-
 
 <div class="btn-toolbar">
     <ul class="btn-group">
@@ -18,11 +18,11 @@
         </li>
     </ul>
 </div>
-<h1>Manage approved list for <g:link controller="dataProvider" action="show" id="${instance.id}"> ${instance.name}</g:link></h1>
+<h1>Manage approved list</h1>
 
 <div class=" well">
     <div class="form-group">
-        <label for="q" >Find registered user by name or email address</label>
+        <label for="q" >Find registered user by <g:if test="${!searchExactEmailOnly}">name or </g:if>email address</label>
         <input type="text" name="q" class="form-control" id="q" placeholder="">
     </div>
     <button class="btn btn-primary" type="button" id="searchForUser">Search</button>
@@ -92,22 +92,26 @@
 
         $("#searchResults").removeClass("hide");
         $('#searchResults tbody').html('');
+        //debugger;
 
         $.each(results, function(index, returnedResult){
             var template = $('.resultTemplate').clone();
             template.removeClass("resultTemplate");
             template.attr("id", returnedResult.userId);
             template.find('.userId').html(returnedResult.userId);
-            template.find('.email').html(returnedResult.email);
+            template.find('.email').html(returnedResult.email); //.substring(0,2) + '****' + returnedResult.email.substring(returnedResult.email.lastIndexOf('.'))); //redact user email address in display
             template.find('.firstName').html(returnedResult.firstName);
             template.find('.lastName').html(returnedResult.lastName);
             template.find('.addUser').attr('id', 'add-' + returnedResult.userId);
             template.find('.removeUser').attr('id', 'def-' + returnedResult.userId);
             template.find('.specifyResources').attr('id', 'spc-' + returnedResult.userId);
-
+            if ("${params.justSavedUser?:-1}" == returnedResult.userId.toString()) {
+                template.find('.specifyResources').after("&nbsp;Changes saved");
+            }
             if(allApproved || returnedResult.hasAccess){
                 template.find('.removeUser').removeClass('hide');
                 template.find('.specifyResources').removeClass('hide');
+                //template.find('.email').html(returnedResult.email);
             } else {
                 template.find('.addUser').removeClass('hide');
             }
@@ -115,6 +119,14 @@
             template.removeClass('hide');
             template.appendTo('#searchResults');
         });
+        if (results.length == 0) {
+            <g:if test="${searchExactEmailOnly}">
+                alert("No users found. Please enter their exact email address");
+            </g:if>
+            <g:else>
+                alert("No users found. Please enter part of their name or email address");
+            </g:else>
+        }
 
 
         $('.addUser').click(function(event) {
