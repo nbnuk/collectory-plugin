@@ -459,7 +459,7 @@ class PublicController {
 
             log.info("user id = " + collectoryAuthService?.authService.getUserId())
             def isAuthEditor = collectoryAuthService?.isUserAuthorisedEditorForEntity(collectoryAuthService?.authService.getUserId(), instance)
-            [instance: instance, viewerIsAdmin: true
+            [instance: instance, hideSensitiveManagement: (grailsApplication.config.sensitive?.hideManagementPanel?:'true').toBoolean(), viewerIsAdmin: true
                     /* isAuthEditor['authorised'] ||
                     collectoryAuthService?.userInRole(ProviderGroup.ROLE_ADMIN) ||
                     collectoryAuthService?.userInRole(ProviderGroup.ROLE_COLLECTION_EDITOR) ||

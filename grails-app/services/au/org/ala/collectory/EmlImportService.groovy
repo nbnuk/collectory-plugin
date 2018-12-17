@@ -23,12 +23,12 @@ class EmlImportService {
 
         guid:  { eml -> eml.@packageId.toString() },
         pubDescription: { eml -> this.collectParas(eml.dataset.abstract?.para) },
-        pubShortDescription: { eml -> eml.dataset.abstract?.para[0] },
+        pubShortDescription: { eml -> eml.dataset.abstract?.para[0].toString().substring(0,99) },
         name: { eml -> eml.dataset.title.toString() },
         email: { eml ->  eml.dataset.contact?.electronicMailAddress?.text() },
         rights: { eml ->  this.collectParas(eml.dataset.intellectualRights?.para) },
         citation: { eml ->  eml.additionalMetadata?.metadata?.gbif?.citation?.text() },
-        notes: {eml -> this.collectParas(eml.dataset.additionalInfo?.para) },
+        techDescription: {eml -> this.collectParas(eml.dataset.additionalInfo?.para) },
 
         state: { eml ->
             def state = eml.dataset.contact?.address?.administrativeArea?.text()
