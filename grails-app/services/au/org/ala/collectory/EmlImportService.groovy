@@ -2,8 +2,8 @@ package au.org.ala.collectory
 
 import grails.transaction.Transactional
 import groovy.util.slurpersupport.GPathResult
+import org.apache.commons.lang.StringUtils
 
-@Transactional
 class EmlImportService {
 
     def serviceMethod() {}
@@ -23,7 +23,7 @@ class EmlImportService {
 
         guid:  { eml -> eml.@packageId.toString() },
         pubDescription: { eml -> this.collectParas(eml.dataset.abstract?.para) },
-        pubShortDescription: { eml -> eml.dataset.abstract?.para[0].toString().substring(0,99) },
+        pubShortDescription: { eml -> StringUtils.left(eml.dataset.abstract?.para[0]?.toString(), 99) },
         name: { eml -> eml.dataset.title.toString() },
         email: { eml ->  eml.dataset.contact?.electronicMailAddress?.text() },
         rights: { eml ->  this.collectParas(eml.dataset.intellectualRights?.para) },
