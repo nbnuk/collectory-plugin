@@ -47,6 +47,14 @@
       </label>
     </div>
 
+    <!-- NBN -->
+    <div class="form-group">
+      <label for="NBN">
+        <g:checkBox name="NBN" value="${NBN}"/>
+        <g:message code="shared.attributes.label05" /><cl:helpText code="providerGroup.attribution.NBN"/>
+      </label>
+    </div>
+
     <!-- institution -->
     <div class="form-group">
 

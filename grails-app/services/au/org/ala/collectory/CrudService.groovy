@@ -1019,6 +1019,10 @@ class OutputFormat {
                     result << [name: 'Council of Heads of Australian Collections of Microorganisms', acronym: it,
                             logo: grailsApplication.config.grails.serverURL + "/data/network/chacm.png"]
                     break
+                case 'NBN':
+                    result << [name: 'National Biodiversity Network', acronym: it,
+                            logo: grailsApplication.config.grails.serverURL + "/data/network/nbn.png"]
+                    break
                 default:
                     result << "did not match"
                     break

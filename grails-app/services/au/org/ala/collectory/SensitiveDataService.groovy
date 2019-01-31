@@ -21,6 +21,7 @@ class SensitiveDataService {
 
             def url = grailsApplication.config.biocacheServicesUrl + "/occurrences/search?q=*:*&fq=data_provider_uid:" + uid + "&fq=species_list_uid:(" + sensitiveLists + ")&facets=names_and_lsid&pageSize=0&facet=on&flimit=-1"
             //&sort=names_and_lsid%20ASC"
+            log.info("Get sensitive species for data provider from: " + url)
             def js = new JsonSlurper()
             def biocacheSearch = js.parse(new URL(url), "UTF-8")
             if (biocacheSearch.totalRecords == 0) {
@@ -37,6 +38,7 @@ class SensitiveDataService {
                         records   : result.count
                 ]
             }
+            log.info("Resulting sensitive species = " + sensitiveSpecies.toString())
             return sensitiveSpecies
 
         } else {

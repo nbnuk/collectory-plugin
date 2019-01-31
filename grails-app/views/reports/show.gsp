@@ -123,6 +123,16 @@
                   <g:if test="${i > 0}"><tr><td></td><td colspan="2">${p.name}</td></tr></g:if>
                 </g:each>
 
+                <tr class="reportGroupTitle"><td><g:message code="reports.nbn" /></td>
+                  <!-- put first member on same line as title -->
+                  <td colspan="2">
+                    <g:if test="${reports.nbnMembers.size() > 0}">${reports.nbnMembers[0].name}</g:if><g:else>None</g:else>
+                  </td></tr>
+                <g:each var="p" in="${reports.nbnMembers}" status="i">
+                  <!-- skip first member -->
+                  <g:if test="${i > 0}"><tr><td></td><td colspan="2">${p.name}</td></tr></g:if>
+                </g:each>
+
               </table>
             </div>
         </div>

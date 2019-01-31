@@ -632,7 +632,7 @@ class CollectoryTagLib {
             // check collection's membership
             ProviderGroup.networkTypes.each {
                 if (pg.isMemberOf(it)) {
-                    out << "<span class='label'>Member of ${it} </span> <br/>"
+                    out << "<span class='label' style='color:#333'>Member of ${it} </span> <br/>"
                     // this will be tidied up when hubs are entities
                     if (it == "CHAH") {
                         out << "<img class='img-polaroid' style='padding-left:25px;' src='" + resource(absolute:"true", dir:"data/network/",file:"CHAH_logo_col_70px_white.gif") + "'/>"
@@ -645,6 +645,9 @@ class CollectoryTagLib {
                     }
                     if (it == "CHACM") {
                         out << "<img class='img-polaroid' src='" + resource(absolute:"true", dir:"data/network/",file:"chacm.png") + "'/>"
+                    }
+                    if (it == "NBN") {
+                        out << "<img class='img-polaroid' src='" + resource(absolute:"true", dir:"data/network/",file:"nbn.png") + "'/>"
                     }
                     out << "<br/>"
                 }
