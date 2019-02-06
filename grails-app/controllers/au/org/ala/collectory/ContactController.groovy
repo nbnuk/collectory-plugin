@@ -219,7 +219,7 @@ class ContactController {
         Contact.findAll().each {
 //            if(!it.userId){
                 if(it.email) {
-                    def url = (grailsApplication.config.userdetails?.url?:"http://set-this-url/") + "userDetails/findUser?q=" + params.q
+                    def url = (grailsApplication.config.userdetails?.url?:"http://set-this-url/") + "userDetails/findUser?q=" + it.email //params.q
                     log.info("Querying ${url}")
                     def js = new JsonSlurper().parse(new URL(url))
                     if(js.results){

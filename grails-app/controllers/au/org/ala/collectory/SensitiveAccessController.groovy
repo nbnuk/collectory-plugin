@@ -11,7 +11,7 @@ class SensitiveAccessController {
     def index() { }
 
     def lookup(){
-        def contact = Contact.findByUserId(params.userId)
+        def contact = Contact.findByUserId(params.userId) //note, contact.user_id, not e.g. approved_access.contact_id
         def approvals = [
                 dataProviders:[],
                 //dataResources:[],
@@ -23,10 +23,10 @@ class SensitiveAccessController {
 
                 approvals.dataProviders << it.dataProvider.uid
 
-                def approvedAccessUids = new JsonSlurper().parseText(it.dataResourceUids?:"[]")
-                if(approvedAccessUids == "[]"){
-                    approvedAccessUids = []
-                }
+                //def approvedAccessUids = new JsonSlurper().parseText(it.dataResourceUids?:"[]")
+                //if(approvedAccessUids == "[]"){
+                //    approvedAccessUids = []
+                //}
 
                 /* if(approvedAccessUids){
                     // a list has been specified, use this
@@ -45,8 +45,16 @@ class SensitiveAccessController {
                 }
 
                 if(approvedAccessUidsWithTaxa){
-                    // a list has been specified, use this
-                    approvals.dataResourceTaxa << approvedAccessUidsWithTaxa
+                    approvedAccessUidsWithTaxa.each {
+                        def lsid = it.lsid
+                        def dr_uid = it.data_resource_uid
+                        if (approvals.dataResourceTaxa.containsKey(lsid)) {
+                            def existing_dr_uids = approvals.dataResourceTaxa[(lsid)]
+                            dr_uid = dr_uid + existing_dr_uids
+                        }
+                        approvals.dataResourceTaxa << [(lsid) : dr_uid]
+                    }
+
                 }
             }
         }
