@@ -200,7 +200,13 @@
             );
             if (in_list.length !== 0) {
                 var spp_name = sensitiveSppSortedName[index];
-                $("#user-species-list").append(spp_name + "<br/>");
+                var datasetNames = "";
+                $.each(in_list, function(idx, spp) {
+                    $.each(spp.data_resource_uid, function (index, druid) {
+                        datasetNames += (index + idx > 0 ? '<br/>' : '') + $("#label_" + druid).text();
+                    });
+                });
+                $("#user-species-list").append(spp_name + ": <div style='margin-left:10em'>" + datasetNames + "</div><br/>");
             }
         });
     }

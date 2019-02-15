@@ -213,7 +213,7 @@
                 </g:if>
 
                 <g:if test="${viewerIsAdmin}">
-                    <span style="float:right"><g:link class="btn btn-default" controller="dataProvider" action='show' id="${instance.id}">Admin page</g:link></span>
+                    <span><g:link class="btn btn-default" controller="dataProvider" action='show' id="${instance.id}">Admin</g:link></span>
                 </g:if>
 
             <!-- external identifiers -->
