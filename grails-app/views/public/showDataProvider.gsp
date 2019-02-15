@@ -44,9 +44,6 @@
         <cl:pageOptionsPopup instance="${instance}"/>
         <div class="row">
             <div class="col-md-8">
-                <g:if test="${viewerIsAdmin && !hideSensitiveManagement}">
-                    <span style="float:right"><g:link class="btn btn-default" controller="dataProvider" action='show' id="${instance.id}">Admin page</g:link></span>
-                </g:if>
                 <cl:h1 value="${instance.name}"/>
                 <cl:valueOrOtherwise value="${instance.acronym}"><span
                         class="acronym">Acronym: ${fieldValue(bean: instance, field: "acronym")}</span></cl:valueOrOtherwise>
@@ -213,6 +210,10 @@
                             <img src="${resource(absolute: "true", dir: "data/network/", file: "nbn.png")}"/>
                         </g:if>
                     </section>
+                </g:if>
+
+                <g:if test="${viewerIsAdmin}">
+                    <span style="float:right"><g:link class="btn btn-default" controller="dataProvider" action='show' id="${instance.id}">Admin page</g:link></span>
                 </g:if>
 
             <!-- external identifiers -->

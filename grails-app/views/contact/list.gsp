@@ -13,7 +13,7 @@
                 <li class="btn btn-default"><cl:homeLink/></li>
                 <li class="btn btn-default"><span class="glyphicon glyphicon-list"></span><g:link class="list" action="list" params="[max:10000]"> <g:message code="default.list.label" args="[entityName]"/></g:link></li>
                 <li class="btn btn-default"><span class="glyphicon glyphicon-plus"></span><g:link class="create" action="create"> <g:message code="default.new.label" args="[entityName]"/></g:link></li>
-                <g:if test="${!grailsApplication.config.security.cas.bypass.toBoolean()}">
+                <g:if test="${!grailsApplication.config.security.cas.bypass.toBoolean() || true}">
                     <li class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span><g:link class="create" action="syncWithAuth"> <g:message code="contact.sync.auth" default="Sync with Auth system"/></g:link></li>
                 </g:if>
             </ul>
