@@ -185,10 +185,14 @@
               <g:render template="/shared/contacts" model="[contacts: contacts, instance: instance]"/>
 
               <!-- Attributions -->
+<cl:isAdmin>
               <g:render template="/shared/attributions" model="[instance: instance]"/>
+</cl:isAdmin>
 
               <!-- external identifiers -->
+<cl:isAdmin>
               <g:render template="/shared/externalIdentifiers" model="[instance: instance]"/>
+</cl:isAdmin>
 
               <!-- Download usage reports -->
               <g:if test="${grailsApplication.config.loggerURL}">

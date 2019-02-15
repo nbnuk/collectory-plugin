@@ -102,7 +102,7 @@
                     <p>This dataset was downloaded from GBIF. <a href="https://www.gbif.org/dataset/${instance.guid}">View details on GBIF.org</a></p>
                 </g:if>
 
-                <p>
+                <!-- <p>
                     <span class="category"><g:message code="dataresource.show.verificationStatus" default="Verification status"/>: </span>
                     <g:if test="${instance.isVerified()}">
                         Currently this data resource is marked as verified <i class="fa fa-check-circle tooltips" style="color:green;"></i>
@@ -112,7 +112,7 @@
                         Currently this data resource is marked as unverified
                             <g:link class="btn btn-default btn-sm" controller="dataResource" action="markAsVerified" id="${instance.id}">Mark as <strong>verified</strong></g:link>
                     </g:else>
-                </p>
+                </p> -->
                 <section class="public-metadata">
                     <h5 id="totalVerifiedRecordCount"></h5>
                 </section>
@@ -188,14 +188,17 @@
               </div>
 
               <!-- image metadata -->
+<cl:isAdmin>
               <div class="show-section well">
                 <h2>Image metadata</h2>
                 <p>These values the default values displayed for any images loaded for this data resource.</p>
                 <cl:showImageMetadata imageMetadata="${instance.imageMetadata}"/>
                 <cl:editButton uid="${instance.uid}" page="/dataResource/imageMetadata"/>
               </div>
+</cl:isAdmin>
 
               <!-- taxonomic range -->
+<cl:isAdmin>
               <div class="show-section well">
                 <h2>Taxonomic range</h2>
 
@@ -204,7 +207,7 @@
 
                 <cl:editButton uid="${instance.uid}" page="/shared/taxonomicRange"/>
               </div>
-
+</cl:isAdmin>
 
               <cl:isAdmin>
                   <!-- mobilisation -->
@@ -344,13 +347,19 @@
               <g:render template="/shared/contacts" model="[contacts: contacts, instance: instance]"/>
 
               <!-- Attributions -->
+<cl:isAdmin>
               <g:render template="/shared/attributions" model="[instance: instance]"/>
+</cl:isAdmin>
 
               <!-- taxonomy hints -->
+<cl:isAdmin>
               <g:render template="/shared/taxonomyHints" model="[instance: instance]"/>
+</cl:isAdmin>
 
               <!-- external identifiers -->
+<cl:isAdmin>
               <g:render template="/shared/externalIdentifiers" model="[instance: instance]"/>
+</cl:isAdmin>
 
               <g:if test="${grailsApplication.config.loggerURL}">
                   <g:render template="/shared/userReports" model="[instance: instance]"/>
