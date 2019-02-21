@@ -39,7 +39,7 @@ abstract class ProviderGroupController {
             !collectoryAuthService?.userInRole(ProviderGroup.ROLE_ADMIN)
             && !collectoryAuthService?.userInRole(ProviderGroup.ROLE_COLLECTION_EDITOR)
             && !grailsApplication.config.security.cas.bypass.toBoolean()
-            && !isUserAuthorisedEditorForEntity(collectoryAuthService.authService.getUserId(), params.id)
+            && !isUserAuthorisedEditorForEntity(collectoryAuthService.authService.getUserId(), (params.id != null? params.id : params.uid))
         ) {
             response.setHeader("Content-type", "text/plain; charset=UTF-8")
             render message(code: "provider.group.controller.01", default: "You are not authorised to access this page. You do not have '${ProviderGroup.ROLE_ADMIN}' rights.")
@@ -53,7 +53,7 @@ abstract class ProviderGroupController {
             if(grailsApplication.config.security.cas.bypass.toBoolean()){
                 authReason += "CAS is currently bypassed for all users;"
             }
-            if(isUserAuthorisedEditorForEntity(collectoryAuthService.authService.getUserId(), params.id)){
+            if(isUserAuthorisedEditorForEntity(collectoryAuthService.authService.getUserId(), (params.id != null? params.id : params.uid))){
                 authReason += "User is a contact for resource, and is marked as administrator;"
             }
 
