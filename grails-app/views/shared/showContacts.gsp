@@ -79,7 +79,7 @@
             <colgroup><col width="68%"><col width="32%"></colgroup>
             <tr><td colspan="2"><g:message code="shared.scontact01.cell0101" /></td></tr>
             <tr><td>
-              <g:select name="addContact" from="${Contact.listOrderByLastName()}" optionKey="id" noSelection="${['null':'Select one to add']}" />
+              <g:select name="addContact" from="${Contact.listOrderByFirstName()}" optionKey="id" noSelection="${['null':'Select one to add']}" />
             </td><td>
               <input type="submit" onclick="return anySelected('addContact','You must select a contact to add.');" class="addAction btn btn-default" value="Add existing contact"/>
             </td></tr>

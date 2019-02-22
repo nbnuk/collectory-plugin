@@ -79,16 +79,16 @@
     });
 
     $('#viewApproved').click(function() {
-        listApproved();
+        listApproved(false);
     });
 
-    function listApproved(){
+    function listApproved(suppressErrorMessage){
         $.getJSON(findApprovedUsers, function(data){
-            renderResults(data, true);
+            renderResults(data, true, suppressErrorMessage);
         });
     }
 
-    function renderResults(results, allApproved){
+    function renderResults(results, allApproved, suppressErrorMessage){
 
         $("#searchResults").removeClass("hide");
         $('#searchResults tbody').html('');
@@ -120,12 +120,14 @@
             template.appendTo('#searchResults');
         });
         if (results.length == 0) {
-            <g:if test="${searchExactEmailOnly}">
+            if ((typeof suppressErrorMessage == 'undefined') || suppressErrorMessage == false) {
+                <g:if test="${searchExactEmailOnly}">
                 alert("No users found. Please enter their exact email address");
-            </g:if>
-            <g:else>
+                </g:if>
+                <g:else>
                 alert("No users found. Please enter part of their name or email address");
-            </g:else>
+                </g:else>
+            }
         }
 
 
@@ -177,7 +179,7 @@
         });
     }
 
-    listApproved();
+    listApproved(true);
 
 </script>
 </body>
