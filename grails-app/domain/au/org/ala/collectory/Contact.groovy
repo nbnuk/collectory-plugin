@@ -137,6 +137,10 @@ class Contact implements Serializable {
                     role: it.role
             ]
         }
-        return result
+        //TODO there may be a problem with contacts for dataresources not being removed when the dataresource is removed
+        def nonNullResults = result.findAll({ item ->
+            item.entity != null
+        })
+        return nonNullResults
     }
 }
