@@ -1249,7 +1249,7 @@ function showBie(node) {
     var rank = node.attr('rank');
     if (rank == 'kingdoms') return;
     var name = node.attr('id');
-    var sppUrl = "https://bie.ala.org.au/species/" + name;
+    var sppUrl = CHARTS_CONFIG.bieWebappUrl + "/species/" + name;
     if (rank != 'species') { sppUrl += "_(" + rank + ")"; }
     document.location.href = sppUrl;
 }
