@@ -16,7 +16,7 @@ class CitationsTagLib {
                 def data = js.parse(new URL(gbifUrl))
                 if (data.count) {
                     //out << """<a class="btn btn-default" href="${grailsApplication.config.gbif.citation.search}${attrs.gbifRegistryKey}"><span class="glyphicon glyphicon glyphicon-pencil"> </span> ${data.count} ${g.message(code:"citations.available", default:"citations for these data")}</a>"""
-                    """<a class="btn btn-default" href="${grailsApplication.config.gbif.citation.search}${attrs.gbifRegistryKey}">&nbsp;<span class="glyphicon glyphicon-bullhorn"></span>&nbsp; ${data.count} ${g.message(code:"citations.available", default:"citations for these data")}</a>"""
+                    out << """<a class="btn btn-default" href="${grailsApplication.config.gbif.citation.search}${attrs.gbifRegistryKey}">&nbsp;<span class="glyphicon glyphicon-bullhorn"></span>&nbsp; ${data.count} ${g.message(code:"citations.available", default:"citations for these data")}</a>"""
                 }
             }
         } catch (Exception e){
