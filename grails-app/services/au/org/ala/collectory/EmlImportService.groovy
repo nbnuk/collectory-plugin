@@ -87,7 +87,8 @@ class EmlImportService {
         def matchedLicence = Licence.findByAcronym(rights)
         if(!matchedLicence) {
             //attempt to match the licence
-            def licenceUrl = eml.dataset.intellectualRights?.para?.ulink?.@url.text()
+            def licenceUrl = eml.dataset.intellectualRights?.para?.ulink?.@url.text().trim()
+            if (licenceUrl.endsWith("/")) licenceUrl = licenceUrl[0..-2] //standardise without trailing '/'
             def licence = Licence.findByUrl(licenceUrl)
             if (licence == null) {
                 if (licenceUrl.contains("http://")) {
