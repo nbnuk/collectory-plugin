@@ -77,6 +77,7 @@ abstract class ProviderGroup implements Serializable {
     String userLastModified
     String keywords             // json list of terms
     String gbifRegistryKey      // the entity identifier in the GBIF central registry (used for all GBIF.org API calls)
+    String groupClassification  // classification of provider
 
     static embedded = ['address', 'logoRef', 'imageRef']
 
@@ -99,6 +100,7 @@ abstract class ProviderGroup implements Serializable {
         taxonomyHints type: "text"
         notes type: "text"
         networkMembership type: "text"
+        groupClassification type: "text"
     }
 
     static constraints = {
@@ -128,6 +130,7 @@ abstract class ProviderGroup implements Serializable {
         taxonomyHints(nullable:true)
         keywords(nullable:true)
         gbifRegistryKey(nullable:true, maxSize:36)
+        groupClassification(nullable:true, maxSize:256)
     }
 
     /**
