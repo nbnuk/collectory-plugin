@@ -25,7 +25,7 @@
 
             <div class="list">
                 <table class="table table-bordered table-striped">
-                  <colgroup><col width="45%"/><col width="7%"/><col width="10%"/><col width="3%"/><col width="35%"/></colgroup>
+                  <colgroup><col width="45%"/><col width="7%"/><col width="10%"/><col width="3%"/><col width="5%"/><col width="30%"/></colgroup>
                     <thead>
                         <tr>
                             <g:sortableColumn property="name" title="${message(code: 'dataResource.name.label', default: 'Name')}" />

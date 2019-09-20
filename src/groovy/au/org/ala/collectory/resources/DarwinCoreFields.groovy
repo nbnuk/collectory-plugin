@@ -33,11 +33,11 @@ class DarwinCoreFields {
             new DarwinCoreField(name: 'georeferencedBy', important: true),
             new DarwinCoreField(name: 'georeferenceProtocol', important: true),
             new DarwinCoreField(name: 'georeferenceSources', important: true),
-            new DarwinCoreField(name: 'georeferenceVerificationStatus',  values: ["","verified", "unverified"], important: true),
+            new DarwinCoreField(name: 'georeferenceVerificationStatus',  values: ["","Accepted", "Accepted - correct", "Accepted - considered correct", "Unconfirmed", "Unconfirmed - plausible", "Unconfirmed - not reviewed"], important: true),
             new DarwinCoreField(name: 'identifiedBy', important: true),
             new DarwinCoreField(name: 'identificationReferences', important: true),
             new DarwinCoreField(name: 'identificationQualifier', important: true),
-            new DarwinCoreField(name: 'identificationVerificationStatus',  values: ["","verified", "unverified"], important: true),
+            new DarwinCoreField(name: 'identificationVerificationStatus',  values: ["","Accepted", "Accepted - correct", "Accepted - considered correct", "Unconfirmed", "Unconfirmed - plausible", "Unconfirmed - not reviewed"], important: true),
             new DarwinCoreField(name: 'kingdom', important: true),
             new DarwinCoreField(name: 'taxonRank', values: ["","kingdom","subkingdom","division","phylum","subdivision","subphylum","class","subclass","order","suborder","family","subfamily","tribe","subtribe","genus","subgenus","section","subsection","series","subseries","species","subspecies","variety","subvariety","form","subform"
             ], important: true),

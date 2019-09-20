@@ -482,6 +482,7 @@ class GbifRegistryService {
 
         if(grailsApplication.config.gbifLicenceMappingUrl && grailsApplication.config.gbifLicenceMappingUrl != 'null'){
             def jsonLicense = new JsonSlurper().parse(new URL(grailsApplication.config.gbifLicenceMappingUrl))
+            log.info('xxxx here')
            return jsonLicense.get(licenseType)
         } else {
 
@@ -717,7 +718,7 @@ class GbifRegistryService {
                 csvWriter.writeNext(row)
             }
         }
-        csvWriter.close()
+        csvWriter.close() //otherwise file arbitrarily truncated
     }
 
     /**
