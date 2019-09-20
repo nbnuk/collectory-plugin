@@ -37,6 +37,7 @@
                 </div>
 
                 <!-- license -->
+                <cl:isAdmin>
                 <div class="form-group">
                     <label for="licenceID"><g:message code="dataResource.licenseType.label" default="License type" /><cl:helpText code="dataResource.licenseType"/></label>
                     <g:select
@@ -48,6 +49,7 @@
                             class="form-control"
                             noSelection="['':'--- Choose licence ---']"/>
                 </div>
+                </cl:isAdmin>
 
                 <!-- permissions document -->
                 <div class="form-group">

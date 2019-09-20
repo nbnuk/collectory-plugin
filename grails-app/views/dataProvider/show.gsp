@@ -1,4 +1,6 @@
-<%@ page import="au.org.ala.collectory.ProviderGroup; au.org.ala.collectory.DataProvider" %>
+<%@ page import="au.org.ala.collectory.ProviderGroup; au.org.ala.collectory.DataProvider;" %>
+<%@ page import="au.org.ala.collectory.CollectoryAuthService" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -13,24 +15,22 @@
     </head>
     <body onload="initializeLocationMap('${instance.canBeMapped()}',${instance.latitude},${instance.longitude});">
     <style>
-    #mapCanvas {
-      width: 500px;
-      height: 400px;
-      float: right;
-    }
+        #mapCanvas { width: 500px;  height: 400px;  float: right; }
     </style>
         <div class="btn-toolbar">
             <ul class="btn-group">
-                <li class="btn"><cl:homeLink/></li>
-                <li class="btn"><span class="glyphicon glyphicon-list"></span><g:link class="list" action="list"> <g:message code="default.list.label" args="[entityName]"/></g:link></li>
-                <li class="btn"><span class="glyphicon glyphicon-list"></span><g:link class="list" action="myList"> <g:message code="default.myList.label" args="[entityName]"/></g:link></li>
-                <li class="btn"><span class="glyphicon glyphicon-plus"></span><g:link class="create" action="create"> <g:message code="default.new.label" args="[entityName]"/></g:link></li>
+                <li class="btn btn-default"><cl:homeLink/></li>
+                <cl:isEditor>
+                    <li class="btn btn-default"><span class="glyphicon glyphicon-list"></span><g:link class="list" action="list"> <g:message code="default.list.label" args="[entityName]"/></g:link></li>
+                    %{--<li class="btn btn-default"><span class="glyphicon glyphicon-list"></span><g:link class="list" action="myList"> <g:message code="default.myList.label" args="[entityName]"/></g:link></li>--}%
+                    <li class="btn btn-default"><span class="glyphicon glyphicon-plus"></span><g:link class="create" action="create"> <g:message code="default.new.label" args="[entityName]"/></g:link></li>
+                </cl:isEditor>
             </ul>
             <ul class="btn-group pull-right">
-                <li class="btn"><cl:viewPublicLink uid="${instance?.uid}"/></li>
-                <li class="btn"><cl:jsonSummaryLink uid="${instance.uid}"/></li>
-                <li class="btn"><cl:jsonDataLink uid="${instance.uid}"/></li>
-                <g:if test="${instance.getPrimaryContact()?.contact?.email}"><li class="btn"><a href="mailto:${instance.getPrimaryContact()?.contact?.email}?subject=Request to review web pages presenting information about the ${instance.name}.&body=${contactEmailBody}"><span class="glyphicon glyphicon-envelope"></span><g:message code="default.query.label"/></a></li></g:if>
+                <li class="btn  btn-default"><cl:viewPublicLink uid="${instance?.uid}"/></li>
+                <li class="btn  btn-default"><cl:jsonSummaryLink uid="${instance.uid}"/></li>
+                <li class="btn  btn-default"><cl:jsonDataLink uid="${instance.uid}"/></li>
+                <g:if test="${instance.getPrimaryContact()?.contact?.email}"><li class="btn btn-default"><a href="mailto:${instance.getPrimaryContact()?.contact?.email}?subject=Request to review web pages presenting information about the ${instance.name}.&body=${contactEmailBody}"><span class="glyphicon glyphicon-envelope"></span><g:message code="default.query.label"/></a></li></g:if>
             </ul>
         </div>
     <div class="body">
@@ -39,10 +39,25 @@
             </g:if>
             <div class="dialog emulate-public">
               <!-- base attributes -->
-              <div class="show-section well  titleBlock">
+              <div class="show-section well titleBlock">
                 <!-- Name --><!-- Acronym -->
                 <h1 style="display:inline">${fieldValue(bean: instance, field: "name")}<cl:valueOrOtherwise value="${instance.acronym}"> (${fieldValue(bean: instance, field: "acronym")})</cl:valueOrOtherwise></h1>
                 <cl:partner test="${instance.isALAPartner}"/><br/>
+
+
+                <div class="whycanisee pull-right  col-md-4">
+                    <div class=" panel panel-default">
+                        <div class="panel-heading">My permissions</div>
+                        <div class="panel-body">
+                            <div class="whycanisee">
+                               <cl:loggedInUsername/>
+                               <p>
+                                <cl:whyCanISeeThis entity="${instance}"/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- GUID    -->
                 <p><span class="category"><g:message code="collection.show.span.lsid" />:</span> <cl:guid target="_blank" guid='${fieldValue(bean: instance, field: "guid")}'/></p>
@@ -73,7 +88,23 @@
                 <cl:editButton uid="${instance.uid}" page="/shared/base"/>
               </div>
 
+                <g:if test="${!hideSensitiveManagement}">
+            <div class="show-section well">
+                <h2>Sensitive data access</h2>
+                <p>Manage who has access to the sensitive data for the datasets for this provider.</p>
+                <p>
+                    Currently, there are ${instance.approvals.size()} users with approved accessed.
+                </p>
+                <g:link controller="dataProvider" action="manageAccess" class="btn btn-default" id="${instance.id}">
+                    Manage access
+                </g:link>
+                <g:link controller="dataProvider" action="downloadApprovedList" class="btn btn-default" id="${instance.id}">
+                    <i class="glyphicon glyphicon-cloud-download"></i> Download user list as CSV
+                </g:link>
+            </div>
+                </g:if>
 
+             <cl:isAdmin>
               <div class="show-section well">
                   <h2>IPT integration</h2>
                   <p>
@@ -92,6 +123,7 @@
                         Download sync report</g:link>
                   </p>
               </div>
+             </cl:isAdmin>
 
               <!-- description -->
               <div class="show-section well">
@@ -129,9 +161,12 @@
                       <li><g:link controller="dataResource" action="show" id="${c.uid}">${c?.name}</g:link></li>
                   </g:each>
                 </ul>
+
+                <cl:isAdmin>
                 <p>
                     <g:link controller="dataResource"  class="btn btn-default" action="create" params='[dataProviderUid: "${instance.uid}"]'><g:message code="dataprovider.show.link01" /></g:link>
                 </p>
+                </cl:isAdmin>
               </div>
 
               <!-- images -->
@@ -142,24 +177,34 @@
               <g:render template="/shared/location" model="[instance: instance]"/>
 
               <!-- Record consumers -->
-              <g:render template="/shared/consumers" model="[instance: instance]"/>
+              <cl:isAdmin>
+                <g:render template="/shared/consumers" model="[instance: instance]"/>
+              </cl:isAdmin>
 
               <!-- Contacts -->
               <g:render template="/shared/contacts" model="[contacts: contacts, instance: instance]"/>
 
               <!-- Attributions -->
+<cl:isAdmin>
               <g:render template="/shared/attributions" model="[instance: instance]"/>
+</cl:isAdmin>
 
               <!-- external identifiers -->
+<cl:isAdmin>
               <g:render template="/shared/externalIdentifiers" model="[instance: instance]"/>
+</cl:isAdmin>
+
+              <!-- Download usage reports -->
+              <g:if test="${grailsApplication.config.loggerURL}">
+                <g:render template="/shared/userReports" model="[instance: instance]"/>
+              </g:if>
 
               <!-- GBIF integration -->
-              <g:render template="/shared/userReports" model="[instance: instance, controller: 'dataProvider']"/>
+              <cl:isAdmin>
+                <g:render template="/shared/gbif" model="[instance: instance, controller: 'dataProvider']"/>
+              </cl:isAdmin>
 
-              <!-- GBIF integration -->
-              <g:render template="/shared/gbif" model="[instance: instance, controller: 'dataProvider']"/>
-
-                <!-- change history -->
+              <!-- change history -->
               <g:render template="/shared/changes" model="[changes: changes, instance: instance]"/>
 
             </div>
@@ -227,7 +272,7 @@
         $('.iptCheck').click(checkIptInstance);
         $('.iptUpdate').click(updateResourcesFromIpt);
 
-    function onLoadCallback() {
+        function onLoadCallback() {
       // records
         <g:if test="${grailsApplication.config.verifiedRecordsToCount}">
             // verification status: count verified records
@@ -235,8 +280,8 @@
             var queryUrlVerifiedRecs = "${grailsApplication.config.biocacheServicesUrl}" + "/occurrences/search.json?pageSize=0&q=data_provider_uid:${instance.uid}";
             showVerifiedRecordCount(queryUrlVerifiedRecs, facetVerified, "${g.message(code: 'public.show.rt.des08')}");
         </g:if>
-    }
-    google.setOnLoadCallback(onLoadCallback);
+        }
+        google.setOnLoadCallback(onLoadCallback);
 
     </r:script>
 

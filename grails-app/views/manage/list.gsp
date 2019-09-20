@@ -2,7 +2,7 @@
 <html>
     <head>
         <title><g:message code="manage.show.title" /></title>
-	    <meta name="layout" content="${grailsApplication.config.skin.layout}" />
+        <meta name="layout" content="${grailsApplication.config.skin.layout}" />
         <r:require modules="smoothness, collectory, jquery_ui_custom" />
     </head>
     
@@ -13,63 +13,65 @@
             <g:link class="mainLink btn btn-default" controller="public" action="map"><g:message code="manage.list.link01" /></g:link>
         </div>
 
-        <h1><g:message code="manage.list.title01" /></h1>
+        <h1><g:message code="manage.list.title03" /></h1>
 
         <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
         </g:if>
 
         <div class="row">
-            <div class="col-md-3">
-                <ul id="adminNavMenu" class="nav nav-list nav-stacked nav-tabs">
-                    <li><a href="javascript:showSection('adminTools');"><i class="glyphicon-chevron-right">&nbsp;</i> <g:message code="manage.list.li01" /></a></li>
-                    <li><a href="javascript:showSection('yourMetadata');"><i class="glyphicon-chevron-right">&nbsp;</i> <g:message code="manage.list.li02" /></a></li>
-                    <li><a href="javascript:showSection('addCollection');"><i class="glyphicon-chevron-right">&nbsp;</i> <g:message code="manage.list.li03" /></a></li>
-                </ul>
-            </div>
 
-            <div class="col-md-9">
+            <div class="col-md-12">
 
-                <div id="yourMetadata" class="infoSection hide">
-                    <g:if test="${show == 'user'}">
-                        <div>
-                            <h2><g:message code="manage.list.title02" /></h2>
-                            <p><g:message code="manage.list.des02" /> ${grailsApplication.config.security.cas.bypass.toBoolean() ? 'bypassed' : 'active'}.</p>
-                            <g:set var="username" value="${request.userPrincipal?.name}"/>
-                            <g:if test="${username}">
-                                <p><g:message code="manage.list.username.des01" /> ${username}.</p>
-                                <p>User ${request.isUserInRole('ROLE_COLLECTION_ADMIN') ? 'has' : 'does not have'} ROLE_COLLECTION_ADMIN.</p>
-                                <p>User ${request.isUserInRole('ROLE_COLLECTION_EDITOR') ? 'has' : 'does not have'} ROLE_COLLECTION_EDITOR.</p>
-                            </g:if>
-                            <g:else>
-                                <p><g:message code="manage.list.des03" />.</p>
-                            </g:else>
-                            <p>
-                                <g:set var="cookiename" value="${cookie(name: 'ALA-Auth')}"/>
-                                <g:if test="${cookiename}"><g:message code="manage.list.cookiename01" /> ${cookiename}.</g:if>
-                                <g:else><g:message code="manage.list.cookiename02" />.</g:else>
-                            </p>
-                        </div>
-                    </g:if>
+                <div id="yourMetadata" class="infoSection">
 
-                    <h2><g:message code="manage.list.title03" /></h2>
+                    <div class="hide">
+                        <h2><g:message code="manage.list.title02" /></h2>
+                        <p><g:message code="manage.list.des02" /> ${grailsApplication.config.security.cas.bypass.toBoolean() ? 'bypassed' : 'active'}.</p>
+                        <g:set var="username" value="${request.userPrincipal?.name}"/>
+                        <g:if test="${username}">
+                            <p><g:message code="manage.list.username.des01" /> ${username}.</p>
+                            <p>User ${request.isUserInRole('ROLE_COLLECTION_ADMIN') ? 'has' : 'does not have'} ROLE_COLLECTION_ADMIN.</p>
+                            <p>User ${request.isUserInRole('ROLE_COLLECTION_EDITOR') ? 'has' : 'does not have'} ROLE_COLLECTION_EDITOR.</p>
+                        </g:if>
+                        <g:else>
+                            <p><g:message code="manage.list.des03" />.</p>
+                        </g:else>
+                        <p>
+                            <g:set var="cookiename" value="${cookie(name: 'ALA-Auth')}"/>
+                            <g:if test="${cookiename}"><g:message code="manage.list.cookiename01" /> ${cookiename}.</g:if>
+                            <g:else><g:message code="manage.list.cookiename02" />.</g:else>
+                        </p>
+                    </div>
+
                     <p><g:message code="manage.list.des04" />.</p>
 
                     <g:if test="${entities}">
-                        <table class="shy" style="margin-left: 25px;">
-                            <thead><tr><td style="text-align: center;width:40px;"><g:message code="manage.list.table01.cell0101" /></td><td style="text-align: center;width:40px;"><g:message code="manage.list.table01.cell0102" /></td><td></td></tr></thead>
+                        <table class="table" >
+                            <thead>
+                            </thead>
+                            <tbody>
                             <g:each in="${entities}" var="ent">
                                 <tr>
-                                    <td style="text-align: center;"><g:link controller="public" action="show" id="${ent.uid}">
-                                        <i class="glyphicon-eye-open"></i></g:link>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <i class="glyphicon-edit"></i>
-                                    </td>
                                     <g:set var="name" value="${ent.uid[0..1] == 'in' ? ent.name + ' (Institution)' : ent.name}"/>
-                                    <td style="padding-left: 5px;">${name}</td>
+                                    <td>
+                                        ${name}<br/>
+                                        <small>(${ent.entityType})</small>
+                                    </td>
+                                    <td>
+                                        <g:link class="btn btn-default" controller="public" action="show" id="${ent.uid}" alt=" View public page">
+                                            <i class="glyphicon glyphicon-eye-open"> </i> View public page
+                                        </g:link>
+                                    </td>
+                                    <td>
+                                        <g:link class="btn btn-default" controller="${ent.entityType}" action="show" id="${ent.uid}" alt="Edit metadata">
+                                            <i class="glyphicon glyphicon-edit"> </i> View editor page
+                                        </g:link>
+                                    </td>
+
                                 </tr>
                             </g:each>
+                            </tbody>
                         </table>
                     </g:if>
                     <g:else>
@@ -90,9 +92,13 @@
                         </cl:ifNotGranted>
                     </g:else>
 
-                    <p><g:message code="manage.list.des11" />
-                    <span id="instructions-link" class="link under"><g:message code="manage.list.des12" /></span>.</p>
-                    <div id="instructions">
+
+
+                    <p class="hide">
+                        <g:message code="manage.list.des11" />
+                        <span id="instructions-link"><g:message code="manage.list.des12" /></span>
+                    .</p>
+                    <div id="instructions" class="hide">
                         <div id="requirementsForEditing">
                             <h3><g:message code="manage.list.title04" /></h3>
                             <h4><g:message code="manage.list.title05" />?</h4>
@@ -139,7 +145,7 @@
                     </div>
                 </div>
 
-                <div id="addCollection" class="hide infoSection">
+                <div id="addCollection" class="infoSection">
                     <cl:ifGranted role="ROLE_COLLECTION_EDITOR">
 
                         <h2><g:message code="manage.list.addcollection.title01" /></h2>

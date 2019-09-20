@@ -159,6 +159,8 @@ class DataImportService {
             }
         }
 
+        dataResource.setAddressFromEMLfields() //HACK
+
         dataResource.connectionParameters = (new JsonOutput()).toJson(connParams)
         dataResource.save(flush:true)
 

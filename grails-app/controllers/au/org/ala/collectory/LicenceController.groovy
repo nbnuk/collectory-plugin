@@ -27,6 +27,7 @@ class LicenceController {
 
     def save() {
         def licenceInstance = new Licence(params)
+        if (licenceInstance.url.endsWith("/")) licenceInstance.url = licenceInstance.url[0..-2] //standardise without trailing '/'
         if (!licenceInstance.save(flush: true)) {
             render(view: "create", model: [licenceInstance: licenceInstance])
             return
@@ -78,6 +79,7 @@ class LicenceController {
 
         licenceInstance.properties = params
 
+        if (licenceInstance.url.endsWith("/")) licenceInstance.url = licenceInstance.url[0..-2] //standardise without trailing '/'
         if (!licenceInstance.save(flush: true)) {
             render(view: "edit", model: [licenceInstance: licenceInstance])
             return

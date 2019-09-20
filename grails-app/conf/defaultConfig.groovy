@@ -3,7 +3,7 @@ grails.serverURL = 'http://localhost:8080/collectory'
 security.cas.bypass = true
 security.apikey.checkEnabled = false
 workDir='/data/dwc-archive/work'
-uploadFilePath='/data/collectory-plugin/upload'
+uploadFilePath='/data/nbn-collectory/upload'
 google.apikey = "PLEASE_SPECIFY_IN_CONFIG_FILE"
 institution.codeLoaderURL='file:/data/collectory/bootstrap/institution_codes.xml'
 

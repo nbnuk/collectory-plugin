@@ -32,6 +32,9 @@ grails.project.dependency.resolution = {
         runtime 'commons-httpclient:commons-httpclient:3.1'
         runtime 'org.aspectj:aspectjweaver:1.6.6'
         compile "com.fasterxml.jackson.core:jackson-databind:2.7.0"
+        compile( "commons-validator:commons-validator:1.4.1" ) {
+            excludes 'xml-apis','commons-digester','commons-logging','commons-beanutils', 'commons-collections'
+        }
     }
 
     plugins {
@@ -44,10 +47,9 @@ grails.project.dependency.resolution = {
         runtime ":hibernate:3.6.10.19"
         runtime ":jquery:1.11.1"
         runtime ":resources:1.2.14"
-        runtime ":audit-logging:1.1.1"
+        runtime ":audit-logging:1.1.3"
         runtime ":cache-headers:1.1.7"
         runtime ":rest:0.8"
-        //runtime ":richui:0.8"
         runtime ":tiny-mce:3.4.9"
         runtime ":cors:1.1.8"
         runtime ":ala-charts-plugin:1.3.2"

@@ -105,6 +105,7 @@
                             </tr>
 
 <!-- network membership -->
+                <cl:isAdmin>
                             <tr class="prop">
                               <td valign="top" class="name">
                                 <label for="networkMembership"><g:message code="providerGroup.networkMembership.label" default="Belongs to" /></label>
@@ -115,6 +116,7 @@
                               </td>
                               <td><img class="helpButton" alt="help" src="${resource(dir:'images/skin', file:'help.gif')}" onclick="toggleHelp(this);"/></td>
                             </tr>
+                </cl:isAdmin>
 
 
 <!-- address -->            <tr class="prop">

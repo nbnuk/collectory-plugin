@@ -21,16 +21,50 @@ class CollectoryAuthService{
         return (username) ? username : 'not available'
     }
 
+    /**
+     * A user is an ADMIN if they have either the ROLE_ADMIN or ROLE_COLLECTION_ADMIN roles.
+     *
+     * @return
+     */
     def isAdmin() {
         def adminFlag = false
         if(grailsApplication.config.security.cas.bypass.toBoolean())
             adminFlag = true
         else {
             if(authService) {
-                adminFlag = authService.userInRole(ProviderGroup.ROLE_ADMIN)
+                adminFlag = authService.userInRole(ProviderGroup.ROLE_ADMIN) || authService.userInRole(ProviderGroup.ROLE_COLLECTION_ADMIN)
             }
         }
         return adminFlag
+    }
+
+    /**
+     * A user is an EDITOR if they have either the ROLE_ADMIN or ROLE_COLLECTION_ADMIN roles.
+     *
+     * @return
+     */
+    def isEditor() {
+        def adminFlag = false
+        if(grailsApplication.config.security.cas.bypass.toBoolean()) {
+            adminFlag = true
+        } else {
+            if(authService) {
+                adminFlag = authService.userInRole(ProviderGroup.ROLE_COLLECTION_EDITOR) ||
+                        authService.userInRole(ProviderGroup.ROLE_ADMIN) ||
+                        authService.userInRole(ProviderGroup.ROLE_COLLECTION_ADMIN)
+            }
+        }
+        return adminFlag
+    }
+
+    def getRoles(){
+        def roles = []
+        ProviderGroup.COLLECTORY_ROLES.each {
+            if(authService.userInRole(it)){
+                roles << it
+            }
+        }
+        roles
     }
 
     protected boolean userInRole(role) {
@@ -44,25 +78,6 @@ class CollectoryAuthService{
         }
 
         return roleFlag || isAdmin()
-    }
-
-    protected boolean isAuthorisedToEdit(uid) {
-        if (grailsApplication.config.security.cas.bypass.toBoolean() || isAdmin()) {
-            return true
-        } else {
-            def email = RequestContextHolder.currentRequestAttributes()?.getUserPrincipal()?.attributes?.email
-            if(email) {
-                return ProviderGroup._get(uid)?.isAuthorised(email)
-            } else {
-                if(authService) {
-                    email = authService.email
-                    if(email)
-                        return ProviderGroup._get(uid)?.isAuthorised(email)
-                }
-            }
-        }
-
-        return false
     }
 
     /**
@@ -92,6 +107,57 @@ class CollectoryAuthService{
     }
 
     /**
+     * If a logged in user is an administrator for a data resource then they can edit.
+     * Likewise, if they are the administrator of a provider or institution they can edit
+     * an institution/provider metadata and any resources underneath that institution/provider.
+     *
+     * @param userId
+     * @param instance A dataresource, collection, provider or institution
+     * @return
+     */
+    def isUserAuthorisedEditorForEntity(userId, instance){
+        def authorised = false
+        def reason = ""
+        if(instance) {
+            def contacts = instance.getContacts()
+            contacts.each {
+                if (it.contact.userId == userId && it.administrator) {
+                    //CAS contact
+                    authorised = true
+                    reason = "User is an administrator for ${instance.entityType()} : ${instance.uid} : ${instance.name}"
+                }
+            }
+        }
+
+        if(instance instanceof DataResource){
+            if(instance.getInstitution()){
+                //check institution contacts
+                def contacts = instance.getInstitution().getContacts()
+                contacts.each {
+                    if (it.contact.userId == userId && it.administrator) {
+                        //CAS contact
+                        authorised = true
+                        reason = "User is an administrator for parent entity ${instance.entityType()} : ${instance.id} : ${instance.name}"
+                    }
+                }
+            }
+            if(instance.getDataProvider()){
+                //check data provider contacts
+                //check institution contacts
+                def contacts = instance.getDataProvider().getContacts()
+                contacts.each {
+                    if (it.contact.userId == userId && it.administrator) {
+                        //CAS contact
+                        authorised = true
+                        reason = "User is an administrator for parent entity ${instance.entityType()} : ${instance.id} : ${instance.name}"
+                    }
+                }
+            }
+        }
+        [authorised:authorised, reason:reason]
+    }
+
+    /**
      * Returns a list of entities that the specified contact is authorised to edit.
      *
      * @param contact
@@ -105,7 +171,7 @@ class CollectoryAuthService{
             if (it.administrator) {
                 def pg = ProviderGroup._get(it.entityUid)
                 if (pg) {
-                    entities.put it.entityUid, [uid: pg.uid, name: pg.name]
+                    entities.put it.entityUid, [uid: pg.uid, name: pg.name, entityType: pg.entityType()]
                     if (it.dateLastModified > latestMod) { latestMod = it.dateLastModified }
                 }
                 // add children
@@ -115,13 +181,13 @@ class CollectoryAuthService{
                     if (child instanceof ProviderGroup) {
                         def ch = ProviderGroup._get(child.uid)
                         if (ch) {
-                            entities.put ch.uid, [uid: ch.uid, name: ch.name]
+                            entities.put ch.uid, [uid: ch.uid, name: ch.name, entityType: ch.entityType()]
                         }
                     }
                 }
             }
         }
-        return [sorted: entities.values().sort { it.name }, keys:entities.keySet().sort(), latestMod: latestMod]
+        [sorted: entities.values().sort { it.name }, keys:entities.keySet().sort(), latestMod: latestMod]
     }
 
     def checkApiKey(key) {

@@ -2,8 +2,8 @@ package au.org.ala.collectory
 
 import grails.transaction.Transactional
 import groovy.util.slurpersupport.GPathResult
+import org.apache.commons.lang.StringUtils
 
-@Transactional
 class EmlImportService {
 
     def serviceMethod() {}
@@ -15,14 +15,20 @@ class EmlImportService {
         paras?.list().inject(null, { acc, para -> acc == null ? (para.text()?.trim() ?: "") : acc + " " + (para.text()?.trim() ?: "") })
     }
 
+    protected def collectKeywords(GPathResult keywordSet) {
+        keywordSet?.list().inject(null, { acc, keyword -> acc == null ? (keyword.text()?.trim() ?: "") : acc + " " + (keyword.text()?.trim() ?: "") })
+    }
+
     public emlFields = [
 
         guid:  { eml -> eml.@packageId.toString() },
         pubDescription: { eml -> this.collectParas(eml.dataset.abstract?.para) },
+        pubShortDescription: { eml -> StringUtils.left(eml.dataset.abstract?.para[0]?.toString(), 99) },
         name: { eml -> eml.dataset.title.toString() },
         email: { eml ->  eml.dataset.contact?.electronicMailAddress?.text() },
         rights: { eml ->  this.collectParas(eml.dataset.intellectualRights?.para) },
         citation: { eml ->  eml.additionalMetadata?.metadata?.gbif?.citation?.text() },
+        techDescription: {eml -> this.collectParas(eml.dataset.additionalInfo?.para) },
 
         state: { eml ->
             def state = eml.dataset.contact?.address?.administrativeArea?.text()
@@ -32,6 +38,13 @@ class EmlImportService {
         },
 
         phone: { eml ->  eml.dataset.contact?.phone?.text() },
+        addrCity: { eml -> eml.dataset.contact?.address?.city?:'' },
+        addrCountry: { eml -> eml.dataset.contact?.address?.country?:'' },
+        addrPostcode: { eml -> eml.dataset.contact?.address?.postalCode?:'' },
+        addrState: { eml -> eml.dataset.contact?.address?.administrativeArea?:'' },
+        addrStreet: { eml -> eml.dataset.contact?.address?.deliveryPoint?:'' },
+
+        keywords: { eml -> this.collectKeywords(eml.dataset.keywordSet?.keyword) },
 
         //geographic coverage
         geographicDescription: { eml -> eml.dataset.coverage?.geographicCoverage?.geographicDescription?:'' },
@@ -74,7 +87,8 @@ class EmlImportService {
         def matchedLicence = Licence.findByAcronym(rights)
         if(!matchedLicence) {
             //attempt to match the licence
-            def licenceUrl = eml.dataset.intellectualRights?.para?.ulink?.@url.text()
+            def licenceUrl = eml.dataset.intellectualRights?.para?.ulink?.@url.text().trim()
+            if (licenceUrl.endsWith("/")) licenceUrl = licenceUrl[0..-2] //standardise without trailing '/'
             def licence = Licence.findByUrl(licenceUrl)
             if (licence == null) {
                 if (licenceUrl.contains("http://")) {
@@ -142,9 +156,14 @@ class EmlImportService {
         def contact = Contact.findByEmail(emlElement.electronicMailAddress)
         if(!contact){
             contact = new Contact()
-            contact.firstName = emlElement.individualName.givenName
-            contact.lastName = emlElement.individualName.surName
-            contact.email = emlElement.electronicMailAddress
+            contact.firstName = emlElement.individualName.givenName?:''
+            contact.lastName = emlElement.individualName.surName?:''
+            contact.email = emlElement.electronicMailAddress?:''
+            contact.title = emlElement.individualName.salutation?:''
+            contact.phone = (emlElement.phone.find{it.@phonetype == "voice"} + emlElement.phone.find{it.attributes().size() == 0}).join(' ') //default phone type is voice if no attribute defining type
+            contact.mobile = emlElement.phone.find{it.@phonetype == "mobile"}
+            contact.fax = (emlElement.phone.find{it.@phonetype == "facsimile"} + emlElement.phone.find{it.@phonetype == "fax"}).join(' ')
+
             contact.setUserLastModified(collectoryAuthService.username())
             if(contact.validate()){
                 contact.save(flush:true, failOnError: true)

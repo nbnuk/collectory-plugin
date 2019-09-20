@@ -40,7 +40,6 @@
     <section class="row">
         <div class="col-md-8">
             <cl:h1 value="${instance.name}"/>
-            <g:render template="editButton"/>
             <g:set var="dp" value="${instance.dataProvider}"/>
             <g:if test="${dp}">
                 <h2 class="dataResourceProviderLink"><g:link action="show" id="${dp.uid}">${dp.name}</g:link></h2>
@@ -200,6 +199,7 @@
             </h5>
             </section>
         </g:if>
+
         <section class="public-metadata">
             <h5 id="totalVerifiedRecordCount"></h5>
         </section>
@@ -207,10 +207,10 @@
         <g:if test="${instance.gbifDoi}">
             <section class="public-metadata">
                 <h4><g:message code="public.citations" default="Citations" /></h4>
-                <div class="btn-group-vertical">
-                <a class="btn btn-default" href="https://${instance.gbifDoi.replaceAll('doi:', 'doi.org/')}">
-                    <i class="glyphicon glyphicon-info-sign"> </i>
-                    ${instance.gbifDoi}
+                <div class="btn-group-vertical dataAccess">
+                <a class="btn btn-default" href="${citations.doiLink(gbifDoi: instance.gbifDoi)}">
+%{--                    <i class="glyphicon glyphicon-info-sign"> </i> --}%
+                    <span class="badge">DOI</span> <citations:doiLink gbifDoi="${instance.gbifDoi}"/>
                 </a>
                 <g:if test="${instance.gbifRegistryKey}">
                     <citations:gbifLink gbifRegistryKey="${instance.gbifRegistryKey}"/>
@@ -319,6 +319,10 @@
                     <p><g:message code="public.network.membership.des04" /></p>
                     <img src="${resource(absolute: "true", dir: "data/network/", file: "chacm.png")}"/>
                 </g:if>
+                <g:if test="${instance.isMemberOf('NBN')}">
+                    <p><g:message code="public.network.membership.des05" /></p>
+                    <img src="${resource(absolute: "true", dir: "data/network/", file: "nbn.png")}"/>
+                </g:if>
             </div>
         </g:if>
 
@@ -342,12 +346,40 @@
 </div>
 
 <r:script type="text/javascript">
-  // stats
-  if(loadLoggerStats){
-      if (${instance.resourceType == 'website'}) {
-          loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}","${instance.name}", "2000");
-      } else if (${instance.resourceType == 'records'}) {
-          loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}","${instance.name}", "1002");
+  var CHARTS_CONFIG = {
+         biocacheServicesUrl: "${grailsApplication.config.biocacheServicesUrl}",
+         biocacheWebappUrl: "${grailsApplication.config.biocacheUiURL}",
+         collectionsUrl: "${grailsApplication.config.grails.serverURL}"
+     };
+
+    // configure the charts
+      var facetChartOptions = {
+          /* base url of the collectory */
+          collectionsUrl: CHARTS_CONFIG.collectionsUrl,
+          /* base url of the biocache ws*/
+          biocacheServicesUrl: CHARTS_CONFIG.biocacheServicesUrl,
+          /* base url of the biocache webapp*/
+          biocacheWebappUrl: CHARTS_CONFIG.biocacheWebappUrl,
+          /* a uid or list of uids to chart - either this or query must be present */
+          instanceUid: "${instance.uid}",
+          /* the list of charts to be drawn (these are specified in the one call because a single request can get the data for all of them) */
+          charts: ${raw(grailsApplication.config.dataResourceChartsJSON)}
+    }
+    var taxonomyChartOptions = {
+        /* base url of the collectory */
+        collectionsUrl: CHARTS_CONFIG.collectionsUrl,
+        /* base url of the biocache ws*/
+        biocacheServicesUrl: CHARTS_CONFIG.biocacheServicesUrl,
+        /* base url of the biocache webapp*/
+        biocacheWebappUrl: CHARTS_CONFIG.biocacheWebappUrl,
+        /* support drill down into chart - default is false */
+        drillDown: true,
+        /* a uid or list of uids to chart - either this or query must be present */
+        instanceUid: "${instance.uid}",
+          //query: "notomys",
+          //rank: "kingdom",
+          /* threshold value to use for automagic rank selection - defaults to 55 */
+          threshold: 25
       }
       var taxonomyTreeOptions = {
           /* base url of the collectory */
@@ -429,25 +461,25 @@
             }
           });
 
-            <g:if test="${grailsApplication.config.verifiedRecordsToCount}">
-                // verification status: count verified records
-                var facetVerified = "${grailsApplication.config.verifiedRecordsToCount}";
+    <g:if test="${grailsApplication.config.verifiedRecordsToCount}">
+        // verification status: count verified records
+        var facetVerified = "${grailsApplication.config.verifiedRecordsToCount}";
                 var queryUrlVerifiedRecs = CHARTS_CONFIG.biocacheServicesUrl + "/occurrences/search.json?pageSize=0&q=data_resource_uid:${instance.uid}";
                 showVerifiedRecordCount(queryUrlVerifiedRecs, facetVerified, "${g.message(code: 'public.show.rt.des08')}");
-            </g:if>
+    </g:if>
 
-          // taxon chart
-          loadTaxonomyChart(taxonomyChartOptions);
+    // taxon chart
+    loadTaxonomyChart(taxonomyChartOptions);
 
-          // tree
-          initTaxonTree(taxonomyTreeOptions);
-      }
-    }
-    /************************************************************\
-    *
-    \************************************************************/
-    google.load("visualization", "1.0", { packages:["corechart"] });
-    google.setOnLoadCallback(onLoadCallback);
+    // tree
+    initTaxonTree(taxonomyTreeOptions);
+}
+}
+/************************************************************\
+*
+\************************************************************/
+google.load("visualization", "1.0", { packages:["corechart"] });
+google.setOnLoadCallback(onLoadCallback);
 
 </r:script>
 <g:render template="taxonTree" model="[facet:'data_resource_uid', instance: instance]" />

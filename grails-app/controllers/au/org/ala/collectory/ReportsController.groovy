@@ -349,6 +349,7 @@ class ReportsController {
         def chafcMembers
         def amrrnMembers
         def camdMembers
+        def nbnMembers
 
         def execQueryCollection = { query ->
             def answer = Collection.executeQuery(query)
@@ -461,6 +462,8 @@ class ReportsController {
                         Institution.findAllByNetworkMembershipIlike("%CHACM%",[sort:'name'])
                 camdMembers = Collection.findAllByNetworkMembershipIlike("%CAMD%",[sort:'name']) +
                         Institution.findAllByNetworkMembershipIlike("%CAMD%",[sort:'name'])
+                nbnMembers = Collection.findAllByNetworkMembershipIlike("%NBN%",[sort:'name']) +
+                        Institution.findAllByNetworkMembershipIlike("%NBN%",[sort:'name'])
                 break
 
             }

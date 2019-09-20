@@ -45,7 +45,6 @@
         <div class="row">
             <div class="col-md-8">
                 <cl:h1 value="${instance.name}"/>
-                <g:render template="editButton"/>
                 <cl:valueOrOtherwise value="${instance.acronym}"><span
                         class="acronym">Acronym: ${fieldValue(bean: instance, field: "acronym")}</span></cl:valueOrOtherwise>
                 <g:if test="${instance.guid?.startsWith('urn:lsid:')}">
@@ -131,6 +130,7 @@
                 <h5 id="totalVerifiedRecordCount"></h5>
             </section>
 
+
             <g:if test="${fieldValue(bean: instance, field: 'imageRef') && fieldValue(bean: instance, field: 'imageRef.file')}">
                     <section class="public-metadata">
                         <img class="entityLogo" alt="${fieldValue(bean: instance, field: "imageRef.file")}"
@@ -205,7 +205,15 @@
                             <p><g:message code="public.network.membership.des04" /></p>
                             <img src="${resource(absolute: "true", dir: "data/network/", file: "chacm.png")}"/>
                         </g:if>
+                        <g:if test="${instance.isMemberOf('NBN')}">
+                            <p><g:message code="public.network.membership.des05" /></p>
+                            <img src="${resource(absolute: "true", dir: "data/network/", file: "nbn.png")}"/>
+                        </g:if>
                     </section>
+                </g:if>
+
+                <g:if test="${viewerIsAdmin}">
+                    <span><g:link class="btn btn-default" controller="dataProvider" action='show' id="${instance.id}">Admin</g:link></span>
                 </g:if>
 
             <!-- external identifiers -->
@@ -215,6 +223,8 @@
         </div><!--close column-two-->
     </div>
 </div><!--close content-->
+
+
 
 <script type="text/javascript">
     /************************************************************\
@@ -258,25 +268,26 @@
             }
         });
 
-    <g:if test="${grailsApplication.config.verifiedRecordsToCount}">
+        <g:if test="${grailsApplication.config.verifiedRecordsToCount}">
         // verification status: count verified records
         var facetVerified = "${grailsApplication.config.verifiedRecordsToCount}";
         var queryUrlVerifiedRecs = CHARTS_CONFIG.biocacheServicesUrl + "/occurrences/search.json?pageSize=0&q=data_provider_uid:${instance.uid}";
         showVerifiedRecordCount(queryUrlVerifiedRecs, facetVerified, "${g.message(code: 'public.show.rt.des08')}");
-    </g:if>
+        </g:if>
 
         // stats
-        if(loadLoggerStats) {
+        if (loadLoggerStats) {
             loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}", "${instance.name}", "1002");
         }
     }
 
-<r:script type="text/javascript">
-  // stats
-  if(loadLoggerStats){
-      loadDownloadStats("${grailsApplication.config.loggerURL}", "${instance.uid}","${instance.name}", "1002");
-  }
-</r:script>
+    /************************************************************\
+     *
+     \************************************************************/
+
+    google.load("visualization", "1", {packages: ["corechart"]});
+    google.setOnLoadCallback(onLoadCallback);
+</script>
 
 <g:render template="taxonTree" model="[facet:'data_provider_uid', instance: instance]" />
 <g:render template="charts" model="[facet:'data_provider_uid', instance: instance]" />

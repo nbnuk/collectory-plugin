@@ -107,7 +107,6 @@ class ManageController {
     }
 
     /**
-     *
      * Display the load status for the supplied country
      * country - the country to supply the status for
      * @return
@@ -155,6 +154,12 @@ class ManageController {
      * @param show = user will display user login/cookie/roles details
      */
     def list = {
+
+        def view = "list"
+        if(collectoryAuthService.isEditor()){
+            view = "adminList"
+        }
+
         // find the entities the user is allowed to edit
         def entities = collectoryAuthService.authorisedForUser(collectoryAuthService.username()).sorted
 
@@ -163,7 +168,9 @@ class ManageController {
         // get their contact details in case needed
         def contact = Contact.findByEmail(collectoryAuthService.username())
 
-        [entities: entities, user: contact, show: params.show]
+        def roles = collectoryAuthService.getRoles()
+
+        render(view: view, model: [entities: entities, user: contact, userRoles: roles])
     }
 
     def show = {
@@ -181,6 +188,4 @@ class ManageController {
         // get audit records
         return AuditLogEvent.findAllByUri(uid,[sort:'lastUpdated',order:'desc',max:20])
     }
-
-
 }

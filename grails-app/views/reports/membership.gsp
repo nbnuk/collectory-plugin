@@ -94,6 +94,15 @@
                   <tr><td></td><td colspan="2"><cl:showOrEdit entity="${p}"/></td></tr>
                 </g:each>
 
+                  <tr><td colspan="3"><hr></td></tr>
+                  <tr class="reportGroupTitle">
+                      <td><g:message code="reports.nbn" /> (${reports.nbnMembers.size()})</td>
+                      <td colspan="2"><b><g:message code="reports.membership.tr0702" /></b></td>
+                  </tr>
+                  <g:each var="p" in="${reports.nbnMembers}" status="i">
+                      <tr><td></td><td colspan="2"><cl:showOrEdit entity="${p}"/></td></tr>
+                  </g:each>
+
               </table>
             </div>
         </div>

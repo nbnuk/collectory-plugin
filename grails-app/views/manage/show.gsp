@@ -231,6 +231,10 @@
                     <p><g:message code="reports.membership.tr0502" /></p>
                     <img src="${resource(absolute:"true", dir:"data/network/",file:"chacm.png")}"/>
                   </g:if>
+                    <g:if test="${instance.isMemberOf('NBN')}">
+                        <p><g:message code="reports.membership.tr0702" /></p>
+                        <img src="${resource(absolute:"true", dir:"data/network/",file:"nbn.png")}"/>
+                    </g:if>
                 </div>
               </g:if>
 

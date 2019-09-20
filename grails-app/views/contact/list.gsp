@@ -10,10 +10,16 @@
     <body>
         <div class="btn-toolbar">
             <ul class="btn-group">
-                <li class="btn"><cl:homeLink/></li>
-                <li class="btn"><span class="glyphicon glyphicon-list"></span><g:link class="list" action="list"> <g:message code="default.list.label" args="[entityName]"/></g:link></li>
-                <li class="btn"><span class="glyphicon glyphicon-plus"></span><g:link class="create" action="create"> <g:message code="default.new.label" args="[entityName]"/></g:link></li>
+                <li class="btn btn-default"><cl:homeLink/></li>
+                <li class="btn btn-default"><span class="glyphicon glyphicon-list"></span><g:link class="list" action="list" params="[max:10000]"> <g:message code="default.list.label" args="[entityName]"/></g:link></li>
+                <li class="btn btn-default"><span class="glyphicon glyphicon-plus"></span><g:link class="create" action="create"> <g:message code="default.new.label" args="[entityName]"/></g:link></li>
+                <g:if test="${!grailsApplication.config.security.cas.bypass.toBoolean() || true}">
+                    <li class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span><g:link class="create" action="syncWithAuth"> <g:message code="contact.sync.auth" default="Sync with Auth system"/></g:link></li>
+                </g:if>
             </ul>
+            <div class="pull-right">
+                <g:render template="../shared/quickSearch" model="[placeholder: 'search contacts']"/>
+            </div>
         </div>
         <div class="body content">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
@@ -24,38 +30,25 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                        
                             <g:sortableColumn property="id" title="${message(code: 'contact.id.label', default: 'Id')}" />
-
+                            <g:sortableColumn property="userId" title="${message(code: 'contact.userId.label', default: 'User ID')}" />
                             <g:sortableColumn property="mobile" title="${message(code: 'contact.email.label', default: 'Email')}" />
-
                             <g:sortableColumn property="title" title="${message(code: 'contact.title.label', default: 'Title')}" />
-                        
                             <g:sortableColumn property="firstName" title="${message(code: 'contact.firstName.label', default: 'First Name')}" />
-                        
                             <g:sortableColumn property="lastName" title="${message(code: 'contact.lastName.label', default: 'Last Name')}" />
-                        
                             <g:sortableColumn property="phone" title="${message(code: 'contact.phone.label', default: 'Phone')}" />
-                        
-
                         </tr>
                     </thead>
                     <tbody>
                     <g:each in="${contactInstanceList}" status="i" var="contactInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                        
                             <td><g:link action="show" id="${contactInstance.id}">${fieldValue(bean: contactInstance, field: "id")}</g:link></td>
-
-                            <td>${fieldValue(bean: contactInstance, field: "email")}</td>
-
+                            <td><g:link action="show" id="${contactInstance.id}">${fieldValue(bean: contactInstance, field: "userId")}</g:link></td>
+                            <td><g:link action="show" id="${contactInstance.id}">${fieldValue(bean: contactInstance, field: "email")}</g:link></td>
                             <td>${fieldValue(bean: contactInstance, field: "title")}</td>
-                        
                             <td>${fieldValue(bean: contactInstance, field: "firstName")}</td>
-                        
                             <td>${fieldValue(bean: contactInstance, field: "lastName")}</td>
-                        
                             <td>${fieldValue(bean: contactInstance, field: "phone")}</td>
-
                         </tr>
                     </g:each>
                     </tbody>

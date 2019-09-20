@@ -37,6 +37,7 @@ class DataResource extends ProviderGroup implements Serializable {
         qualityControlDescription type: "text"
         geographicDescription type: "text"
         purpose type: "text"
+        keywords type: "text"
     }
 
     String rights
@@ -81,6 +82,12 @@ class DataResource extends ProviderGroup implements Serializable {
     String methodStepDescription
     String qualityControlDescription
 
+    String addrCity = ""
+    String addrCountry = ""
+    String addrPostcode = ""
+    String addrState = ""
+    String addrStreet = ""
+
     String gbifDoi
 
     static constraints = {
@@ -121,6 +128,10 @@ class DataResource extends ProviderGroup implements Serializable {
         methodStepDescription(nullable:true)
         qualityControlDescription(nullable:true)
         gbifDoi(nullable:true)
+        addrCountry(nullable:true, maxSize:255)
+        addrPostcode(nullable:true, maxSize:255)
+        addrState(nullable:true, maxSize:255)
+        addrStreet(nullable:true, maxSize:255)
     }
 
     static transients =  ['creativeCommons']
@@ -145,6 +156,18 @@ class DataResource extends ProviderGroup implements Serializable {
 
     boolean canBeMapped() {
         return false;
+    }
+
+    boolean setAddressFromEMLfields() {
+        if (address == null) {
+            address = new Address()
+        }
+        address.city = addrCity
+        address.country = addrCountry
+        address.postcode = addrPostcode
+        address.street = addrStreet
+        address.state = addrState
+        return true
     }
 
     /**

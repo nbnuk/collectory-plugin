@@ -192,6 +192,10 @@
                             <p><g:message code="public.network.membership.des04" /></p>
                             <img src="${resource(absolute: "true", dir: "data/network/", file: "chacm.png")}"/>
                         </g:if>
+                        <g:if test="${instance.isMemberOf('NBN')}">
+                            <p><g:message code="public.network.membership.des05" /></p>
+                            <img src="${resource(absolute: "true", dir: "data/network/", file: "nbn.png")}"/>
+                        </g:if>
                     </div>
                 </g:if>
 

@@ -454,7 +454,23 @@ class PublicController {
             redirect(controller: "public", action: "map")
         } else {
             ActivityLog.log collectoryAuthService?.username(), collectoryAuthService?.userInRole(ProviderGroup.ROLE_ADMIN), instance.uid, Action.VIEW
-            [instance: instance]
+            //[instance: instance, viewerIsAdmin: (collectoryAuthService?.userInRole(ProviderGroup.ROLE_ADMIN) || collectoryAuthService?.userInRole(ProviderGroup.ROLE_COLLECTION_ADMIN) || collectoryAuthService?.userInRole(ProviderGroup.ROLE_COLLECTION_EDITOR))]
+            //[instance: instance, viewerIsAdmin: collectoryAuthService?.isEditor()]
+
+            log.info("user id = " + collectoryAuthService?.authService.getUserId())
+
+            def isCollectionEditor = collectoryAuthService?.isUserAuthorisedEditorForEntity(collectoryAuthService?.authService.getUserId(), instance)
+            log.info("isCollectionEditor = " + isCollectionEditor["authorised"] )
+
+            [instance: instance,
+             hideSensitiveManagement: (grailsApplication.config.sensitive?.hideManagementPanel?:'true').toBoolean(),
+             viewerIsAdmin: isCollectionEditor["authorised"].asBoolean() || ((grailsApplication.config.dataprovider?.showAdminLink?:'false')=='true')
+                    /* isAuthEditor['authorised'] ||
+                    collectoryAuthService?.userInRole(ProviderGroup.ROLE_ADMIN) ||
+                    collectoryAuthService?.userInRole(ProviderGroup.ROLE_COLLECTION_EDITOR) ||
+                    grailsApplication.config.security.cas.bypass.toBoolean() */
+            ]
+            // **** collectoryAuthService.userInRole doesn't work since request userprincipal is null. But this doesn't work either (user id = null)
         }
     }
 
