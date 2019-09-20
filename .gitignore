@@ -3,4 +3,4 @@ target/*
 .idea/*
 .slcache/
 out/*
-grails-app/.DS_Store
+.DS_Store
