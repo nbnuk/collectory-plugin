@@ -119,6 +119,10 @@
                                     <g:link class="mainLink" controller="providerMap" action="list"><g:message code="manage.list.addtools.mpm" /></g:link>
                                     <p class="mainText"><g:message code="manage.list.addtools.des12" />.</p>
                                 </div>
+                                <div class="homeCell">
+                                    <g:link class="mainLink" controller="groupClassification" action="list"><g:message code="manage.list.addtools.groupClassification"  default="View all group classifications" /></g:link>
+                                    <p class="mainText"><g:message code="manage.list.groupClassification.desc" default="View all group classifications, and add new classifications" />.</p>
+                                </div>
                             </div>
                         </div>
                     </div>

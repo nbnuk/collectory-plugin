@@ -1,4 +1,4 @@
-<%@ page import="au.org.ala.collectory.DataResource; au.org.ala.collectory.DataProvider; au.org.ala.collectory.ProviderGroup; au.org.ala.collectory.Institution" %>
+<%@ page import="au.org.ala.collectory.DataResource; au.org.ala.collectory.DataProvider; au.org.ala.collectory.ProviderGroup; au.org.ala.collectory.Institution; au.org.ala.collectory.GroupClassification" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -58,6 +58,15 @@
                         <label for="resourceType"><g:message code="dataprovider.gbif.country" default="GBIF Attribution" /> <cl:helpText code="dataprovider.gbifCountryToAttribute" default="Select the country to attribute within GBIF.org as the publishing country"/></label>
                         <g:countrySelect id="country"  class="form-control" name="gbifCountryToAttribute" value="${command?.gbifCountryToAttribute}"
                                          noSelection="['':'-Leave empty for international organisations-']"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="groupClassification"><g:message code="groupClassification.label" default="Group classification" /> <cl:helpText code="groupClassification.label" default="Select the group to which this data provider belongs"/></label>
+                        <g:select name="groupClassification" class="form-control"
+                                  from="${GroupClassification.list([sort:'name'])}"
+                                  optionKey="name"
+                                  noSelection="${['':'Select a group classification']}"
+                                  value="${command?.groupClassification}" />
+
                     </div>
                 </g:if>
                 <g:if test="${command.ENTITY_TYPE == 'Collection'}">

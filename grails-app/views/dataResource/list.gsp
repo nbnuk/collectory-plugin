@@ -30,7 +30,7 @@
 
             <div class="list">
                 <table class="table table-bordered table-striped">
-                  <colgroup><col width="45%"/><col width="7%"/><col width="10%"/><col width="3%"/><col width="5%"/><col width="30%"/></colgroup>
+                  <colgroup><col width="40%"/><col width="7%"/><col width="8%"/><col width="3%"/><col width="5%"/><col width="20%"/><col width="8%"/><col width="8%"/></colgroup>
                     <thead>
                         <tr>
                             <g:sortableColumn property="name" title="${message(code: 'dataResource.name.label', default: 'Name')}" />
@@ -39,6 +39,8 @@
                             <th>Licence</th>
                             <th>Verified</th>
                             <g:sortableColumn property="dataProvider" title="${message(code: 'dataResource.dataProvider.label', default: 'Provider')}" />
+                            <g:sortableColumn property="dataProvider.groupClassification" title="${message(code: 'dataResource.dataProvider.groupClassification.label', default: 'Classification')}" />
+                            <th>Membership</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,6 +63,15 @@
                             ${fieldValue(bean: instance.dataProvider, field: "name")}
                             ${fieldValue(bean: instance.institution, field: "name")}
                         </td>
+                          <td>
+                              ${fieldValue(bean: instance.dataProvider, field: "groupClassification")}
+                          </td>
+                          <td>
+
+                              <g:each in="${instance.listNetworkMembership()}" var="value">
+                                  ${value}<br/>
+                              </g:each>
+                          </td>
 
                       </tr>
                     </g:each>

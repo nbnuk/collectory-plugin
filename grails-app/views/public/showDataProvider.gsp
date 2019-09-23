@@ -184,6 +184,13 @@
                     </section>
                 </g:if>
 
+            <g:if test="${instance.groupClassification}">
+            <section class="public-metadata">
+                <h4><g:message code="groupClassification.label" /></h4>
+                ${instance.groupClassification}
+            </section>
+            </g:if>
+
             <!-- network membership -->
                 <g:if test="${instance.networkMembership}">
                     <section class="public-metadata">

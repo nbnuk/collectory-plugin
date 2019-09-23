@@ -19,7 +19,7 @@ class CrudService {
     static baseStringProperties = ['guid','name','acronym','phone','email','state','pubShortDescription',
                                    'pubDescription','techDescription','notes', 'isALAPartner','focus','attributions',
                                    'websiteUrl','networkMembership','altitude', 'street','postBox','postcode','city',
-                                   'state','country','file','caption','attribution','copyright', 'gbifRegistryKey']
+                                   'state','country','file','caption','attribution','copyright', 'gbifRegistryKey', 'groupClassification']
     static baseNumberProperties = ['latitude','longitude']
     static baseObjectProperties = ['address', 'imageRef','logoRef']
     static baseJSONArrays = ['networkMembership']
@@ -102,6 +102,7 @@ class CrudService {
             state = p.state
             websiteUrl = p.websiteUrl
             alaPublicUrl = p.buildPublicUrl()
+            groupClassification = p.groupClassification?:''
             if (p.imageRef?.file) {
                 imageRef {
                     filename = p.imageRef?.file
@@ -203,6 +204,7 @@ class CrudService {
             if (p.longitude != -1) longitude = p.longitude
             state = p.state
             websiteUrl = p.websiteUrl
+            groupClassification = p.groupClassification
             alaPublicUrl = p.buildPublicUrl()
             if (p.imageRef?.file) {
                 imageRef {

@@ -73,6 +73,10 @@
                   <p><cl:membershipWithGraphics coll="${instance}"/></p>
                 </g:if>
 
+                <g:if test="${instance.groupClassification}">
+                    <p><span class="category"><g:message code="groupClassification.label" />:</span> ${fieldValue(bean: instance, field: "groupClassification")}</p>
+                </g:if>
+
                 <!-- Notes -->
                 <g:if test="${instance.notes}">
                   <p><cl:formattedText>${fieldValue(bean: instance, field: "notes")}</cl:formattedText></p>

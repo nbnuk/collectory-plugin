@@ -613,6 +613,8 @@ class GbifRegistryService {
                 "Data provider UID",
                 "Data provider name",
                 "Data provider GBIF ID",
+                "Data provider classification",
+                "Data provider memberships",
 
                 "Institution UID",
                 "Institution name",
@@ -698,6 +700,8 @@ class GbifRegistryService {
                         dataProvider?.uid,
                         dataProvider?.name,
                         dataProvider?.gbifRegistryKey,
+                        dataProvider?.groupClassification,
+                        dataResource.listNetworkMembership().join(" "),
 
                         institution?.uid,
                         institution?.name,

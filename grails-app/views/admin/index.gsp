@@ -91,6 +91,11 @@
             <p class="mainText"><g:message code="admin.index.licence.desc" default="View all licences, and add new licences" />.</p>
           </div>
 
+            <div class="homeCell">
+                <g:link class="mainLink" controller="groupClassification" action="list"><g:message code="admin.index.groupClassification"  default="View all group classifications" /></g:link>
+                <p class="mainText"><g:message code="admin.index.groupClassification.desc" default="View all group classifications, and add new classifications" />.</p>
+            </div>
+
           <div class="homeCell">
             <g:link class="mainLink" controller="providerCode" action="list"><g:message code="admin.index.link14" /></g:link>
             <p class="mainText"><g:message code="admin.index.des14" />.</p>

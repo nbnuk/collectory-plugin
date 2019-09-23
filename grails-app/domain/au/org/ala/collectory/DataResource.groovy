@@ -268,6 +268,14 @@ class DataResource extends ProviderGroup implements Serializable {
         DataHub.list().findAll {it.isDataResourceMember(uid)}
     }
 
+    List listNetworkMembership() {
+        def list = []
+        if (dataProvider?.networkMembership) {
+            list = new JsonSlurper().parseText(dataProvider.networkMembership)
+        }
+        list
+    }
+
     /**
      * True if this resource uses a CC license.
      * @return

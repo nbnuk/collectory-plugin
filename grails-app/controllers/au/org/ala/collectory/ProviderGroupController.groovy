@@ -304,6 +304,7 @@ abstract class ProviderGroupController {
                 params.remove('networkMembership')
 
                 pg.properties = params
+                pg.groupClassification = params.groupClassification //not sure why this is not injected above
                 pg.userLastModified = collectoryAuthService?.username()
                 if (!pg.hasErrors() && pg.save(flush: true)) {
                     flash.message =
