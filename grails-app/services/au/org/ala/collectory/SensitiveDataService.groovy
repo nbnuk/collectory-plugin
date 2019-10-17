@@ -3,6 +3,7 @@ package au.org.ala.collectory
 import grails.converters.JSON
 import grails.transaction.Transactional
 import groovy.json.JsonSlurper
+import org.apache.commons.httpclient.util.URIUtil
 
 @Transactional
 class SensitiveDataService {
@@ -17,9 +18,16 @@ class SensitiveDataService {
     def getSensitiveSpeciesForDataProvider(def uid) {
         if (uid) {
             log.info("sensitive lists = " + grailsApplication.config.sensitive?.speciesLists)
-            String sensitiveLists = (grailsApplication.config.sensitive?.speciesLists ?: '').replace(",", "%20OR%20")
+            String sensitiveListsSOLR = '' //(grailsApplication.config.sensitive?.speciesLists ?: '').replace(",", "%20OR%20")
+            def jsonSlurper = new JsonSlurper()
+            def sensitiveListsArray = jsonSlurper.parseText(grailsApplication.config.sensitive?.speciesLists ?: '[]')
+            sensitiveListsArray.each{
+                sensitiveListsSOLR += (sensitiveListsSOLR > ''? "%20OR%20" : "")
+                sensitiveListsSOLR += "(" + ((it.filter?: '') > ''? URIUtil.encodeWithinQuery(it.filter).replaceAll("%26","&").replaceAll("%3D","=").replaceAll("%3A",":") + "%20AND%20" : "") +
+                        "species_list_uid:" + it.list + ")"
+            }
 
-            def url = grailsApplication.config.biocacheServicesUrl + "/occurrences/search?q=*:*&fq=data_provider_uid:" + uid + "&fq=species_list_uid:(" + sensitiveLists + ")&facets=names_and_lsid&pageSize=0&facet=on&flimit=-1"
+            def url = grailsApplication.config.biocacheServicesUrl + "/occurrences/search?q=*:*&fq=data_provider_uid:" + uid + (sensitiveListsSOLR>''? "&fq=(" + sensitiveListsSOLR + ")" : "") + "&facets=names_and_lsid&pageSize=0&facet=on&flimit=-1"
             //&sort=names_and_lsid%20ASC"
             log.info("Get sensitive species for data provider from: " + url)
             def js = new JsonSlurper()
