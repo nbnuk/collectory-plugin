@@ -18,7 +18,7 @@
         </li>
     </ul>
 </div>
-<h1>Manage approved list</h1>
+<h1>Manage approved list - <g:if test="${accessType == 'sensitive'}">sensitive data</g:if><g:elseif test="${accessType == 'highres'}">high resolution data</g:elseif><g:else>unknown data type FIX</g:else></h1>
 
 <div class=" well">
     <div class="form-group">
@@ -65,14 +65,16 @@
 
 <script>
 
-    var queryBaseUrl = "${g.createLink(controller: 'dataProvider', action: 'findUser', id: instance.id)}?q=";
-    var findApprovedUsers = "${g.createLink(controller: 'dataProvider', action: 'findApprovedUsers', id: instance.id)}";
-    var addUserUrl = "${g.createLink(controller: 'dataProvider', action: 'addUserToApprovedList', id: instance.id)}";
-    var removeUserUrl = "${g.createLink(controller: 'dataProvider', action: 'removeUserToApprovedList', id: instance.id)}";
-    var specifyResourcesUrl = "${g.createLink(controller: 'dataProvider', action: 'specifyAccess', id: instance.id)}";
+    var queryBaseUrl = "<g:createLink controller="dataProvider" action="findUser" params="${[id: instance.id, accessType: accessType]}"/>";
+    //var queryBaseUrl = "${g.createLink(controller: 'dataProvider', action: 'findUser', id: instance.id)}?q=";
+    var findApprovedUsers = "<g:createLink controller="dataProvider" action="findApprovedUsers" params="${[id: instance.id, accessType: accessType]}"/>";
+    var addUserUrl = "<g:createLink controller="dataProvider" action="addUserToApprovedList" params="${[id: instance.id, accessType: accessType]}"/>";
+    var removeUserUrl = "<g:createLink controller="dataProvider" action="removeUserToApprovedList" params="${[id: instance.id, accessType: accessType]}"/>";
+    var specifyResourcesUrl = "<g:createLink controller="dataProvider" action="specifyAccess" params="${[id: instance.id, accessType: accessType]}"/>";
 
     $('#searchForUser').click(function() {
-        var queryUrl = queryBaseUrl + $('#q').val();
+        var queryUrl = queryBaseUrl + "&q=" + $('#q').val();
+        console.log(queryUrl);
         $.getJSON(queryUrl, function(data){
             renderResults(data.results, false);
         });
@@ -175,7 +177,7 @@
 
         $('.specifyResources').click(function(event) {
             var userId = event.target.id.substring(4);
-            window.location.href = specifyResourcesUrl + "?userId=" + userId;
+            window.location.href = specifyResourcesUrl + "&userId=" + userId;
         });
     }
 

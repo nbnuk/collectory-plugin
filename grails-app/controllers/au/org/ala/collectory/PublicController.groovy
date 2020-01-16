@@ -464,6 +464,7 @@ class PublicController {
 
             [instance: instance,
              hideSensitiveManagement: (grailsApplication.config.sensitive?.hideManagementPanel?:'true').toBoolean(),
+             hideHighResManagement: (grailsApplication.config.highres?.hideManagementPanel?:'true').toBoolean(),
              viewerIsAdmin: isCollectionEditor["authorised"].asBoolean() || ((grailsApplication.config.dataprovider?.showAdminLink?:'false')=='true')
                     /* isAuthEditor['authorised'] ||
                     collectoryAuthService?.userInRole(ProviderGroup.ROLE_ADMIN) ||

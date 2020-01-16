@@ -99,13 +99,29 @@
                 <p>
                     Currently, there are ${instance.approvals.size()} users with approved accessed.
                 </p>
-                <g:link controller="dataProvider" action="manageAccess" class="btn btn-default" id="${instance.id}">
+                <g:link controller="dataProvider" action="manageAccess" class="btn btn-default" id="${instance.id}" params="[accessType:'sensitive']">
                     Manage access
                 </g:link>
-                <g:link controller="dataProvider" action="downloadApprovedList" class="btn btn-default" id="${instance.id}">
+                <g:link controller="dataProvider" action="downloadApprovedList" class="btn btn-default" id="${instance.id}" params="[accessType:'sensitive']">
                     <i class="glyphicon glyphicon-cloud-download"></i> Download user list as CSV
                 </g:link>
             </div>
+                </g:if>
+
+                <g:if test="${!hideHighResManagement}"> <!-- check if there actually is hig-res data to manage -->
+                    <div class="show-section well">
+                        <h2>High resolution data access</h2>
+                        <p>Manage who has access to the high resolution data in this provider's datasets.</p>
+                        <p>
+                            Currently, there are ${instance.approvalsHighRes.size()} users with approved accessed.
+                        </p>
+                        <g:link controller="dataProvider" action="manageAccess" class="btn btn-default" id="${instance.id}" params="[accessType:'highres']">
+                            Manage access
+                        </g:link>
+                        <g:link controller="dataProvider" action="downloadApprovedList" class="btn btn-default" id="${instance.id}" params="[accessType:'highres']">
+                            <i class="glyphicon glyphicon-cloud-download"></i> Download user list as CSV
+                        </g:link>
+                    </div>
                 </g:if>
 
              <cl:isAdmin>

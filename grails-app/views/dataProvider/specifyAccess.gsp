@@ -14,7 +14,7 @@
     <ul class="btn-group">
         <li class="btn btn-default"><cl:homeLink/></li>
         <li class="btn btn-default">
-            <g:link class="returnAction" controller="dataProvider" action='manageAccess' id="${instance.id}">Return to managing access for ${instance.name}</g:link>
+            <g:link class="returnAction" controller="dataProvider" action='manageAccess' params="${[id: instance.id, accessType: accessType]}">Return to managing access for ${instance.name}</g:link>
         </li>
     </ul>
 </div>
@@ -27,17 +27,28 @@
 
 <p>
     Select the species from the dropdown and then check all the datasets that the user should be given access to. <br/>
+<g:if test="${accessType=='highres'}">
+    Note: only datasets that contain high-resolution records for the selected species are enabled.
+</g:if>
+<g:else>
     Note: only datasets that contain records for the selected species are enabled.
+</g:else>
+
 </p>
 
 <div class="well">
-    <g:form controller="dataProvider" action="updateSpecifiedAccess" id="${instance.id}" elementId="specifyForm">
+    <g:form controller="dataProvider" action="updateSpecifiedAccess" params="${[id: instance.id, accessType: accessType]}" elementId="specifyForm">
 
         <div class="form-check">
             <select class="specifySensitiveSpecies" id="select-sensitive-species" name="select-sensitive-species">
-                <option value="">Select a sensitive species</option>
-                <g:each in="${sensitiveSpecies.sort {it.taxon} }" var="sensitiveSpeciesItem">
-                    <option value="${sensitiveSpeciesItem.lsid}">${sensitiveSpeciesItem.taxon}: ${sensitiveSpeciesItem.commonname} (${sensitiveSpeciesItem.records} records)</option>
+                <g:if test="${accessType=='highres'}">
+                    <option value="">Select a species with high resolution data</option>
+                </g:if>
+                <g:else>
+                    <option value="">Select a sensitive species</option>
+                </g:else>
+                <g:each in="${relevantSpecies.sort {it.taxon} }" var="relevantSpeciesItem">
+                    <option value="${relevantSpeciesItem.lsid}">${relevantSpeciesItem.taxon}: ${relevantSpeciesItem.commonname} (${relevantSpeciesItem.records} records)</option>
                 </g:each>
             </select>
         </div>
@@ -49,7 +60,13 @@
         <table>
             <tr>
                 <td><b>Dataset</b></td>
-                <td><b>No. of records</b></td>
+                <g:if test="${accessType=='highres'}">
+                    <td><b>No. of high resolution records</b></td>
+                </g:if>
+                <g:else>
+                    <td><b>No. of records</b></td>
+                </g:else>
+
             </tr>
         <g:each in="${instance.resources.sort {it.name} }" var="dataResource">
             <tr>
@@ -74,7 +91,7 @@
         </g:each>
         </table>
         <button type="submit" class="btn btn-primary">Save all changes</button>
-        <g:link class="returnAction" controller="dataProvider" action='manageAccess' id="${instance.id}">
+        <g:link class="returnAction" controller="dataProvider" action="manageAccess" params="${[id: instance.id, accessType: accessType]}">
             <input type="button" class="btn btn-default" value="Cancel">
         </g:link>
 
@@ -82,7 +99,12 @@
 </div>
 
 <div class="well">
-    <p>Sensitive species the user has been granted access to:</p>
+    <g:if test="${accessType == 'highres'}">
+        <p>Species with high resolution records that the user has been granted access to:</p>
+    </g:if>
+    <g:else>
+        <p>Sensitive species the user has been granted access to:</p>
+    </g:else>
     <div id="user-species-list">
 
     </div>
@@ -92,11 +114,11 @@
 
     var previousSpecies = '';
     var approvedAccessDataResourceTaxa = JSON.parse('${approvedAccessDataResourceTaxa_unencoded}');
-    var sensitiveSppSortedLsid = [];
-    var sensitiveSppSortedName = [];
-    <g:each in="${sensitiveSpecies.sort {it.taxon} }" var="sensitiveSpeciesItem">
-        sensitiveSppSortedLsid.push("${sensitiveSpeciesItem.lsid}");
-        sensitiveSppSortedName.push("${sensitiveSpeciesItem.taxon} - ${sensitiveSpeciesItem.commonname}");
+    var relevantSppSortedLsid = [];
+    var relevantSppSortedName = [];
+    <g:each in="${relevantSpecies.sort {it.taxon} }" var="relevantSpeciesItem">
+        relevantSppSortedLsid.push("${relevantSpeciesItem.lsid}");
+        relevantSppSortedName.push("${relevantSpeciesItem.taxon} - ${relevantSpeciesItem.commonname}");
     </g:each>
 
 
@@ -136,7 +158,13 @@
 
     function recSummary(lsid, uid, ds_checked) {
 
-        var getRecSummary = "${g.createLink(controller: 'dataProvider', action: 'speciesRecordsForDataProvider')}";
+        <g:if test="${accessType=='highres'}">
+            var getRecSummary = "${g.createLink(controller: 'dataProvider', action: 'speciesHighResRecordsForDataProvider')}";
+        </g:if>
+        <g:else>
+            var getRecSummary = "${g.createLink(controller: 'dataProvider', action: 'speciesRecordsForDataProvider')}";
+        </g:else>
+
         getRecSummary += "?lsid=" + lsid + "&uid=" + uid;
 
         $.getJSON(getRecSummary, function(data){
@@ -194,12 +222,12 @@
 
     function setUserSpeciesList() {
         $("#user-species-list").html('');
-        $.each(sensitiveSppSortedLsid, function(index, lsid) {
+        $.each(relevantSppSortedLsid, function(index, lsid) {
             var in_list = approvedAccessDataResourceTaxa.filter(
                 function(data){ return data.lsid == lsid }
             );
             if (in_list.length !== 0) {
-                var spp_name = sensitiveSppSortedName[index];
+                var spp_name = relevantSppSortedName[index];
                 var datasetNames = "";
                 $.each(in_list, function(idx, spp) {
                     $.each(spp.data_resource_uid, function (index, druid) {

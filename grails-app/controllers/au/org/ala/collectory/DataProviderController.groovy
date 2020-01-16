@@ -10,6 +10,7 @@ class DataProviderController extends ProviderGroupController {
     def gbifRegistryService
     def authService
     def sensitiveDataService
+    def highResDataService
 
     DataProviderController() {
         entityName = "DataProvider"
@@ -60,27 +61,36 @@ class DataProviderController extends ProviderGroupController {
         }
         else {
             log.debug "Ala partner = " + instance.isALAPartner
+            def highResSpecies = highResDataService.getHighResSpeciesForDataProvider(instance.uid)
             ActivityLog.log username(), isAdmin(), instance.uid, Action.VIEW
             
-            [instance: instance, contacts: instance.getContacts(), changes: getChanges(instance.uid), hideSensitiveManagement: (grailsApplication.config.sensitive?.hideManagementPanel?:'true').toBoolean()]
+            [instance: instance, contacts: instance.getContacts(), changes: getChanges(instance.uid),
+             hideSensitiveManagement: (grailsApplication.config.sensitive?.hideManagementPanel?:'true').toBoolean(),
+             hideHighResManagement: (grailsApplication.config.highres?.hideManagementPanel?:'true').toBoolean() || ((highResSpecies?.count?:0) == 0)]
         }
     }
 
     def manageAccess = {
         def instance = get(params.id)
-        [instance: instance]
+        [instance: instance, accessType: params.accessType]
     }
 
     def specifyAccess = {
         def instance = get(params.id)
         def contact = Contact.findByUserId(params.userId)
-        def approvedAccess = ApprovedAccess.findByContactAndDataProvider(contact, instance)
+        def relevantSpecies
+        def approvedAccess
+        def approvedAccessDataResourceTaxa
+        if (params.accessType == "highres") {
+            approvedAccess = ApprovedAccessHighRes.findByContactAndDataProvider(contact, instance)
+            relevantSpecies = highResDataService.getHighResSpeciesForDataProvider(instance.uid)
+        } else {
+            approvedAccess = ApprovedAccess.findByContactAndDataProvider(contact, instance)
+            relevantSpecies = sensitiveDataService.getSensitiveSpeciesForDataProvider(instance.uid)
+        }
+        approvedAccessDataResourceTaxa = approvedAccess.dataResourceTaxa?:"[]"
 
-        def sensitiveSpecies = sensitiveDataService.getSensitiveSpeciesForDataProvider(instance.uid)
-
-        def approvedAccessDataResourceTaxa = approvedAccess.dataResourceTaxa?:"[]"
-
-        [instance:instance, contact: contact, sensitiveSpecies: sensitiveSpecies, approvedAccessDataResourceTaxa: approvedAccessDataResourceTaxa]
+        [instance:instance, contact: contact, relevantSpecies: relevantSpecies, approvedAccessDataResourceTaxa: approvedAccessDataResourceTaxa, accessType: params.accessType]
     }
 
     boolean isCollectionOrArray(object) {
@@ -90,7 +100,13 @@ class DataProviderController extends ProviderGroupController {
     def updateSpecifiedAccess = {
         def instance = get(params.id)
         def contact = Contact.findByUserId(params.userId)
-        def approvedAccess = ApprovedAccess.findByContactAndDataProvider(contact, instance)
+
+        def approvedAccess
+        if (params.accessType == "highres") {
+            approvedAccess = ApprovedAccessHighRes.findByContactAndDataProvider(contact, instance)
+        } else {
+            approvedAccess = ApprovedAccess.findByContactAndDataProvider(contact, instance)
+        }
 
         def dr_taxa_list = params.dataResourceTaxa
 
@@ -99,7 +115,7 @@ class DataProviderController extends ProviderGroupController {
         approvedAccess.userLastModified = username()
         approvedAccess.save(flush:true)
 
-        redirect(action:"manageAccess", id:params.id, params:[justSavedUser:params.userId])
+        redirect(action:"manageAccess", id: params.id, params:[justSavedUser: params.userId, accessType: params.accessType])
     }
 
     def addUserToApprovedList = {
@@ -133,7 +149,12 @@ class DataProviderController extends ProviderGroupController {
             contact.save(flush:true)
         }
 
-        def access = new ApprovedAccess()
+        def access
+        if (params.accessType == "highres") {
+            access = new ApprovedAccessHighRes()
+        } else {
+            access = new ApprovedAccess()
+        }
         access.contact = contact
         access.dataProvider = dataProvider
         access.userLastModified = username()
@@ -153,7 +174,13 @@ class DataProviderController extends ProviderGroupController {
         def contact = Contact.findByUserId(params.userId)
         def dataProvider = get(params.id)
 
-        def aa = ApprovedAccess.findByContactAndDataProvider(contact, dataProvider)
+        def aa
+        if (params.accessType == "highres") {
+            aa = ApprovedAccessHighRes.findByContactAndDataProvider(contact, dataProvider)
+        } else {
+            aa = ApprovedAccess.findByContactAndDataProvider(contact, dataProvider)
+        }
+
         def result = [:]
 
         if(aa){
@@ -176,8 +203,15 @@ class DataProviderController extends ProviderGroupController {
         def js = new JsonSlurper().parse(new URL(url))
 
         //retrieve a list of IDs of users with access for this provider
-        def list = ApprovedAccess.executeQuery("select distinct aa.contact.userId from ApprovedAccess aa where aa.dataProvider.id = ?",
-                [Long.valueOf(params.id)])
+        def list
+        //TODO: refactor this as calling a method from ApprovedAccess/HighRes class
+        if (params.accessType == "highres") {
+            list = ApprovedAccessHighRes.executeQuery("select distinct aa.contact.userId from ApprovedAccessHighRes aa where aa.dataProvider.id = ?",
+                    [Long.valueOf(params.id)])
+        } else {
+            list = ApprovedAccess.executeQuery("select distinct aa.contact.userId from ApprovedAccess aa where aa.dataProvider.id = ?",
+                    [Long.valueOf(params.id)])
+        }
 
         js.results.each {
             if(list.contains(it.userId)){
@@ -196,7 +230,12 @@ class DataProviderController extends ProviderGroupController {
 
     def findApprovedUsers = {
         def instance = get(params.id)
-        def approvedAccess = ApprovedAccess.findAllByDataProvider(instance)
+        def approvedAccess
+        if (params.accessType == "highres") {
+            approvedAccess = ApprovedAccessHighRes.findAllByDataProvider(instance)
+        } else {
+            approvedAccess = ApprovedAccess.findAllByDataProvider(instance)
+        }
         def contacts = []
         approvedAccess.each {
             contacts << it.contact
@@ -206,7 +245,12 @@ class DataProviderController extends ProviderGroupController {
 
     def downloadApprovedList = {
         def instance = get(params.id)
-        def approvedAccess = ApprovedAccess.findAllByDataProvider(instance)
+        def approvedAccess
+        if (params.accessType == "highres") {
+            approvedAccess = ApprovedAccessHighRes.findAllByDataProvider(instance)
+        } else {
+            approvedAccess = ApprovedAccess.findAllByDataProvider(instance)
+        }
         response.setContentType("text/csv")
         response.setCharacterEncoding("UTF-8")
         response.setHeader("Content-disposition", "attachment;filename=download-approved-users-${instance.uid}.csv")
@@ -419,6 +463,15 @@ class DataProviderController extends ProviderGroupController {
         }
     }
 
+    def highResSpeciesForDataProvider = {
+        if (params.uid) {
+            def highResSpecies = highResDataService.getHighResSpeciesForDataProvider(params.uid)
+            render highResSpecies as JSON
+        } else {
+            render(status:400, text: "highResSpeciesForDataProvider: must specify a uid")
+        }
+    }
+
     /**
      * Return JSON summary of records for a given species held in data provider's datasets
      *
@@ -431,6 +484,15 @@ class DataProviderController extends ProviderGroupController {
             render speciesRecords as JSON
         } else {
             render(status:400, text: "speciesRecordsForDataProvider: must specify uid and lsid")
+        }
+    }
+
+    def speciesHighResRecordsForDataProvider = {
+        if (params.uid && params.lsid) {
+            def speciesHighResRecords = highResDataService.getSpeciesHighResRecordsForDataProvider(params.lsid, params.uid)
+            render speciesHighResRecords as JSON
+        } else {
+            render(status:400, text: "speciesHighResRecordsForDataProvider: must specify uid and lsid")
         }
     }
 
