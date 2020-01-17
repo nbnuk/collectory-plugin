@@ -71,6 +71,7 @@
     var addUserUrl = "<g:createLink controller="dataProvider" action="addUserToApprovedList" params="${[id: instance.id, accessType: accessType]}"/>";
     var removeUserUrl = "<g:createLink controller="dataProvider" action="removeUserToApprovedList" params="${[id: instance.id, accessType: accessType]}"/>";
     var specifyResourcesUrl = "<g:createLink controller="dataProvider" action="specifyAccess" params="${[id: instance.id, accessType: accessType]}"/>";
+    var specifyResourcesHighResUrl = "<g:createLink controller="dataProvider" action="specifyAccessHighRes" params="${[id: instance.id, accessType: accessType]}" />";
 
     $('#searchForUser').click(function() {
         var queryUrl = queryBaseUrl + "&q=" + $('#q').val();
@@ -177,7 +178,12 @@
 
         $('.specifyResources').click(function(event) {
             var userId = event.target.id.substring(4);
-            window.location.href = specifyResourcesUrl + "&userId=" + userId;
+            <g:if test="${accessType == 'highres'}">
+                window.location.href = specifyResourcesHighResUrl + "&userId=" + userId;
+            </g:if>
+            <g:else>
+                window.location.href = specifyResourcesUrl + "&userId=" + userId;
+            </g:else>
         });
     }
 

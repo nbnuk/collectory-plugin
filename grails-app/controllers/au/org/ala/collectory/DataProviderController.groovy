@@ -81,16 +81,26 @@ class DataProviderController extends ProviderGroupController {
         def relevantSpecies
         def approvedAccess
         def approvedAccessDataResourceTaxa
-        if (params.accessType == "highres") {
-            approvedAccess = ApprovedAccessHighRes.findByContactAndDataProvider(contact, instance)
-            relevantSpecies = highResDataService.getHighResSpeciesForDataProvider(instance.uid)
-        } else {
-            approvedAccess = ApprovedAccess.findByContactAndDataProvider(contact, instance)
-            relevantSpecies = sensitiveDataService.getSensitiveSpeciesForDataProvider(instance.uid)
-        }
+        approvedAccess = ApprovedAccess.findByContactAndDataProvider(contact, instance)
+        relevantSpecies = sensitiveDataService.getSensitiveSpeciesForDataProvider(instance.uid)
         approvedAccessDataResourceTaxa = approvedAccess.dataResourceTaxa?:"[]"
 
         [instance:instance, contact: contact, relevantSpecies: relevantSpecies, approvedAccessDataResourceTaxa: approvedAccessDataResourceTaxa, accessType: params.accessType]
+    }
+
+    def specifyAccessHighRes = {
+        def instance = get(params.id)
+        def contact = Contact.findByUserId(params.userId)
+        def relevantSpecies
+        def approvedAccess
+        def approvedAccessDataResourceTaxa
+        def relevantDatasets
+        approvedAccess = ApprovedAccessHighRes.findByContactAndDataProvider(contact, instance)
+        relevantSpecies = highResDataService.getHighResSpeciesForDataProvider(instance.uid)
+        relevantDatasets = highResDataService.getHighResDatasetsForDataProvider(instance.uid)
+        approvedAccessDataResourceTaxa = approvedAccess.dataResourceTaxa?:"[]"
+
+        [instance:instance, contact: contact, relevantSpecies: relevantSpecies, relevantDatasets: relevantDatasets, approvedAccessDataResourceTaxa: approvedAccessDataResourceTaxa, accessType: params.accessType]
     }
 
     boolean isCollectionOrArray(object) {
@@ -494,6 +504,16 @@ class DataProviderController extends ProviderGroupController {
         } else {
             render(status:400, text: "speciesHighResRecordsForDataProvider: must specify uid and lsid")
         }
+    }
+
+    def speciesHighResRecordsForDataset = {
+        if (params.druid) {
+            def speciesHighResRecords = highResDataService.getHighResSpeciesForDataset(params.druid)
+            render speciesHighResRecords as JSON
+        } else {
+            render(status:400, text: "speciesHighResRecordsForDataset: must specify druid")
+        }
+
     }
 
 }

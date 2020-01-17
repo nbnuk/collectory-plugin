@@ -11,7 +11,7 @@ class HighResDataService {
     def grailsApplication
 
     //static final String fqForHighRes = 'month:06' //TODO: when Steve's part is done this should be something like high_resolution:true
-    static final String fqForHighRes = 'individual_count:3' //TODO: when Steve's part is done this should be something like high_resolution:true
+    //static final String fqForHighRes = 'individual_count:3'  //TODO: when Steve's part is done this should be something like high_resolution:true
     /**
      * Return JSON representation of species with high resolution records held in data provider's datasets
      *
@@ -20,7 +20,7 @@ class HighResDataService {
     def getHighResSpeciesForDataProvider(def uid) {
         if (uid) {
 
-            def url = grailsApplication.config.biocacheServicesUrl + "/occurrences/search?q=*:*&fq=" + fqForHighRes + "&fq=data_provider_uid:" + uid + "&facets=names_and_lsid&pageSize=0&facet=on&flimit=-1"
+            def url = grailsApplication.config.biocacheServicesUrl + "/occurrences/search?q=*:*&fq=" + (grailsApplication.config.highres?.fq?:'high_resolution:true') + "&fq=data_provider_uid:" + uid + "&facets=names_and_lsid&pageSize=0&facet=on&flimit=-1"
             //&sort=names_and_lsid%20ASC"
             log.info("Get high resolution species for data provider from: " + url)
             def js = new JsonSlurper()
@@ -31,7 +31,6 @@ class HighResDataService {
 
             List highresSpecies = []
             biocacheSearch.facetResults[0].fieldResult.each { result ->
-                log.info(result)
                 def spParts = result.label.split('\\|')
                 if (spParts?.size()?:0 > 3) {
                     highresSpecies << [
@@ -42,13 +41,45 @@ class HighResDataService {
                     ]
                 }
             }
-            log.info("Resulting high resolution species = " + highresSpecies.toString())
+            //log.info("Resulting high resolution species = " + highresSpecies.toString())
             return highresSpecies
 
         } else {
             return null
         }
     }
+
+    def getHighResDatasetsForDataProvider(def uid) {
+        if (uid) {
+
+            def url = grailsApplication.config.biocacheServicesUrl + "/occurrences/search?q=*:*&fq=" + (grailsApplication.config.highres?.fq?:'high_resolution:true') + "&fq=data_provider_uid:" + uid + "&facets=data_resource_uid&pageSize=0&facet=on&flimit=-1"
+            //&sort=names_and_lsid%20ASC"
+            log.info("Get high resolution datasets for data provider from: " + url)
+            def js = new JsonSlurper()
+            def biocacheSearch = js.parse(new URL(url), "UTF-8")
+            if (biocacheSearch.totalRecords == 0) {
+                return biocacheSearch.facetResults
+            }
+
+            List highresDatasets = []
+            biocacheSearch.facetResults[0].fieldResult.each { result ->
+                def drParts = result.i18nCode.split(/\./)
+                if (drParts?.size()?:0 > 1) {
+                    highresDatasets << [
+                            dataset     : result.label,
+                            dr_uid      : drParts[1],
+                            records     : result.count
+                    ]
+                }
+            }
+            log.info("Resulting high resolution datasets = " + highresDatasets.toString())
+            return highresDatasets
+
+        } else {
+            return null
+        }
+    }
+
 
     /**
      * Return JSON summary of records for a single species held in data provider's datasets
@@ -58,7 +89,7 @@ class HighResDataService {
      */
     def getSpeciesHighResRecordsForDataProvider(def lsid, def uid) {
         if (uid && lsid) {
-            def url = grailsApplication.config.biocacheServicesUrl + "/occurrences/search?q=*:*&fq=" + fqForHighRes + "&fq=data_provider_uid:" + uid + "&fq=taxon_concept_lsid:" + lsid + "&facets=data_resource_uid&pageSize=0&facet=on&flimit=-1"
+            def url = grailsApplication.config.biocacheServicesUrl + "/occurrences/search?q=*:*&fq=" + (grailsApplication.config.highres?.fq?:'high_resolution:true') + "&fq=data_provider_uid:" + uid + "&fq=taxon_concept_lsid:" + lsid + "&facets=data_resource_uid&pageSize=0&facet=on&flimit=-1"
             def js = new JsonSlurper()
             def biocacheSearch = js.parse(new URL(url), "UTF-8")
             log.info("biocacheSearch = " + biocacheSearch.toString())
@@ -76,6 +107,39 @@ class HighResDataService {
                 ]
             }
             return datasetRecords
+
+        } else {
+            return null
+        }
+    }
+
+    //TODO: could fold into top function with optional param?
+    def getHighResSpeciesForDataset(def druid) {
+        if (druid) {
+
+            def url = grailsApplication.config.biocacheServicesUrl + "/occurrences/search?q=*:*&fq=" + (grailsApplication.config.highres?.fq ?: 'high_resolution:true') + "&fq=data_resource_uid:" + druid + "&facets=names_and_lsid&pageSize=0&facet=on&flimit=-1"
+            //&sort=names_and_lsid%20ASC"
+            log.info("Get high resolution species for data provider dataset from: " + url)
+            def js = new JsonSlurper()
+            def biocacheSearch = js.parse(new URL(url), "UTF-8")
+            if (biocacheSearch.totalRecords == 0) {
+                return biocacheSearch.facetResults
+            }
+
+            List highresSpecies = []
+            biocacheSearch.facetResults[0].fieldResult.each { result ->
+                def spParts = result.label.split('\\|')
+                if (spParts?.size() ?: 0 > 3) {
+                    highresSpecies << [
+                            taxon     : spParts[0],
+                            lsid      : spParts[1],
+                            commonname: spParts[2],
+                            records   : result.count
+                    ]
+                }
+            }
+            //log.info("Resulting high resolution species = " + highresSpecies.toString())
+            return highresSpecies
 
         } else {
             return null

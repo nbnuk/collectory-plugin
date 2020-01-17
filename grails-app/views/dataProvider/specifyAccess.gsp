@@ -26,11 +26,12 @@
 </h1>
 
 <p>
-    Select the species from the dropdown and then check all the datasets that the user should be given access to. <br/>
 <g:if test="${accessType=='highres'}">
-    Note: only datasets that contain high-resolution records for the selected species are enabled.
+    Select the dataset from the dropdown and then check all the species that the user should be given access to. <br/>
+    Note: only species that contain high-resolution records for the selected dataset are enabled.
 </g:if>
 <g:else>
+    Select the species from the dropdown and then check all the datasets that the user should be given access to. <br/>
     Note: only datasets that contain records for the selected species are enabled.
 </g:else>
 
@@ -40,9 +41,9 @@
     <g:form controller="dataProvider" action="updateSpecifiedAccess" params="${[id: instance.id, accessType: accessType]}" elementId="specifyForm">
 
         <div class="form-check">
-            <select class="specifySensitiveSpecies" id="select-sensitive-species" name="select-sensitive-species">
+            <select class="specifyDropdownItem" id="select-dropdown-item" name="select-dropdown-item">
                 <g:if test="${accessType=='highres'}">
-                    <option value="">Select a species with high resolution data</option>
+                    <option value="">Select a dataset with high resolution data</option>
                 </g:if>
                 <g:else>
                     <option value="">Select a sensitive species</option>
@@ -139,11 +140,11 @@
             }
         });
 
-        $('#select-sensitive-species').on('focus', function () {
+        $('#select-dropdown-item').on('focus', function () {
             previousSpecies = this.value;
         });
 
-        $('#select-sensitive-species').change(function () {
+        $('#select-dropdown-item').change(function () {
             if (previousSpecies != '') {
                 setDatasetsApproved(previousSpecies);
             }
