@@ -153,8 +153,6 @@ ${contact.email}
                 $("#" + sp_checked[i]).attr("checked", true);
             }
             $.each(data, function(index, returnedResult) {
-                console.log('in recSummary');
-                console.log(returnedResult);
                 var sp_lsid = returnedResult.lsid.toString().replace(/"/g,"");
                 $("#" + sp_lsid).removeAttr("disabled");
                 $("#" + sp_lsid).closest("tr").show();
@@ -183,8 +181,6 @@ ${contact.email}
         $(".specifyTaxon").each(function( index ) {
             if (this.checked) sp_approved.push(this.id);
         });
-        console.log("in setSpeciesApproved, new approval species = ");
-        console.log(sp_approved);
 
         //strip out the existing element, if it exists
         var sp_list_for_dataset = approvedAccessDataResourceTaxa.filter(
@@ -203,14 +199,11 @@ ${contact.email}
 
     function setUserDatasetList() {
         $("#user-dataset-list").html('');
-        console.log('in setUserDatasetList');
-        console.log(relevantDatasetsSortedDruid);
-        console.log(approvedAccessDataResourceTaxa);
+
         $.each(relevantDatasetsSortedDruid, function(index, druid) {
             var in_list = approvedAccessDataResourceTaxa.filter(
                 function(data){ return data.data_resource_uid == druid }
             );
-            console.log(in_list);
             if (in_list.length !== 0) {
                 var ds_name = relevantDatasetsSortedName[index];
                 var sppNames = "";
