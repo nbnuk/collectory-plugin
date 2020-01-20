@@ -466,8 +466,13 @@ class DataProviderController extends ProviderGroupController {
      */
     def sensitiveSpeciesForDataProvider = {
         if (params.uid) {
-            def sensitiveSpecies = sensitiveDataService.getSensitiveSpeciesForDataProvider(params.uid)
-            render sensitiveSpecies as JSON
+            def dr = get(params.uid)
+            if (dr) {
+                def sensitiveSpecies = sensitiveDataService.getSensitiveSpeciesForDataProvider(dr.uid)
+                render sensitiveSpecies as JSON
+            } else {
+                render(status:400, text: "sensitiveSpeciesForDataProvider: uid not found")
+            }
         } else {
             render(status:400, text: "sensitiveSpeciesForDataProvider: must specify a uid")
         }
@@ -475,8 +480,13 @@ class DataProviderController extends ProviderGroupController {
 
     def highResSpeciesForDataProvider = {
         if (params.uid) {
-            def highResSpecies = highResDataService.getHighResSpeciesForDataProvider(params.uid)
-            render highResSpecies as JSON
+            def dr = get(params.uid)
+            if (dr) {
+                def highResSpecies = highResDataService.getHighResSpeciesForDataProvider(dr.uid)
+                render highResSpecies as JSON
+            } else {
+                render(status:400, text: "highResSpeciesForDataProvider: uid not found")
+            }
         } else {
             render(status:400, text: "highResSpeciesForDataProvider: must specify a uid")
         }
@@ -490,8 +500,13 @@ class DataProviderController extends ProviderGroupController {
      */
     def speciesRecordsForDataProvider = {
         if (params.uid && params.lsid) {
-            def speciesRecords = sensitiveDataService.getSpeciesRecordsForDataProvider(params.lsid, params.uid)
-            render speciesRecords as JSON
+            def dr = get(params.uid)
+            if (dr) {
+                def speciesRecords = sensitiveDataService.getSpeciesRecordsForDataProvider(params.lsid, dr.uid)
+                render speciesRecords as JSON
+            } else {
+                render(status:400, text: "speciesRecordsForDataProvider: uid not found")
+            }
         } else {
             render(status:400, text: "speciesRecordsForDataProvider: must specify uid and lsid")
         }
@@ -499,8 +514,13 @@ class DataProviderController extends ProviderGroupController {
 
     def speciesHighResRecordsForDataProvider = {
         if (params.uid && params.lsid) {
-            def speciesHighResRecords = highResDataService.getSpeciesHighResRecordsForDataProvider(params.lsid, params.uid)
-            render speciesHighResRecords as JSON
+            def dr = get(params.uid)
+            if (dr) {
+                def speciesHighResRecords = highResDataService.getSpeciesHighResRecordsForDataProvider(params.lsid, dr.uid)
+                render speciesHighResRecords as JSON
+            } else {
+                render(status:400, text: "speciesHighResRecordsForDataProvider: uid not found")
+            }
         } else {
             render(status:400, text: "speciesHighResRecordsForDataProvider: must specify uid and lsid")
         }

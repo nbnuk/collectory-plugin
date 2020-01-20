@@ -185,9 +185,13 @@ class CollectoryUrlMappings {
 
 
         "/ws/sensitiveAccess/$userId"(controller:'sensitiveAccess',action:'lookup')
+        "/ws/highResAccess/$userId"(controller:'highResAccess',action:'lookup')
 
         "/ws/dataProvider/sensitiveSpecies/$uid" (controller:'dataProvider', action:[GET:'sensitiveSpeciesForDataProvider'])
+        "/ws/dataProvider/highResSpecies/$uid" (controller:'dataProvider', action:[GET:'highResSpeciesForDataProvider'])
+
         "/ws/dataProvider/$uid/speciesRecords/$lsid" (controller:'dataProvider',action:'speciesRecordsForDataProvider')
+        "/ws/dataProvider/$uid/speciesHighResRecords/$lsid" (controller:'dataProvider',action:'speciesHighResRecordsForDataProvider')
 
         "/public/resources(.$format)"(controller:'public', action:'resources')
 
