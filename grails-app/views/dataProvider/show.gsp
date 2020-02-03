@@ -110,8 +110,8 @@
 
                 <g:if test="${!hideHighResManagement}"> <!-- check if there actually is hig-res data to manage -->
                     <div class="show-section well">
-                        <h2>High resolution data access</h2>
-                        <p>Manage who has access to the high resolution data in this provider's datasets.</p>
+                        <h2>Higher resolution data access</h2>
+                        <p>Manage who has access to the higher resolution data in this provider's datasets.</p>
                         <p>
                             Currently, there are ${instance.approvalsHighRes.size()} users with approved accessed.
                         </p>

@@ -22,7 +22,7 @@ class HighResDataService {
 
             def url = grailsApplication.config.biocacheServicesUrl + "/occurrences/search?q=*:*&fq=" + (grailsApplication.config.highres?.fq?:'high_resolution:true') + "&fq=data_provider_uid:" + uid + "&facets=names_and_lsid&pageSize=0&facet=on&flimit=-1"
             //&sort=names_and_lsid%20ASC"
-            log.info("Get high resolution species for data provider from: " + url)
+            //log.info("Get high resolution species for data provider from: " + url)
             def js = new JsonSlurper()
             def biocacheSearch = js.parse(new URL(url), "UTF-8")
             if (biocacheSearch.totalRecords == 0) {
@@ -54,7 +54,7 @@ class HighResDataService {
 
             def url = grailsApplication.config.biocacheServicesUrl + "/occurrences/search?q=*:*&fq=" + (grailsApplication.config.highres?.fq?:'high_resolution:true') + "&fq=data_provider_uid:" + uid + "&facets=data_resource_uid&pageSize=0&facet=on&flimit=-1"
             //&sort=names_and_lsid%20ASC"
-            log.info("Get high resolution datasets for data provider from: " + url)
+            //log.info("Get high resolution datasets for data provider from: " + url)
             def js = new JsonSlurper()
             def biocacheSearch = js.parse(new URL(url), "UTF-8")
             if (biocacheSearch.totalRecords == 0) {
@@ -72,7 +72,7 @@ class HighResDataService {
                     ]
                 }
             }
-            log.info("Resulting high resolution datasets = " + highresDatasets.toString())
+            //log.info("Resulting high resolution datasets = " + highresDatasets.toString())
             return highresDatasets
 
         } else {

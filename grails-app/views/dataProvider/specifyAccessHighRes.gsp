@@ -27,7 +27,7 @@ ${contact.email}
 
 <p>
     Select the dataset from the dropdown and then check all the species that the user should be given access to. <br/>
-    Note: only species that contain high-resolution records for the selected dataset are enabled.
+    Note: only species that contain higher resolution records for the selected dataset are enabled.
 </p>
 
 <div class="well">
@@ -35,7 +35,7 @@ ${contact.email}
 
         <div class="form-check">
             <select class="specifyDropdownItem" id="select-dropdown-item" name="select-dropdown-item">
-                <option value="">Select a dataset with high resolution data</option>
+                <option value="">Select a dataset with higher resolution data</option>
                 <g:each in="${relevantDatasets.sort {it.dataset} }" var="relevantDatasetItem">
                     <option value="${relevantDatasetItem.dr_uid}">${relevantDatasetItem.dataset}: ${relevantDatasetItem.dr_uid} (${relevantDatasetItem.records} records)</option>
                 </g:each>
@@ -49,10 +49,10 @@ ${contact.email}
         <table>
             <tr>
                 <td><b>Species</b></td>
-                <td><b>No. of high resolution records</b></td>
+                <td><b>No. of higher resolution records</b></td>
             </tr>
             <g:each in="${relevantSpecies.sort {it.taxon} }" var="species">
-                <tr>
+                <tr style="display:none">
                     <td>
                         <div class="form-check">
                             <input class="form-check-input specifyTaxon"
@@ -73,6 +73,7 @@ ${contact.email}
                 </tr>
             </g:each>
         </table>
+        <br/>
         <button type="submit" class="btn btn-primary">Save all changes</button>
         <g:link class="returnAction" controller="dataProvider" action="manageAccess" params="${[id: instance.id, accessType: accessType]}">
             <input type="button" class="btn btn-default" value="Cancel">
@@ -82,7 +83,7 @@ ${contact.email}
 </div>
 
 <div class="well">
-    <p>Datasets with high resolution records that the user has been granted access to:</p>
+    <p>Datasets with higher resolution records that the user has been granted access to:</p>
     <div id="user-dataset-list">
 
     </div>

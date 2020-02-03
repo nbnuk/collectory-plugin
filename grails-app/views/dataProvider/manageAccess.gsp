@@ -18,7 +18,7 @@
         </li>
     </ul>
 </div>
-<h1>Manage approved list - <g:if test="${accessType == 'sensitive'}">sensitive data</g:if><g:elseif test="${accessType == 'highres'}">high resolution data</g:elseif><g:else>unknown data type FIX</g:else></h1>
+<h1>Manage approved list - <g:if test="${accessType == 'sensitive'}">sensitive data</g:if><g:elseif test="${accessType == 'highres'}">higher resolution data</g:elseif><g:else>unknown data type FIX</g:else></h1>
 
 <div class=" well">
     <div class="form-group">

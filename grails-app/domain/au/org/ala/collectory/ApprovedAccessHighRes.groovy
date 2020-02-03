@@ -21,13 +21,13 @@ class ApprovedAccessHighRes implements Serializable {
 
     static constraints = {}
 
-    /*
+
     static findAllByContact(Contact contact) {
         def approvedList = []
         ApprovedAccessHighRes.executeQuery("select aa.dataProvider, aa.dataResourceTaxa from ApprovedAccessHighRes aa where aa.contact.userId = ?",[contact.userId]).each {
             approvedList << [dataProvider: it[0], dataResourceTaxa: it[1]]
         }
         approvedList
-    } */
+    }
 }
 

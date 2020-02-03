@@ -28,7 +28,7 @@
 <p>
 <g:if test="${accessType=='highres'}">
     Select the dataset from the dropdown and then check all the species that the user should be given access to. <br/>
-    Note: only species that contain high-resolution records for the selected dataset are enabled.
+    Note: only species that contain higher resolution records for the selected dataset are enabled.
 </g:if>
 <g:else>
     Select the species from the dropdown and then check all the datasets that the user should be given access to. <br/>
@@ -43,7 +43,7 @@
         <div class="form-check">
             <select class="specifyDropdownItem" id="select-dropdown-item" name="select-dropdown-item">
                 <g:if test="${accessType=='highres'}">
-                    <option value="">Select a dataset with high resolution data</option>
+                    <option value="">Select a dataset with higher resolution data</option>
                 </g:if>
                 <g:else>
                     <option value="">Select a sensitive species</option>
@@ -62,7 +62,7 @@
             <tr>
                 <td><b>Dataset</b></td>
                 <g:if test="${accessType=='highres'}">
-                    <td><b>No. of high resolution records</b></td>
+                    <td><b>No. of higher resolution records</b></td>
                 </g:if>
                 <g:else>
                     <td><b>No. of records</b></td>
@@ -101,7 +101,7 @@
 
 <div class="well">
     <g:if test="${accessType == 'highres'}">
-        <p>Species with high resolution records that the user has been granted access to:</p>
+        <p>Species with higher resolution records that the user has been granted access to:</p>
     </g:if>
     <g:else>
         <p>Sensitive species the user has been granted access to:</p>
