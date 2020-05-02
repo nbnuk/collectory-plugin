@@ -66,24 +66,13 @@ class ContactFor implements Serializable {
             ProviderGroup pg = ProviderGroup._get(entityUid)
             def drName = pg.getName()
             def userId = contact.getUserId()
-            def json = '[]'
 
-            //retrieve http://localhost:8082/api/alerts/user/createAlerts?userId=11638
             def alertUrl = grailsApplication.config.alertUrl
-            def url = alertUrl + '/api/alerts/user/createAlerts'
-            def queryString = 'userId='+userId
-            def connection = new URL(url).openConnection();
-            connection.with {
-                doOutput = true
-                requestMethod = 'POST'
-                outputStream.withWriter { writer ->
-                    writer << queryString
-                }
-                json = content.text
-            }
+            def url = alertUrl + '/wsopen/alerts/user/' + userId
+            def user_alerts = new URL(url).text
 
             def alert_exists = false
-            if (json.contains('"New annotations on records for ' + drName + '"')) alert_exists = true
+            if (user_alerts.contains('"New annotations on records for ' + drName + '"')) alert_exists = true
             alert_exists
         } catch(Exception ex) {
             false
