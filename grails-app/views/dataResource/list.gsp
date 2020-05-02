@@ -41,6 +41,8 @@
                             <g:sortableColumn property="dataProvider" title="${message(code: 'dataResource.dataProvider.label', default: 'Provider')}" />
                             <g:sortableColumn property="dataProvider.groupClassification" title="${message(code: 'dataResource.dataProvider.groupClassification.label', default: 'Classification')}" />
                             <th>Membership</th>
+                            <g:sortableColumn property="dateCreated" title="${message(code: 'dataResource.dateCreated.label', default: 'Date created')}" />
+                            <g:sortableColumn property="lastUpdated" title="${message(code: 'dataResource.lastUpdated.label', default: 'Last updated')}" />
                         </tr>
                     </thead>
                     <tbody>
@@ -72,7 +74,8 @@
                                   ${value}<br/>
                               </g:each>
                           </td>
-
+                          <td style="white-space: nowrap">${instance.dateCreated.format("yyyy-MM-dd")}</td>
+                          <td style="white-space: nowrap">${instance.lastUpdated.format("yyyy-MM-dd")}</td>
                       </tr>
                     </g:each>
                     </tbody>

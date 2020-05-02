@@ -245,7 +245,7 @@ class DataController {
     /**
      * Define some variations on the level of detail returned for lists.
      */
-    def brief = {[name: it.name, uri: it.buildUri(), uid: it.uid, groupClassification: (it.groupClassification?:''), networkMembership: it.networkMembership]}
+    def brief = {[name: it.name, uri: it.buildUri(), uid: it.uid, groupClassification: (it.groupClassification?:''), networkMembership: it.networkMembership, dateCreated: (it.dateCreated?:''), lastUpdated: (it.lastUpdated?:'')]}
     def summary = {[name: it.name, uri: it.buildUri(), uid: it.uid, logo: it.buildLogoUrl()]}
 
     def index() {

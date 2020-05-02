@@ -39,6 +39,8 @@
                             <g:if test="${grailsApplication.config.gbifRegistrationEnabled == 'true'}">
                                 <th style="text-align:center;">${message(code: 'dataProvider.gbif.label', default: 'GBIF')}</th>
                             </g:if>
+                            <g:sortableColumn property="dateCreated" title="${message(code: 'dataProvider.dateCreated.label', default: 'Date created')}" />
+                            <g:sortableColumn property="lastUpdated" title="${message(code: 'dataProvider.lastUpdated.label', default: 'Last updated')}" />
 
                         </tr>
                     </thead>
@@ -73,7 +75,8 @@
                             </td>
 
                         </g:if>
-
+                          <td style="white-space: nowrap">${instance.dateCreated.format("yyyy-MM-dd")}</td>
+                          <td style="white-space: nowrap">${instance.lastUpdated.format("yyyy-MM-dd")}</td>
                       </tr>
                     </g:each>
                     </tbody>

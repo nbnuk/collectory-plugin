@@ -187,6 +187,8 @@ class DataResource extends ProviderGroup implements Serializable {
         drs.dataProviderId = dataProvider?.id
         drs.dataProviderUid = dataProvider?.uid
         drs.downloadLimit = downloadLimit
+        drs.dateCreated = dateCreated
+        drs.lastUpdated = lastUpdated
 
         drs.hubMembership = listHubMembership().collect { [uid: it.uid, name: it.name] }
         def consumers = listConsumers()

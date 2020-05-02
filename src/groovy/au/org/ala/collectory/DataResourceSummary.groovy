@@ -10,4 +10,6 @@ class DataResourceSummary extends ProviderGroupSummary {
     List relatedCollections = []     // list of map with name: and uid:
     List relatedInstitutions = []    // list of map with name: and uid:
     List hubMembership = []
+    Date dateCreated
+    Date lastUpdated
 }
