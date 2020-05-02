@@ -5,6 +5,7 @@
   <meta name="layout" content="${grailsApplication.config.skin.layout}"/>
   <g:set var="entityName" value="${command.ENTITY_TYPE}"/>
   <g:set var="entityNameLower" value="${command.ENTITY_TYPE.toLowerCase()}"/>
+    <g:set var = "entity_type" value="${command.ENTITY_TYPE.toLowerCase() == "dataresource"? "data_resource_uid" : (command.ENTITY_TYPE.toLowerCase() == "dataprovider"? "data_provider_uid" : "")}"/>
   <title><g:message code="default.show.label" args="[entityName]"/></title>
 </head>
 <body>
@@ -58,6 +59,20 @@
                               params='[returnTo: "/${command.urlForm()}/edit/${command.id}?page=/shared/showContacts"]'>
                         ${message(code: 'default.button.editContact.label', default: "Edit the contact's details")}
                       </g:link>
+                      <g:if test="${cf.contact.getUserId()}">
+                          <!-- check if alert already set up -->
+                          <g:if test="${cf.hasAnnotationAlert()}">
+                              <div class="btn">This contact has an alert for Annotations</div>
+                          </g:if>
+                          <g:else>
+                          <br/><cl:createNewAnnotationsAlertsLink query="${entity_type}:${command.uid}" displayName="${command.name}" userId="${cf.contact.getUserId()}"
+                                                             linkText="${g.message(code:'dataAccess.alert.annotations.foruser')}" altText="${g.message(code:'dataAccess.alert.annotations')} ${command.name}"/>
+                          </g:else>
+                      </g:if>
+                        <g:else>
+                            <div class="btn">This contact may not be a registered Atlas user. Please add them and synchronise (via the Admin panel -> Contacts -> Sync with Auth system) before setting up Alerts for record annotations</div>
+                        </g:else>
+
                     </span>
                     <span class="contactButton">
                       <g:link class="removeSmallAction btn btn-danger" action='removeContact' id="${command.id}" onclick="return confirm('Remove ${cf.contact?.buildName()} as a contact for this ${entityNameLower}?');"

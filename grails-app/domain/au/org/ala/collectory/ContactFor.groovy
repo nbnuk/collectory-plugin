@@ -7,6 +7,8 @@ package au.org.ala.collectory
 
 class ContactFor implements Serializable {
 
+    def grailsApplication
+
     Contact contact
     String entityUid
     String role
@@ -56,5 +58,35 @@ class ContactFor implements Serializable {
 
     void setPrimaryContact(boolean value) {
         this.primaryContact = value
+    }
+
+    Boolean hasAnnotationAlert() {
+        try {
+            //get dataresource name from entityUid - could be dataprovider too
+            ProviderGroup pg = ProviderGroup._get(entityUid)
+            def drName = pg.getName()
+            def userId = contact.getUserId()
+            def json = '[]'
+
+            //retrieve http://localhost:8082/api/alerts/user/createAlerts?userId=11638
+            def alertUrl = grailsApplication.config.alertUrl
+            def url = alertUrl + '/api/alerts/user/createAlerts'
+            def queryString = 'userId='+userId
+            def connection = new URL(url).openConnection();
+            connection.with {
+                doOutput = true
+                requestMethod = 'POST'
+                outputStream.withWriter { writer ->
+                    writer << queryString
+                }
+                json = content.text
+            }
+
+            def alert_exists = false
+            if (json.contains('"New annotations on records for ' + drName + '"')) alert_exists = true
+            alert_exists
+        } catch(Exception ex) {
+            false
+        }
     }
 }

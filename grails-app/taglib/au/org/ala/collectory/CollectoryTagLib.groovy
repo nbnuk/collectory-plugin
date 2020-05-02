@@ -60,6 +60,10 @@ class CollectoryTagLib {
             link += '&baseUrlForWS=' + grailsApplication.config.biocacheServicesUrl
             link += '&baseUrlForUI=' + grailsApplication.config.biocacheUiURL
             link += '&resourceName=' + grailsApplication.config.alertResourceName
+            if (attrs.userId) {
+                link += '&userId=' + attrs.userId
+                link += '&redirect=' + request.getScheme() + '://' + request.getServerName() + ':' + request.getServerPort() + request.getContextPath() + '/' + params.controller + '/' + params.action + '/' + params.id + (request.getQueryString()? '?' + request.getQueryString() : '')
+            }
             out << "<a href=\"" + link +"\" class='btn btn-default' alt='"+attrs.altText+"'><i class='glyphicon glyphicon-bell'></i> "+ attrs.linkText + "</a>"
         }
     }
