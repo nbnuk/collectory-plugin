@@ -277,7 +277,7 @@
                     </g:else>
                     <g:if test="${biocacheRecordsAvailable}">
                         <div style="clear:both;"></div>
-                          <g:if test="${!grailsApplication.config.disableOverviewMap?.asBoolean()}">
+                          <g:if test="${!grailsApplication.config.disableOverviewMap?.toBoolean()}">
                               <div id="collectionRecordsMapContainer">
                                   <h3><g:message code="public.show.crmc.title" /></h3>
                                   <cl:recordsMapDirect uid="${instance.uid}"/>
