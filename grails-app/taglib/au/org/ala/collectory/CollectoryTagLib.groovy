@@ -1467,6 +1467,12 @@ class CollectoryTagLib {
         }
     }
 
+    /**
+     * Writes two lines with date created and date updated.
+     *
+     * @attr created
+     * @attr updated
+     */
     def createdAndUpdated = { attrs ->
         out << "<h5>" + g.message(code: 'metadata.dateCreated') + ": <b>" + g.formatDate(date: attrs.created, format: "yyyy-MM-dd") + "</b></h5>" +
                 "<h5>" + g.message(code: 'metadata.dateUpdated') + ": <b>" + g.formatDate(date: attrs.updated, format: "yyyy-MM-dd") + "</b></h5>"
