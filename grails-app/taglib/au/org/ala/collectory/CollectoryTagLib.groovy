@@ -1474,8 +1474,8 @@ class CollectoryTagLib {
      * @attr updated
      */
     def createdAndUpdated = { attrs ->
-        out << "<h5>" + g.message(code: 'metadata.dateCreated') + ": <b>" + g.formatDate(date: attrs.created, format: "yyyy-MM-dd") + "</b></h5>" +
-                "<h5>" + g.message(code: 'metadata.dateUpdated') + ": <b>" + g.formatDate(date: attrs.updated, format: "yyyy-MM-dd") + "</b></h5>"
+        out << "<p>" + g.message(code: 'metadata.dateCreated') + ": <b>" + g.formatDate(date: attrs.created, format: "yyyy-MM-dd") + "</b><br/>" +
+                "" + g.message(code: 'metadata.dateUpdated') + ": <b>" + g.formatDate(date: attrs.updated, format: "yyyy-MM-dd") + "</b></p>"
     }
 
 
