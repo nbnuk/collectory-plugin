@@ -4,3 +4,4 @@ target/*
 .slcache/
 out/*
 .DS_Store
+.gradle/*
