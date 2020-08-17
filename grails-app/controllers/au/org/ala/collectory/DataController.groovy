@@ -326,7 +326,13 @@ class DataController {
                 // return list of entities
                 addContentLocation "/ws/${urlForm}"
                 def domain = grailsApplication.getClassForName("au.org.ala.collectory.${clazz}")
-                def list = domain.list([sort:'name'])
+
+                // define sorting parameters for dataResource only - potential for this to be extended to other classes too
+                // todo: convert to a command pattern to leverage some kind of platform-based validation rather than inline?
+                def sortParam = urlForm == 'dataResource' && ["name", "dateCreated", "lastUpdated"].contains(params.sort) ? params.sort : 'name'
+                def sortOrder = urlForm == 'dataResource' && ['asc', 'desc'].contains(params.order) ? params.order : 'asc'
+
+                def list = domain.list([sort:sortParam, order:sortOrder])
                 list = filter(list)
                 def last = latestModified(list)
                 def detail = params.summary ? summary : brief
