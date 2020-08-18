@@ -337,7 +337,7 @@ class DataController {
                     list = domain.list([sort:sortParam, order:sortOrder])
 
                     if(params.excludeSpeciesLists as int){
-                        list = list.findAll{it.contentTypes?.contains("species list")}
+                        list = list.findAll{it.resourceType != "species-list"}
                     }
 
                 } else {
