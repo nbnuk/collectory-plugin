@@ -327,12 +327,23 @@ class DataController {
                 addContentLocation "/ws/${urlForm}"
                 def domain = grailsApplication.getClassForName("au.org.ala.collectory.${clazz}")
 
-                // define sorting parameters for dataResource only - potential for this to be extended to other classes too
-                // todo: convert to a command pattern to leverage some kind of platform-based validation rather than inline?
-                def sortParam = urlForm == 'dataResource' && ["name", "dateCreated", "lastUpdated"].contains(params.sort) ? params.sort : 'name'
-                def sortOrder = urlForm == 'dataResource' && ['asc', 'desc'].contains(params.order) ? params.order : 'asc'
+                def list
+                // define additional behaviour parameters for dataResource only - potential for this to be extended to other classes too
+                if(urlForm == 'dataResource'){
+                    // todo: convert to a command pattern to leverage some kind of platform-based validation rather than inline?
+                    def sortParam = ["name", "dateCreated", "lastUpdated"].contains(params.sort) ? params.sort : 'name'
+                    def sortOrder = ['asc', 'desc'].contains(params.order) ? params.order : 'asc'
 
-                def list = domain.list([sort:sortParam, order:sortOrder])
+                    list = domain.list([sort:sortParam, order:sortOrder])
+
+                    if(params.excludeSpeciesLists as int){
+                        list = list.findAll{it.contentTypes?.contains("species list")}
+                    }
+
+                } else {
+                    list = domain.list([sort:'name', order: 'asc'])
+                }
+
                 list = filter(list)
                 def last = latestModified(list)
                 def detail = params.summary ? summary : brief
