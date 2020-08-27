@@ -328,16 +328,21 @@ class DataController {
                 def domain = grailsApplication.getClassForName("au.org.ala.collectory.${clazz}")
 
                 def list
-                // define additional behaviour parameters for dataResource only - potential for this to be extended to other classes too
+
+                // define additional behaviour parameters for dataResource only - potential for this to be extended to other classes too?
                 if(urlForm == 'dataResource'){
-                    // todo: convert to a command pattern to leverage some kind of platform-based validation rather than inline?
+
+                    // convert to a command pattern to leverage some kind of platform-based validation rather than inline?
                     def sortParam = ["name", "dateCreated", "lastUpdated"].contains(params.sort) ? params.sort : 'name'
                     def sortOrder = ['asc', 'desc'].contains(params.order) ? params.order : 'asc'
+                    def limit = params.int('limit', -1)
 
-                    list = domain.list([sort:sortParam, order:sortOrder])
+                    def queryParams = [sort:sortParam, order:sortOrder, max:limit];
 
-                    if(params.excludeSpeciesLists as int){
-                        list = list.findAll{it.resourceType != "species-list"}
+                    if(params.int('excludeSpeciesLists', 0)){
+                        list = domain.findAllByResourceTypeNotEqual("species-list", queryParams)
+                    } else {
+                        list = domain.list(queryParams)
                     }
 
                 } else {
