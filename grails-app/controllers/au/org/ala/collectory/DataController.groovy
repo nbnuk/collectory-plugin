@@ -245,7 +245,7 @@ class DataController {
     /**
      * Define some variations on the level of detail returned for lists.
      */
-    def brief = {[name: it.name, uri: it.buildUri(), uid: it.uid, groupClassification: (it.groupClassification?:''), networkMembership: it.networkMembership, dateCreated: (it.dateCreated?:''), lastUpdated: (it.lastUpdated?:'')]}
+    def brief = {[name: it.name, uri: it.buildUri(), uid: it.uid, groupClassification: (it.groupClassification?:''), networkMembership: it.networkMembership, dateCreated: (it.dateCreated?:''), lastUpdated: (it.lastUpdated?:''), resourceType:(it.resourceType?:'')]}
     def summary = {[name: it.name, uri: it.buildUri(), uid: it.uid, logo: it.buildLogoUrl()]}
 
     def index() {
@@ -337,21 +337,14 @@ class DataController {
                     def sortOrder = ['asc', 'desc'].contains(params.order) ? params.order : 'asc'
                     def limit = params.int('limit', -1)
 
-                    def query = DataResource
+                    def query = domain
                     def queryParams = [sort:sortParam, order:sortOrder, max:limit]
 
                     if(params.int('excludeSpeciesLists', 0)){
-                        // list = query.findAllByResourceTypeNotEqual("species-list", queryParams)
-//                        def criteria = new DetachedCriteria(DataResource).build {
-//                            eq 'resourceType', 'species-list'
-//                        }
-
-                        def newquery = query.where{resourceType == "species-list"}
-                        list = newquery.list(queryParams)
+                        query = query.where{ne 'resourceType', 'species-list'}
                     }
 
-                     else list = query.list(queryParams)
-
+                    list = query.list(queryParams)
 
                 } else {
                     list = domain.list([sort:'name', order: 'asc'])
