@@ -337,13 +337,21 @@ class DataController {
                     def sortOrder = ['asc', 'desc'].contains(params.order) ? params.order : 'asc'
                     def limit = params.int('limit', -1)
 
-                    def queryParams = [sort:sortParam, order:sortOrder, max:limit];
+                    def query = DataResource
+                    def queryParams = [sort:sortParam, order:sortOrder, max:limit]
 
                     if(params.int('excludeSpeciesLists', 0)){
-                        list = domain.findAllByResourceTypeNotEqual("species-list", queryParams)
-                    } else {
-                        list = domain.list(queryParams)
+                        // list = query.findAllByResourceTypeNotEqual("species-list", queryParams)
+//                        def criteria = new DetachedCriteria(DataResource).build {
+//                            eq 'resourceType', 'species-list'
+//                        }
+
+                        def newquery = query.where{resourceType == "species-list"}
+                        list = newquery.list(queryParams)
                     }
+
+                     else list = query.list(queryParams)
+
 
                 } else {
                     list = domain.list([sort:'name', order: 'asc'])
