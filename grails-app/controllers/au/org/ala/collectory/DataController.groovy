@@ -245,7 +245,7 @@ class DataController {
     /**
      * Define some variations on the level of detail returned for lists.
      */
-    def brief = {[name: it.name, uri: it.buildUri(), uid: it.uid, groupClassification: (it.groupClassification?:''), networkMembership: it.networkMembership, dateCreated: (it.dateCreated?:''), lastUpdated: (it.lastUpdated?:''), resourceType:(it.resourceType?:'')]}
+    def brief = {[name: it.name, uri: it.buildUri(), uid: it.uid, groupClassification: (it.groupClassification?:''), networkMembership: it.networkMembership, dateCreated: (it.dateCreated?:''), lastUpdated: (it.lastUpdated?:''), resourceType:(it.resourceType?:''), status:(it.status?:'')]}
     def summary = {[name: it.name, uri: it.buildUri(), uid: it.uid, logo: it.buildLogoUrl()]}
 
     def index() {
@@ -340,8 +340,14 @@ class DataController {
                     def query = domain
                     def queryParams = [sort:sortParam, order:sortOrder, max:limit]
 
+                    // check for species list filter
                     if(params.int('excludeSpeciesLists', 0)){
                         query = query.where{ne 'resourceType', 'species-list'}
+                    }
+
+                    //check for Integration Status filter
+                    if(['dataAvailable', 'linksAvailable', 'identified', 'inProgress'].contains(params.status)){
+                        query = query.where{eq 'status', params.status}
                     }
 
                     list = query.list(queryParams)
