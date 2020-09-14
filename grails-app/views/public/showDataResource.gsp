@@ -201,7 +201,7 @@
 
         <section class="public-metadata">
             <h5 id="totalVerifiedRecordCount"></h5>
-            <cl:createdAndUpdated created="${instance.dateCreated}" updated="${instance.lastUpdated}"/>
+            <cl:createdAndUpdated created="${instance.dateCreated}" updated="${instance.lastUpdated}" published="${instance.dataCurrency}"/>
         </section>
 
         <g:if test="${instance.gbifDoi}">

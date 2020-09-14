@@ -1474,8 +1474,11 @@ class CollectoryTagLib {
      * @attr updated
      */
     def createdAndUpdated = { attrs ->
-        out << "<p>" + g.message(code: 'metadata.dateCreated') + ": <b>" + g.formatDate(date: attrs.created, format: "yyyy-MM-dd") + "</b><br/>" +
-                "" + g.message(code: 'metadata.dateUpdated') + ": <b>" + g.formatDate(date: attrs.updated, format: "yyyy-MM-dd") + "</b></p>"
+        out << "<p>" +
+                g.message(code: 'metadata.dateCreated') + ": <b>" + g.formatDate(date: attrs.created, format: "yyyy-MM-dd") + "</b>" +
+                "<br/>" + g.message(code: 'metadata.dateUpdated') + ": <b>" + g.formatDate(date: attrs.updated, format: "yyyy-MM-dd") + "</b>" +
+                (attrs.published ? "<br/>" + g.message(code: 'metadata.dataCurrency') + ": <b>" + g.formatDate(date: attrs.published, format: "yyyy-MM-dd") + "</b>" : "") +
+            "</p>"
     }
 
 
@@ -1987,7 +1990,7 @@ class CollectoryTagLib {
         }
     }
 
-    def dataCurrency = { attrs ->
+        def dataCurrency = { attrs ->
         if (attrs.date) {
             out << """<span id="currency">The most recent data was published on
                 <b>${new SimpleDateFormat("dd MMM yyyy").format(attrs.date)}</b>.</span>"""
