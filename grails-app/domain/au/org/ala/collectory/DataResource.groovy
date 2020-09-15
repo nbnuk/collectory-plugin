@@ -56,8 +56,8 @@ class DataResource extends ProviderGroup implements Serializable {
     String harvestingNotes          // may include which components (text, images, etc) can be harvested
     String mobilisationNotes        //
     int harvestFrequency = 0
-    Timestamp lastChecked           // when the last check was made for new data
-    Timestamp dataCurrency          // the date of production of the most recent data file
+    Date lastChecked           // when the last check was made for new data
+    Date dataCurrency          // the date of production of the most recent data file
     String connectionParameters     // json string containing parameters based on a connection profile - DIGiR, TAPIR, etc
     String imageMetadata            // json string containing default dublin core values for any images associated with this resource
     String defaultDarwinCoreValues  // json string containing default values to use for missing DwC fields

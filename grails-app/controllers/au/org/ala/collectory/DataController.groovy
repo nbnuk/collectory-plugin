@@ -245,7 +245,7 @@ class DataController {
     /**
      * Define some variations on the level of detail returned for lists.
      */
-    def brief = {[name: it.name, uri: it.buildUri(), uid: it.uid, groupClassification: (it.groupClassification?:''), networkMembership: it.networkMembership, dateCreated: (it.dateCreated?:''), lastUpdated: (it.lastUpdated?:''), resourceType:(it.resourceType?:''), status:(it.status?:'')]}
+    def brief = {[name: it.name, uri: it.buildUri(), uid: it.uid, groupClassification: (it.groupClassification?:''), networkMembership: it.networkMembership, dateCreated: (it.dateCreated?:''), lastUpdated: (it.lastUpdated?:''), dataCurrency: (it.dataCurrency?:''), lastChecked: (it.lastChecked?:'') ,resourceType:(it.resourceType?:''), status:(it.status?:'')]}
     def summary = {[name: it.name, uri: it.buildUri(), uid: it.uid, logo: it.buildLogoUrl()]}
 
     def index() {
@@ -333,11 +333,11 @@ class DataController {
                 if(urlForm == 'dataResource'){
 
                     // convert to a command pattern to leverage some kind of platform-based validation rather than inline?
-                    def sortParam = ["name", "dateCreated", "lastUpdated"].contains(params.sort) ? params.sort : 'name'
+                    def sortParam = ["name", "dateCreated", "lastUpdated", "dataCurrency", "lastChecked"].contains(params.sort) ? params.sort : 'name'
                     def sortOrder = ['asc', 'desc'].contains(params.order) ? params.order : 'asc'
                     def limit = params.int('limit', -1)
 
-                    def query = domain
+                    def query = domain  
                     def queryParams = [sort:sortParam, order:sortOrder, max:limit]
 
                     // check for species list filter
@@ -348,6 +348,29 @@ class DataController {
                     //check for Integration Status filter
                     if(['dataAvailable', 'linksAvailable', 'identified', 'inProgress'].contains(params.status)){
                         query = query.where{eq 'status', params.status}
+                    }
+
+                    //date filters
+                    def paramDate = {String name -> params.date(name, "yyyy-MM-dd HH:mm:ss")}
+                    if(paramDate('lastUpdatedFrom') && paramDate('lastUpdatedTo')){
+                        query = query
+                                .where{gte 'lastUpdated', paramDate('lastUpdatedFrom')}
+                                .where{lte 'lastUpdated', paramDate('lastUpdatedTo')}
+                    }
+                    if(paramDate('dateCreatedFrom') && paramDate('dateCreatedTo')){
+                        query = query
+                                .where{gte 'dateAdded', paramDate('dateCreatedFrom')}
+                                .where{lte 'dateAdded', paramDate('dateCreatedTo')}
+                    }
+                    if(paramDate('dataCurrencyFrom') && paramDate('dataCurrencyTo')){
+                        query = query
+                                .where{gte 'dataCurrency', paramDate('dataCurrencyFrom')}
+                                .where{lte 'dataCurrency', paramDate('dataCurrencyTo')}
+                    }
+                    if(paramDate('lastCheckedFrom') && paramDate('lastCheckedTo')){
+                        query = query
+                                .where{gte 'lastChecked', paramDate('lastCheckedFrom')}
+                                .where{lte 'lastChecked', paramDate('lastCheckedTo')}
                     }
 
                     list = query.list(queryParams)
