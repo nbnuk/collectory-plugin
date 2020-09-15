@@ -602,9 +602,7 @@ class PublicController {
                 "uri",
                 "status",
                 "contact",
-                "verified",
-                "dateCreated",
-                "dataCurrency"] as String[]
+                "verified"] as String[]
         )
 
         drs.each {
@@ -619,9 +617,7 @@ class PublicController {
                      it.buildUri(),
                      it.status,
                      it.inheritPrimaryPublicContact()?.contact?.buildName(),
-                     it.isVerified() ? "yes" : "no",
-                     it.dateCreated,
-                     it.dataCurrency?:""
+                     it.isVerified() ? "yes" : "no"
             ] as String[])
         }
 

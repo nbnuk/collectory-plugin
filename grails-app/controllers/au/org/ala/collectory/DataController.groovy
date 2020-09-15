@@ -337,7 +337,7 @@ class DataController {
                     def sortOrder = ['asc', 'desc'].contains(params.order) ? params.order : 'asc'
                     def limit = params.int('limit', -1)
 
-                    def query = domain
+                    def query = domain  
                     def queryParams = [sort:sortParam, order:sortOrder, max:limit]
 
                     // check for species list filter
