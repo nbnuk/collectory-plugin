@@ -341,7 +341,7 @@ class DataController {
                     def queryParams = [sort:sortParam, order:sortOrder, max:limit]
 
                     // check for species list filter
-                    if(["species-list", "records"].contains(params.resourceType)){
+                    if(["species-list", "records", "document"].contains(params.resourceType)){
                         query = query.where{eq 'resourceType', params.resourceType}
                     }
 
