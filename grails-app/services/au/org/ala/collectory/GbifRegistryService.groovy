@@ -633,7 +633,7 @@ class GbifRegistryService {
                 "Linked to Institution",
 
                 "Verified",
-                
+
                 "dateCreated",
                 "dataCurrency"
         ]

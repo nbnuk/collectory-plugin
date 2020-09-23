@@ -341,8 +341,8 @@ class DataController {
                     def queryParams = [sort:sortParam, order:sortOrder, max:limit]
 
                     // check for species list filter
-                    if(params.int('excludeSpeciesLists', 0)){
-                        query = query.where{ne 'resourceType', 'species-list'}
+                    if(["species-list", "records"].contains(params.resourceType)){
+                        query = query.where{eq 'resourceType', params.resourceType}
                     }
 
                     //check for Integration Status filter
@@ -351,7 +351,7 @@ class DataController {
                     }
 
                     //date filters
-                    def paramDate = {String name -> params.date(name, "yyyy-MM-dd HH:mm:ss")}
+                    def paramDate = {String name -> params.date(name, "yyyy-MM-dd")}
                     if(paramDate('lastUpdatedFrom') && paramDate('lastUpdatedTo')){
                         query = query
                                 .where{gte 'lastUpdated', paramDate('lastUpdatedFrom')}
