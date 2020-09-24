@@ -359,8 +359,8 @@ class DataController {
                     }
                     if(paramDate('dateCreatedFrom') && paramDate('dateCreatedTo')){
                         query = query
-                                .where{gte 'dateAdded', paramDate('dateCreatedFrom')}
-                                .where{lte 'dateAdded', paramDate('dateCreatedTo')}
+                                .where{gte 'dateCreated', paramDate('dateCreatedFrom')}
+                                .where{lte 'dateCreated', paramDate('dateCreatedTo')}
                     }
                     if(paramDate('dataCurrencyFrom') && paramDate('dataCurrencyTo')){
                         query = query
