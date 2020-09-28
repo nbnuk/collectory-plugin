@@ -159,7 +159,6 @@
                 <div id="charts"></div>
             </div>
         </g:if>
-        <cl:lastUpdated date="${instance.lastUpdated}"/>
     </div><!--close column-one-->
         <section class="col-md-4">
 
@@ -193,15 +192,16 @@
 
         <g:if test="${0==1}"> <%-- ${instance.isVerified()} --%>
             <section class="public-metadata">
-            <h5>
-                <g:message code="public.verified" default="Verified dataset"/>
-                <i class="fa fa-check-circle tooltips" style="color:green;"></i>
+                <h5>
+                    <g:message code="public.verified" default="Verified dataset"/>
+                    <i class="fa fa-check-circle tooltips" style="color:green;"></i>
             </h5>
             </section>
         </g:if>
 
         <section class="public-metadata">
             <h5 id="totalVerifiedRecordCount"></h5>
+            <cl:createdAndUpdated created="${instance.dateCreated}" updated="${instance.lastUpdated}" published="${instance.dataCurrency}"/>
         </section>
 
         <g:if test="${instance.gbifDoi}">
