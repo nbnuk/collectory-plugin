@@ -632,7 +632,10 @@ class GbifRegistryService {
                 "Linked to Data Provider",
                 "Linked to Institution",
 
-                "Verified"
+                "Verified",
+
+                "dateCreated",
+                "dataCurrency"
         ]
 
         csvWriter.writeNext(header)
@@ -718,7 +721,10 @@ class GbifRegistryService {
                         institution ? "yes" : "no",
                         dataProvider ? "yes" : "no",
 
-                        dataResource.isVerified() ? "yes" : "no"
+                        dataResource.isVerified() ? "yes" : "no",
+
+                        dataResource.dateCreated,
+                        dataResource.dataCurrency?:""
 
                 ]
                 csvWriter.writeNext(row)
