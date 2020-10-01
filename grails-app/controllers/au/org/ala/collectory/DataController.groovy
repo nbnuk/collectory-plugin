@@ -245,7 +245,8 @@ class DataController {
     /**
      * Define some variations on the level of detail returned for lists.
      */
-    def brief = {[name: it.name, uri: it.buildUri(), uid: it.uid, groupClassification: (it.groupClassification?:''), networkMembership: it.networkMembership, dateCreated: (it.dateCreated?:''), lastUpdated: (it.lastUpdated?:''), dataCurrency: (it.dataCurrency?:''), lastChecked: (it.lastChecked?:'') ,resourceType:(it.resourceType?:''), status:(it.status?:'')]}
+    def brief = {[name: it.name, uri: it.buildUri(), uid: it.uid, groupClassification: (it.groupClassification?:''), networkMembership: it.networkMembership, dateCreated: (it.dateCreated?:''), lastUpdated: (it.lastUpdated?:'')]}
+    def briefWithDates = {[name: it.name, uri: it.buildUri(), uid: it.uid, groupClassification: (it.groupClassification?:''), networkMembership: it.networkMembership, dateCreated: (it.dateCreated?:''), lastUpdated: (it.lastUpdated?:''), dataCurrency: (it.dataCurrency?:''), lastChecked: (it.lastChecked?:'') ,resourceType:(it.resourceType?:''), status:(it.status?:'')]}
     def summary = {[name: it.name, uri: it.buildUri(), uid: it.uid, logo: it.buildLogoUrl()]}
 
     def index() {
@@ -381,7 +382,7 @@ class DataController {
 
                 list = filter(list)
                 def last = latestModified(list)
-                def detail = params.summary ? summary : brief
+                def detail = params.summary ? summary : urlForm == 'dataResource' ? briefWithDates : brief
                 def summaries = list.collect(detail)
                 def eTag = summaries.toString().encodeAsMD5()
 //                response.setCharacterEncoding("UTF-8")
