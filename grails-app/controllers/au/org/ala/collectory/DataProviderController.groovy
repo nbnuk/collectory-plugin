@@ -74,13 +74,15 @@ class DataProviderController extends ProviderGroupController {
     def specifyAccess = {
         def instance = get(params.id)
         def contact = Contact.findByUserId(params.userId)
-        def approvedAccess = ApprovedAccess.findByContactAndDataProvider(contact, instance)
+        def approvedAccess = ApprovedAccess.findAllByContactAndDataProvider(contact, instance).first() //TODO: can there be more than one? Getting an array is causing trouble with the downstream gsp in terms of HTML encoding
 
         def sensitiveSpecies = sensitiveDataService.getSensitiveSpeciesForDataProvider(instance.uid)
 
         def approvedAccessDataResourceTaxa = approvedAccess.dataResourceTaxa?:"[]"
 
-        [instance:instance, contact: contact, sensitiveSpecies: sensitiveSpecies, approvedAccessDataResourceTaxa: approvedAccessDataResourceTaxa]
+        def whitelistingFQ = approvedAccess.whitelistingFQ
+
+        [instance:instance, contact: contact, sensitiveSpecies: sensitiveSpecies, approvedAccessDataResourceTaxa: approvedAccessDataResourceTaxa, whitelistingFQ: whitelistingFQ]
     }
 
     boolean isCollectionOrArray(object) {
@@ -92,9 +94,18 @@ class DataProviderController extends ProviderGroupController {
         def contact = Contact.findByUserId(params.userId)
         def approvedAccess = ApprovedAccess.findByContactAndDataProvider(contact, instance)
 
-        def dr_taxa_list = params.dataResourceTaxa
-
-        approvedAccess.dataResourceTaxa = dr_taxa_list
+        if (params.dataResourceTaxa) {
+            if (approvedAccess.dataResourceTaxa != params.dataResourceTaxa) {
+                approvedAccess.useWhitelistingFQ = false
+            }
+        }
+        if (params.whitelistingFQ) {
+            if (approvedAccess.whitelistingFQ != params.whitelistingFQ) { //has changed
+                approvedAccess.useWhitelistingFQ = true //override old style of definition
+            }
+        }
+        approvedAccess.whitelistingFQ = params.whitelistingFQ?:""
+        approvedAccess.dataResourceTaxa = params.dataResourceTaxa?:""
 
         approvedAccess.userLastModified = username()
         approvedAccess.save(flush:true)
@@ -137,6 +148,7 @@ class DataProviderController extends ProviderGroupController {
         access.contact = contact
         access.dataProvider = dataProvider
         access.userLastModified = username()
+        access.useWhitelistingFQ = true //assume new format
         access.save(flush:true)
 
         def result = [success: true]

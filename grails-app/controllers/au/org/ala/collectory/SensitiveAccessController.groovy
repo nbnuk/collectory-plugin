@@ -60,4 +60,25 @@ class SensitiveAccessController {
         }
         render approvals as JSON
     }
+
+    /**
+     * New lookup for arbitrary whitelistFQ instead of structured taxa-data resource values
+     * @return
+     */
+    def lookupNew(){
+        def contact = Contact.findByUserId(params.userId) //note, contact.user_id, not e.g. approved_access.contact_id
+        def approvals = [
+                dataProviderWhitelist:[:],
+        ]
+        if(contact){
+            ApprovedAccess.findAllByContact(contact).each {
+                if (it.useWhitelistingFQ) {
+
+                    approvals.dataProviderWhitelist << [(it.dataProvider.uid) : it.whitelistingFQ]
+
+                }
+            }
+        }
+        render approvals as JSON
+    }
 }

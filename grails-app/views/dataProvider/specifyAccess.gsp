@@ -32,6 +32,12 @@
 
 <div class="well">
     <g:form controller="dataProvider" action="updateSpecifiedAccess" id="${instance.id}" elementId="specifyForm">
+        <div class="form-check">
+            <div class="form-group">
+                <label for="whitelistingFQ">(Temporary) Enter the whitelisting FQ, e.g. "taxon_concept_lsid:NBNSYS0000005133 AND data_resource_uid:dr885 AND year:[2017 TO *]"</label>
+                <g:textField name="whitelistingFQ" class="form-control" value="${whitelistingFQ}" />
+            </div>
+        </div>
 
         <div class="form-check">
             <select class="specifySensitiveSpecies" id="select-sensitive-species" name="select-sensitive-species">
